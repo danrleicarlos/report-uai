@@ -1,0 +1,11 @@
+ID,Data,Origem,Etapa,Status,Valor,Produto
+1,2025-03-01,Google Ads,Venda,Ganho,8500,Plano Premium
+2,2025-03-02,Meta Ads,Proposta,Perdido,0,Plano Básico
+3,2025-03-03,LinkedIn Ads,MQL,Ativo,0,Plano Enterprise
+4,2025-03-04,Google Ads,SQL,Ativo,0,Plano Premium
+5,2025-03-05,Meta Ads,Venda,Ganho,6200,Plano Básico
+6,2025-03-06,Organico,Lead,Ativo,0,
+7,2025-03-07,Google Ads,Venda,Ganho,9800,Plano Enterprise
+8,2025-03-08,TikTok Ads,MQL,Ativo,0,Plano Básico
+9,2025-03-09,Meta Ads,Oportunidade,Ativo,7500,Plano Premium
+10,2025-03-10,LinkedIn Ads,Venda,Ganho,15000,Plano Enterprise
