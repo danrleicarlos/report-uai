@@ -6,6 +6,7 @@ import { useReport } from "@/lib/store/reportStore";
 import { MOCK_REPORT_DATA } from "@/lib/analysis/mockData";
 import { ReportData, FunnelStage, ChannelData } from "@/types/report";
 import GlassCard from "@/components/ui/GlassCard";
+import { exportConversaoToPptx } from "@/lib/export/pptxExporter";
 
 /* ─── helpers ─────────────────────────────────────────────────────────────── */
 
@@ -288,6 +289,18 @@ export default function ConversaoPage() {
 
   const data: ReportData = state.reportData ?? MOCK_REPORT_DATA;
   const { kpis, charts, meta } = data;
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportPptx = async () => {
+    setIsExporting(true);
+    try {
+      await exportConversaoToPptx(data);
+    } catch (e) {
+      console.error("PPTX export failed:", e);
+    } finally {
+      setIsExporting(false);
+    }
+  };
   const stages = charts.funnelStages;
   const channels = charts.channelComparison;
   const maxVal = stages[0]?.value ?? 1;
@@ -339,6 +352,29 @@ export default function ConversaoPage() {
             <span className="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-medium">
               High Level
             </span>
+            <button
+              onClick={handleExportPptx}
+              disabled={isExporting}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{
+                background: "linear-gradient(135deg, #2563eb, #06b6d4)",
+                boxShadow: "0 0 0 1px rgba(6,182,212,0.3), 0 4px 12px rgba(37,99,235,0.3)",
+              }}
+            >
+              {isExporting ? (
+                <>
+                  <div className="w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                  Gerando...
+                </>
+              ) : (
+                <>
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Exportar Google Slides
+                </>
+              )}
+            </button>
           </div>
         </div>
       </nav>
@@ -675,15 +711,28 @@ export default function ConversaoPage() {
             </div>
             <span className="text-sm font-medium text-slate-400">Report UAI · Análise de Conversão</span>
           </div>
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="btn-secondary text-xs flex items-center gap-1.5"
-          >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            Ver dashboard completo
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleExportPptx}
+              disabled={isExporting}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white disabled:opacity-50 transition-all"
+              style={{ background: "linear-gradient(135deg, #2563eb, #06b6d4)", boxShadow: "0 0 0 1px rgba(6,182,212,0.25)" }}
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              {isExporting ? "Gerando .pptx..." : "Exportar Google Slides (.pptx)"}
+            </button>
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="btn-secondary text-xs flex items-center gap-1.5"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+              Ver dashboard completo
+            </button>
+          </div>
         </footer>
       </main>
     </div>
