@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { ReportMeta } from "@/types/report";
 
 interface DashboardHeaderProps {
@@ -10,6 +11,7 @@ interface DashboardHeaderProps {
 }
 
 export default function DashboardHeader({ meta, onExport, isExporting, onBack }: DashboardHeaderProps) {
+  const router = useRouter();
 
   const formattedDate = new Date(meta.generatedAt).toLocaleDateString("pt-BR", {
     day: "2-digit",
@@ -58,6 +60,16 @@ export default function DashboardHeader({ meta, onExport, isExporting, onBack }:
 
         {/* Right: Actions */}
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => router.push("/conversao")}
+            className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:text-white transition-all duration-200 bg-white/[0.04] hover:bg-white/[0.07] border border-white/[0.07] hover:border-white/[0.13]"
+          >
+            <svg className="w-3.5 h-3.5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            Análise de Conversão
+          </button>
+
           <div className="hidden md:flex items-center gap-2">
             {meta.dataSource.reportei && (
               <span className="text-xs px-2 py-1 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20">

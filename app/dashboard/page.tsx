@@ -98,6 +98,18 @@ export default function DashboardPage() {
 
         {/* 4. Funnel */}
         <section>
+          <div className="flex items-center justify-between mb-0">
+            <div />
+            <button
+              onClick={() => router.push("/conversao")}
+              className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-cyan-400 transition-colors mb-3"
+            >
+              Ver análise de conversão completa
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
           <FunnelChart stages={data.charts.funnelStages} />
         </section>
 
