@@ -1082,6 +1082,10 @@ function resetForm() {
   // Re-populate date and time with the current moment
   setCurrentDateTime();
 
+  const btn = document.querySelector('.btn-submit');
+  btn.disabled = false;
+  btn.textContent = '✦ Registrar Atendimento';
+
   goTo(1);
 }
 </script>
