@@ -87,9 +87,50 @@ Fonts dentro do `<style>`. Se o site já carrega essas fontes por outro meio
 (plugin de fontes, tema etc.), pode remover essa linha para evitar
 carregamento duplicado.
 
-## O que foi simplificado em relação ao Figma
+## Fidelidade ao Figma
 
 O arquivo Figma usa posicionamento absoluto em pixels (tela fixa de
-1920px) — isso não é responsivo por natureza. O HTML entregue **recria a
-mesma hierarquia visual, copy, cores e fontes** usando Flexbox/CSS Grid,
-para que a página se adapte de verdade a celular, tablet e desktop.
+1920px), o que não é responsivo por natureza. O HTML entregue segue a
+**mesma ordem de seções, mesmas cores, tipografia, copy e composição** do
+Figma, convertendo o posicionamento absoluto em Flexbox/CSS Grid para que a
+página se adapte de verdade a celular, tablet e desktop. Pontos que foram
+mantidos fiéis ao design (e que uma primeira versão deste HTML errou, caso
+você tenha recebido uma versão anterior):
+
+- **Sem cabeçalho/menu fixo** — o Figma não tem nenhum elemento de
+  navegação acima do Hero; a página começa direto nele.
+- **Sem sombras (box-shadow)** em nenhum card/bloco — no Figma todos os
+  blocos são cor sólida + `border-radius`, sem sombra.
+- **Depoimentos sem card** — aspas, texto e nome ficam direto sobre o fundo
+  da seção, sem painel branco.
+- **FAQ sem acordeão** — as 4 perguntas e respostas aparecem lado a lado
+  (pergunta à esquerda, resposta à direita) e **todas visíveis ao mesmo
+  tempo**, exatamente como no Figma (empilha verticalmente só no mobile,
+  por necessidade de espaço).
+- **Seção de revenda** — fundo vermelho (`#ab0d2f`) com um card escuro à
+  direita contendo o texto "Me conta rapidinho como é o seu negócio..."
+  acima do formulário (esse texto tinha ficado de fora numa versão
+  anterior).
+- **Rodapé em 2 colunas** — "Fale com a gente" (telefone/e-mail) à esquerda
+  e "Siga-nos nas redes sociais" à direita, sem colunas extras que não
+  existem no Figma.
+- **Ordem dos ícones de benefícios e do botão CTA** dentro da seção de
+  comparativo ajustada para bater com a posição horizontal (x) de cada
+  elemento no arquivo original.
+
+## Adaptações necessárias (mockup → HTML funcional)
+
+Alguns elementos no Figma são apenas *mockups visuais* (rótulo de texto +
+linha decorativa, sem campo de fato) porque é uma tela estática de design.
+Para o HTML funcionar de verdade como página, esses viraram campos de
+formulário reais — mantendo o mesmo estilo visual (traço inferior, sem
+caixa nem sombra):
+
+- Formulário "Quero revender Dona Chica" (Nome, WhatsApp, Tipo de negócio,
+  Empresa, CNPJ, Cidade/Estado, Mensagem) — ao enviar, abre o WhatsApp com
+  um resumo dos dados. Troque pela sua integração real se preferir
+  (Elementor Forms, RD Station etc.).
+- Quiz "Nós te ajudamos" — os 3 primeiros campos (viram `<select>`) e o de
+  múltipla escolha "O que mais te incomoda?" (checkboxes). Os dois cards de
+  recomendação já aparecem sempre visíveis, igual ao Figma (não há lógica
+  real de recomendação nem envio de dados).
