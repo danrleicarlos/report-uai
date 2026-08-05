@@ -1,0 +1,1343 @@
+<!--
+  ============================================================================
+  LANDING PAGE — Dona Chica Cat Care (marca da Amifec)
+  Baseado no arquivo Figma "Amifec" (frame "LP V2", node 438:516)
+  ============================================================================
+
+  COMO USAR NO ELEMENTOR PRO
+  1. Abra a página no Elementor e adicione um widget "HTML" (Código HTML) no
+     topo da página.
+  2. Copie TODO o conteúdo deste arquivo (do <!-- topo -- > ao fim) e cole
+     dentro do widget HTML.
+  3. Salve e visualize — a página já nasce responsiva (mobile / tablet / desktop).
+
+  IMPORTANTE — IMAGENS (leia antes de publicar)
+  As imagens abaixo apontam para o CDN temporário do Figma
+  (www.figma.com/api/mcp/asset/...) porque não foi possível baixar os
+  arquivos binários nesta sessão (política de rede do ambiente). Esses links
+  costumam expirar em poucos dias. ANTES DE PUBLICAR:
+    a) baixe cada imagem (clique com o botão direito > salvar como, a partir
+       do link que está no atributo src ou nos comentários "ASSET:"),
+    b) suba os arquivos na Biblioteca de Mídia do WordPress,
+    c) troque o valor de "src" pela URL definitiva do WordPress.
+  Veja o arquivo LANDING-PAGE-README.md (enviado junto) para a lista
+  completa de assets com nome sugerido de arquivo.
+
+  LINKS/CTAS
+  Os botões "Quero experimentar" e afins apontam por padrão para o WhatsApp
+  (+55 44 99975-1717, extraído do rodapé do design). Troque o número/URL nos
+  atributos href pelos definitivos (loja, checkout, WhatsApp oficial etc.).
+
+  FONTES
+  Barlow, Chewy e Inter (Google Fonts) são carregadas via @import no <style>
+  abaixo. Se o site já carrega essas fontes por outro meio, pode remover o
+  @import para evitar carregamento duplicado.
+-->
+<div class="dc-lp" id="dc-lp">
+
+<style>
+  /* ==========================================================================
+     DONA CHICA CAT CARE — Landing Page styles
+     Tudo escopado dentro de .dc-lp para não vazar para o resto do site.
+     ========================================================================== */
+
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,700&family=Chewy&family=Inter:wght@400;500;600;700&display=swap');
+
+  #dc-lp, #dc-lp * , #dc-lp *::before, #dc-lp *::after {
+    box-sizing: border-box;
+  }
+
+  .dc-lp {
+    --dc-red-900: #9a0526;
+    --dc-red-800: #ab0d2f;
+    --dc-red-600: #cd0c36;
+    --dc-cream: #f5f5dc;
+    --dc-tan: #d5cfb4;
+    --dc-tan-2: #d6d0b3;
+    --dc-ink: #231f20;
+    --dc-gray: #767676;
+    --dc-green: #0dab4f;
+    --dc-white: #ffffff;
+
+    --dc-font-display: 'Chewy', 'Baloo 2', cursive;
+    --dc-font-body: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --dc-font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --dc-container: 1240px;
+    --dc-radius-sm: 8px;
+    --dc-radius-md: 16px;
+    --dc-radius-lg: 24px;
+    --dc-radius-xl: 40px;
+
+    font-family: var(--dc-font-body);
+    color: var(--dc-ink);
+    background: var(--dc-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  .dc-lp img { max-width: 100%; display: block; }
+  .dc-lp a { text-decoration: none; color: inherit; }
+  .dc-lp ul { list-style: none; margin: 0; padding: 0; }
+  .dc-lp button { font-family: inherit; cursor: pointer; }
+  .dc-lp h1, .dc-lp h2, .dc-lp h3, .dc-lp p { margin: 0; }
+
+  .dc-container {
+    width: 100%;
+    max-width: var(--dc-container);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .dc-eyebrow {
+    display: inline-block;
+    font-family: var(--dc-font-ui);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* -------------------------------------------------------------------- */
+  /* Buttons                                                              */
+  /* -------------------------------------------------------------------- */
+  .dc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--dc-font-display);
+    font-size: 22px;
+    line-height: 1;
+    padding: 16px 32px;
+    border-radius: 999px;
+    border: none;
+    white-space: normal;
+    text-align: center;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+  }
+  .dc-btn:hover { transform: translateY(-2px); }
+  .dc-btn--primary {
+    background: var(--dc-red-600);
+    color: var(--dc-white);
+    box-shadow: 0 8px 20px rgba(154,5,38,.28);
+  }
+  .dc-btn--primary:hover { background: var(--dc-red-900); }
+  .dc-btn--dark {
+    background: var(--dc-ink);
+    color: var(--dc-white);
+  }
+  .dc-btn--dark:hover { background: #000; }
+  .dc-btn--outline {
+    background: transparent;
+    color: var(--dc-red-800);
+    border: 2px solid var(--dc-red-800);
+  }
+  .dc-btn--outline:hover { background: var(--dc-red-800); color: var(--dc-white); }
+  .dc-btn--icon img { width: 22px; height: 22px; flex: none; filter: brightness(0) invert(1); }
+  .dc-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+
+  /* -------------------------------------------------------------------- */
+  /* Header                                                                */
+  /* -------------------------------------------------------------------- */
+  .dc-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: var(--dc-white);
+    border-bottom: 1px solid rgba(154,5,38,.08);
+  }
+  .dc-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 24px;
+  }
+  .dc-logo {
+    font-family: var(--dc-font-display);
+    color: var(--dc-red-800);
+    font-size: 24px;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .dc-logo span:last-child { font-size: 14px; letter-spacing: .05em; color: var(--dc-ink); }
+  .dc-nav {
+    display: none;
+    gap: 28px;
+    font-family: var(--dc-font-ui);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .dc-nav a { padding: 6px 0; border-bottom: 2px solid transparent; }
+  .dc-nav a:hover { border-color: var(--dc-red-600); }
+  .dc-header__actions { display: flex; align-items: center; gap: 12px; }
+  .dc-header .dc-btn { font-size: 16px; padding: 10px 22px; display: none; }
+  .dc-burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: 1px solid rgba(35,31,32,.15);
+    border-radius: var(--dc-radius-sm);
+  }
+  .dc-burger span,
+  .dc-burger span::before,
+  .dc-burger span::after {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--dc-ink);
+    position: relative;
+    transition: .2s;
+  }
+  .dc-burger span::before { position: absolute; top: -6px; }
+  .dc-burger span::after { position: absolute; top: 6px; }
+  .dc-mobile-menu {
+    display: none;
+    flex-direction: column;
+    padding: 8px 24px 20px;
+    gap: 4px;
+    font-family: var(--dc-font-ui);
+    font-weight: 600;
+  }
+  .dc-mobile-menu.is-open { display: flex; }
+  .dc-mobile-menu a { padding: 12px 4px; border-bottom: 1px solid rgba(35,31,32,.08); }
+  .dc-mobile-menu .dc-btn { margin-top: 12px; width: 100%; }
+
+  /* -------------------------------------------------------------------- */
+  /* Hero                                                                  */
+  /* -------------------------------------------------------------------- */
+  .dc-hero {
+    position: relative;
+    background: var(--dc-red-900);
+    color: var(--dc-white);
+    overflow: hidden;
+    padding: 56px 0 72px;
+  }
+  .dc-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .dc-hero__eyebrow { color: var(--dc-tan); }
+  .dc-hero__title {
+    font-family: var(--dc-font-display);
+    color: var(--dc-cream);
+    font-size: clamp(30px, 6vw, 56px);
+    line-height: 1.15;
+    margin-top: 14px;
+  }
+  .dc-hero__subtitle {
+    font-size: clamp(18px, 2.6vw, 24px);
+    margin-top: 22px;
+    max-width: 560px;
+  }
+  .dc-hero__subtitle strong { font-weight: 700; }
+  .dc-hero__actions { margin-top: 32px; }
+  .dc-hero__media { position: relative; }
+  .dc-hero__media .dc-hero__photo-wrap {
+    position: relative;
+    border-radius: 999px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    box-shadow: 0 30px 60px rgba(0,0,0,.35);
+  }
+  .dc-hero__media img.dc-hero__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .dc-hero__crown {
+    position: absolute;
+    top: -28px;
+    right: 6%;
+    width: 74px;
+    transform: rotate(18deg);
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
+  }
+
+  /* -------------------------------------------------------------------- */
+  /* Section basics                                                        */
+  /* -------------------------------------------------------------------- */
+  .dc-section { padding: 72px 0; }
+  .dc-section--tan { background: rgba(213,207,180,.18); }
+  .dc-section--cream { background: var(--dc-cream); }
+  .dc-h2 {
+    font-family: var(--dc-font-display);
+    color: var(--dc-red-900);
+    font-size: clamp(28px, 4.4vw, 48px);
+    line-height: 1.2;
+    text-align: center;
+  }
+  .dc-h2--dark { color: var(--dc-ink); }
+  .dc-h2--onred { color: var(--dc-tan); }
+  .dc-lede {
+    font-family: var(--dc-font-body);
+    font-weight: 700;
+    font-style: italic;
+    font-size: clamp(22px, 3vw, 32px);
+    text-align: center;
+    margin-top: 10px;
+  }
+  .dc-section-intro { max-width: 760px; margin: 0 auto 48px; text-align: center; }
+
+  /* -------------------------------------------------------------------- */
+  /* Compare / benefits section                                           */
+  /* -------------------------------------------------------------------- */
+  .dc-compare__top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-top: 44px;
+  }
+  .dc-compare__photo {
+    border-radius: var(--dc-radius-xl);
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .dc-compare__photo img { width: 100%; height: 100%; object-fit: cover; }
+  .dc-compare-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .dc-compare-col { padding: 28px 20px; display: flex; flex-direction: column; gap: 18px; }
+  .dc-compare-col--good {
+    background: var(--dc-red-800);
+    border-radius: var(--dc-radius-lg) 0 0 var(--dc-radius-lg);
+  }
+  .dc-compare-col--bad { background: rgba(35,31,32,.9); border-radius: 0 var(--dc-radius-lg) var(--dc-radius-lg) 0; }
+  .dc-compare-col h4 {
+    font-family: var(--dc-font-display);
+    font-size: 24px;
+    text-align: center;
+  }
+  .dc-compare-col--good h4 { color: var(--dc-cream); }
+  .dc-compare-col--bad h4 { color: var(--dc-tan); font-style: italic; font-family: var(--dc-font-body); font-weight: 700; }
+  .dc-compare-item { display: flex; align-items: center; gap: 10px; font-family: var(--dc-font-body); font-weight: 700; font-style: italic; font-size: 16px; color: var(--dc-white); }
+  .dc-compare-item svg { flex: none; width: 22px; height: 22px; }
+  .dc-compare-item--good svg { color: var(--dc-green); }
+  .dc-compare-item--bad svg { color: var(--dc-tan-2); }
+
+  .dc-benefit-icons {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 20px;
+    text-align: center;
+  }
+  .dc-benefit-icons__item { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .dc-benefit-icons__item img { height: 64px; width: auto; }
+  .dc-benefit-icons__item p { font-size: 17px; }
+
+  .dc-grains {
+    margin-top: 72px;
+  }
+  .dc-grains__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 40px;
+  }
+  .dc-grain-card {
+    background: var(--dc-white);
+    border-radius: var(--dc-radius-lg);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 20px;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(35,31,32,.08);
+  }
+  .dc-grain-card img.dc-grain-card__mockup { width: 100%; }
+  .dc-grain-card h4 {
+    font-family: var(--dc-font-display);
+    color: var(--dc-red-900);
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .dc-pill-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .dc-pill {
+    background: var(--dc-red-900);
+    color: var(--dc-white);
+    font-family: var(--dc-font-ui);
+    font-size: 14px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .dc-lifestyle-photos {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 56px;
+  }
+  .dc-lifestyle-photos img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 12px 24px rgba(0,0,0,.18);
+  }
+
+  /* -------------------------------------------------------------------- */
+  /* Testimonials                                                         */
+  /* -------------------------------------------------------------------- */
+  .dc-testimonials__grid {
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .dc-testimonial {
+    background: var(--dc-white);
+    border-radius: var(--dc-radius-lg);
+    padding: 32px 28px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(35,31,32,.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .dc-testimonial svg { width: 40px; height: 40px; color: var(--dc-red-800); }
+  .dc-testimonial p.dc-testimonial__quote { font-size: 18px; }
+  .dc-testimonial p.dc-testimonial__author { font-weight: 700; }
+
+  /* -------------------------------------------------------------------- */
+  /* Trust bar                                                            */
+  /* -------------------------------------------------------------------- */
+  .dc-trustbar { background: var(--dc-red-800); color: var(--dc-white); padding: 44px 0; }
+  .dc-trustbar__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: center;
+    text-align: center;
+  }
+  .dc-trustbar__title {
+    font-family: var(--dc-font-body);
+    font-weight: 400;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-size: clamp(18px, 2.6vw, 28px);
+    max-width: 460px;
+  }
+  .dc-trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+  }
+  .dc-trust-badge { display: flex; align-items: center; gap: 14px; }
+  .dc-trust-badge img { height: 34px; width: auto; filter: brightness(0) invert(1); }
+  .dc-trust-badge span { font-family: var(--dc-font-body); font-weight: 800; font-size: 18px; line-height: 1.15; text-align: left; }
+
+  /* -------------------------------------------------------------------- */
+  /* Quiz section                                                         */
+  /* -------------------------------------------------------------------- */
+  .dc-quiz__intro { text-align: center; }
+  .dc-quiz__intro .dc-h2 { color: var(--dc-red-900); }
+  .dc-quiz__intro p {
+    font-family: var(--dc-font-body);
+    font-weight: 700;
+    font-style: italic;
+    font-size: clamp(20px, 3vw, 32px);
+    margin-top: 8px;
+  }
+  .dc-quiz__grid {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .dc-quiz-card {
+    background: var(--dc-red-800);
+    border-radius: var(--dc-radius-lg);
+    padding: 32px 24px;
+    color: var(--dc-white);
+  }
+  .dc-quiz-steps { display: flex; gap: 10px; justify-content: center; margin-bottom: 28px; }
+  .dc-quiz-steps span {
+    width: 32px; height: 32px;
+    border-radius: var(--dc-radius-sm);
+    background: rgba(255,255,255,.18);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--dc-font-body); font-weight: 900; font-size: 16px;
+  }
+  .dc-quiz-steps span.is-active { background: var(--dc-white); color: var(--dc-red-800); }
+  .dc-quiz-field { margin-bottom: 22px; }
+  .dc-quiz-field label {
+    display: block;
+    font-family: var(--dc-font-body);
+    font-weight: 600;
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+  .dc-quiz-field select,
+  .dc-quiz-field input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--dc-radius-sm);
+    border: none;
+    font-family: var(--dc-font-ui);
+    font-size: 15px;
+    background: rgba(255,255,255,.95);
+    color: var(--dc-ink);
+  }
+  .dc-quiz-checks { display: flex; flex-direction: column; gap: 10px; }
+  .dc-quiz-checks label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--dc-font-body);
+    font-weight: 400;
+    font-size: 16px;
+    background: rgba(255,255,255,.08);
+    padding: 10px 14px;
+    border-radius: var(--dc-radius-sm);
+    cursor: pointer;
+  }
+  .dc-quiz-checks input { width: 18px; height: 18px; accent-color: var(--dc-white); }
+  .dc-quiz-card .dc-btn { width: 100%; margin-top: 8px; background: var(--dc-white); color: var(--dc-red-800); }
+  .dc-quiz-card .dc-btn:hover { background: var(--dc-cream); }
+
+  .dc-quiz-aside { display: flex; flex-direction: column; gap: 24px; }
+  .dc-quiz-photo { border-radius: var(--dc-radius-lg); overflow: hidden; }
+  .dc-quiz-photo img { width: 100%; }
+  .dc-quiz-result {
+    background: var(--dc-tan);
+    border-radius: var(--dc-radius-sm);
+    padding: 24px;
+    font-family: var(--dc-font-ui);
+    font-size: 16px;
+    text-align: center;
+    display: none;
+  }
+  .dc-quiz-result.is-visible { display: block; }
+  .dc-quiz-result--muted { background: rgba(213,207,180,.5); }
+
+  /* -------------------------------------------------------------------- */
+  /* Reseller section                                                     */
+  /* -------------------------------------------------------------------- */
+  .dc-reseller { background: var(--dc-ink); color: var(--dc-white); }
+  .dc-reseller__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .dc-reseller__title {
+    font-family: var(--dc-font-display);
+    font-size: clamp(30px, 5vw, 64px);
+    line-height: 1.15;
+  }
+  .dc-reseller__title span { color: var(--dc-tan); }
+  .dc-reseller__lede { margin-top: 20px; font-size: clamp(18px, 2.4vw, 26px); font-weight: 300; }
+  .dc-reseller__form { display: flex; flex-direction: column; gap: 20px; }
+  .dc-reseller__form label { font-size: 18px; display: block; margin-bottom: 8px; }
+  .dc-reseller__form input,
+  .dc-reseller__form textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,.5);
+    color: var(--dc-white);
+    font-family: var(--dc-font-body);
+    font-size: 16px;
+    padding: 8px 2px;
+  }
+  .dc-reseller__form input::placeholder,
+  .dc-reseller__form textarea::placeholder { color: rgba(255,255,255,.45); }
+  .dc-reseller__form input:focus,
+  .dc-reseller__form textarea:focus { outline: none; border-color: var(--dc-cream); }
+  .dc-reseller__form textarea { resize: vertical; min-height: 70px; }
+  .dc-reseller__submit { text-align: center; margin-top: 12px; }
+  .dc-reseller__note { text-align: center; font-size: 15px; font-weight: 200; margin-top: 10px; }
+
+  /* -------------------------------------------------------------------- */
+  /* About us                                                             */
+  /* -------------------------------------------------------------------- */
+  .dc-about__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  .dc-about__photo { border-radius: var(--dc-radius-xl); overflow: hidden; }
+  .dc-about__photo img { width: 100%; object-fit: cover; }
+  .dc-about h2 { text-align: left; }
+  .dc-about__lede {
+    font-family: var(--dc-font-body);
+    font-weight: 800;
+    color: var(--dc-red-800);
+    font-size: clamp(20px, 2.6vw, 26px);
+    margin-top: 18px;
+  }
+  .dc-about__body { margin-top: 18px; font-size: 17px; display: flex; flex-direction: column; gap: 16px; }
+
+  .dc-differentiators {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 16px;
+    text-align: center;
+  }
+  .dc-differentiators__item { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .dc-differentiators__item img { height: 56px; width: auto; }
+  .dc-differentiators__item p { font-size: 16px; }
+  .dc-differentiators__icon-stack { position: relative; height: 56px; width: 56px; }
+  .dc-differentiators__icon-stack img { position: absolute; height: auto; width: 100%; }
+
+  /* -------------------------------------------------------------------- */
+  /* FAQ                                                                  */
+  /* -------------------------------------------------------------------- */
+  .dc-faq__list { margin-top: 44px; display: flex; flex-direction: column; gap: 18px; max-width: 900px; margin-left: auto; margin-right: auto; }
+  .dc-faq-item {
+    background: var(--dc-red-800);
+    border-radius: var(--dc-radius-lg);
+    color: var(--dc-white);
+    overflow: hidden;
+  }
+  .dc-faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 28px;
+    font-family: var(--dc-font-display);
+    color: var(--dc-tan);
+    font-size: clamp(19px, 2.6vw, 26px);
+  }
+  .dc-faq-item summary::-webkit-details-marker { display: none; }
+  .dc-faq-item summary .dc-faq-plus {
+    flex: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--dc-tan);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    transition: transform .2s ease;
+  }
+  .dc-faq-item[open] summary .dc-faq-plus { transform: rotate(45deg); }
+  .dc-faq-item__body { padding: 0 28px 26px; font-size: 17px; }
+
+  /* -------------------------------------------------------------------- */
+  /* Final CTA                                                            */
+  /* -------------------------------------------------------------------- */
+  .dc-final-cta { background: var(--dc-white); }
+  .dc-final-cta__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+    text-align: center;
+  }
+  .dc-final-cta__photo { position: relative; max-width: 420px; margin: 0 auto; }
+  .dc-final-cta__photo img.dc-final-cta__main {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 20px 50px rgba(0,0,0,.18);
+  }
+  .dc-final-cta__crown { position: absolute; top: -6%; right: -4%; width: 90px; }
+  .dc-final-cta__title {
+    font-family: var(--dc-font-display);
+    color: var(--dc-tan);
+    background: var(--dc-red-800);
+    display: inline;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding: 4px 10px;
+    font-size: clamp(28px, 4.6vw, 48px);
+    line-height: 1.35;
+  }
+  .dc-final-cta__actions { margin-top: 28px; }
+
+  /* -------------------------------------------------------------------- */
+  /* Footer                                                               */
+  /* -------------------------------------------------------------------- */
+  .dc-footer { background: var(--dc-red-800); color: var(--dc-white); padding: 56px 0 28px; }
+  .dc-footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .dc-footer__brand { font-family: var(--dc-font-display); font-size: 28px; }
+  .dc-footer__brand p { font-family: var(--dc-font-body); font-size: 15px; font-weight: 300; margin-top: 10px; max-width: 320px; }
+  .dc-footer h5 {
+    font-family: var(--dc-font-body); font-weight: 800; font-size: 20px; margin-bottom: 16px;
+  }
+  .dc-footer__contact ul { display: flex; flex-direction: column; gap: 12px; }
+  .dc-footer__contact li { display: flex; align-items: center; gap: 12px; font-size: 17px; }
+  .dc-footer__contact svg { width: 22px; height: 22px; flex: none; }
+  .dc-footer__social { display: flex; gap: 14px; margin-top: 4px; }
+  .dc-footer__social a {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.14);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s ease;
+  }
+  .dc-footer__social a:hover { background: rgba(255,255,255,.28); }
+  .dc-footer__social svg { width: 20px; height: 20px; }
+  .dc-footer__bottom {
+    margin-top: 44px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,.25);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300;
+  }
+
+  /* -------------------------------------------------------------------- */
+  /* WhatsApp floating button                                             */
+  /* -------------------------------------------------------------------- */
+  .dc-whatsapp-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px rgba(0,0,0,.28);
+    z-index: 70;
+  }
+  .dc-whatsapp-float svg { width: 30px; height: 30px; color: #fff; }
+
+  /* ==========================================================================
+     Responsive breakpoints
+     ========================================================================== */
+  @media (min-width: 640px) {
+    .dc-benefit-icons { grid-template-columns: repeat(3, 1fr); }
+    .dc-differentiators { grid-template-columns: repeat(3, 1fr); }
+    .dc-testimonials__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 860px) {
+    .dc-header .dc-btn { display: inline-flex; }
+    .dc-nav { display: flex; }
+    .dc-burger { display: none; }
+    .dc-mobile-menu { display: none !important; }
+
+    .dc-hero__grid { grid-template-columns: 1.05fr .95fr; }
+    .dc-compare__top { grid-template-columns: 1fr 1fr; }
+    .dc-grains__grid { grid-template-columns: 1fr 1fr; }
+    .dc-quiz__grid { grid-template-columns: 1.1fr .9fr; }
+    .dc-reseller__grid { grid-template-columns: 1fr 1fr; }
+    .dc-about__grid { grid-template-columns: .9fr 1.1fr; }
+    .dc-final-cta__grid { grid-template-columns: .8fr 1.2fr; text-align: left; }
+    .dc-final-cta__photo { margin: 0; }
+  }
+
+  @media (min-width: 1024px) {
+    .dc-benefit-icons { grid-template-columns: repeat(5, 1fr); }
+    .dc-differentiators { grid-template-columns: repeat(5, 1fr); }
+    .dc-testimonials__grid { grid-template-columns: repeat(3, 1fr); }
+    .dc-footer__grid { grid-template-columns: 1.2fr 1fr 1fr; }
+  }
+
+</style>
+
+<!-- ======================================================================
+     HEADER
+     ====================================================================== -->
+<header class="dc-header">
+  <div class="dc-header__inner">
+    <a href="#top" class="dc-logo">
+      <span>dona chica</span>
+      <span>cat care</span>
+    </a>
+    <nav class="dc-nav">
+      <a href="#beneficios">Benefícios</a>
+      <a href="#quiz">Ache sua areia</a>
+      <a href="#quem-somos">Quem somos</a>
+      <a href="#faq">Perguntas frequentes</a>
+      <a href="#revenda">Seja revendedor</a>
+    </nav>
+    <div class="dc-header__actions">
+      <a class="dc-btn dc-btn--primary" href="https://wa.me/5544999751717?text=Quero%20experimentar%20a%20Dona%20Chica%20Cat%20Care" target="_blank" rel="noopener">Quero experimentar</a>
+      <button class="dc-burger" type="button" id="dcBurger" aria-label="Abrir menu" aria-expanded="false">
+        <span></span>
+      </button>
+    </div>
+  </div>
+  <nav class="dc-mobile-menu" id="dcMobileMenu">
+    <a href="#beneficios">Benefícios</a>
+    <a href="#quiz">Ache sua areia</a>
+    <a href="#quem-somos">Quem somos</a>
+    <a href="#faq">Perguntas frequentes</a>
+    <a href="#revenda">Seja revendedor</a>
+    <a class="dc-btn dc-btn--primary" href="https://wa.me/5544999751717?text=Quero%20experimentar%20a%20Dona%20Chica%20Cat%20Care" target="_blank" rel="noopener">Quero experimentar</a>
+  </nav>
+</header>
+
+<!-- ======================================================================
+     HERO
+     ASSET: hero photo -> figma key a94667a1-33ab-4020-9b1f-a2ea44ea137a (png)
+     ASSET: crown doodle -> figma key 55ff68b1-bfcb-4cad-bcf4-5923fd0b0445 (png)
+     ====================================================================== -->
+<section class="dc-hero" id="top">
+  <div class="dc-container dc-hero__grid">
+    <div class="dc-hero__content">
+      <span class="dc-eyebrow dc-hero__eyebrow">Dona Chica Cat Care</span>
+      <h1 class="dc-hero__title">A areia natural que te permite ficar mais tempo brincando com seu gato e menos tempo limpando a caixinha dele</h1>
+      <p class="dc-hero__subtitle">Uma nova experiência para o seu gato. <strong>Mais tranquilidade para você.</strong></p>
+      <div class="dc-hero__actions dc-btn-row">
+        <a class="dc-btn dc-btn--primary dc-btn--icon" href="https://wa.me/5544999751717?text=Quero%20experimentar%20a%20Dona%20Chica%20Cat%20Care" target="_blank" rel="noopener">
+          <img src="https://www.figma.com/api/mcp/asset/22559cdd-499a-4576-8cd4-d3e2028df787.svg" alt="" aria-hidden="true">
+          Quero experimentar dona chica cat care
+        </a>
+      </div>
+    </div>
+    <div class="dc-hero__media">
+      <div class="dc-hero__photo-wrap">
+        <img class="dc-hero__photo" src="https://www.figma.com/api/mcp/asset/a94667a1-33ab-4020-9b1f-a2ea44ea137a.png" alt="Gato feliz usando areia higiênica Dona Chica Cat Care">
+      </div>
+      <img class="dc-hero__crown" src="https://www.figma.com/api/mcp/asset/55ff68b1-bfcb-4cad-bcf4-5923fd0b0445.png" alt="" aria-hidden="true">
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     BENEFÍCIOS / COMPARATIVO / GRÃOS
+     ASSET: foto comparativo -> be946fef-1c94-46a9-a7a9-cc10a5f048ae (png)
+     ASSET: ícones benefícios -> a02240cc..., 5fb1407c..., 6c4fcf7e..., 02228438..., d3dabd76... (svg)
+     ASSET: fotos lifestyle -> ad0a9123... / 4a4cbd45... (png)
+     ASSET: mockups grãos -> 7b250cc1... / 8479f8de... (png)
+     ====================================================================== -->
+<section class="dc-section" id="beneficios">
+  <div class="dc-container">
+    <h2 class="dc-h2">Quem experimenta uma areia vegetal de verdade dificilmente volta para a areia comum.</h2>
+    <p class="dc-lede">Feita de mandioca e milho</p>
+
+    <div class="dc-compare__top">
+      <div class="dc-compare__photo">
+        <img src="https://www.figma.com/api/mcp/asset/be946fef-1c94-46a9-a7a9-cc10a5f048ae.png" alt="Areia Dona Chica sendo usada na caixinha do gato">
+      </div>
+      <div class="dc-compare-card">
+        <div class="dc-compare-col dc-compare-col--good">
+          <h4>Areia Vegetal</h4>
+          <div class="dc-compare-item dc-compare-item--good">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M7 12.5l3 3 7-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Torrão Firme
+          </div>
+          <div class="dc-compare-item dc-compare-item--good">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M7 12.5l3 3 7-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Menos cheiro
+          </div>
+          <div class="dc-compare-item dc-compare-item--good">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M7 12.5l3 3 7-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Alto rendimento
+          </div>
+          <div class="dc-compare-item dc-compare-item--good">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M7 12.5l3 3 7-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Menos pó
+          </div>
+        </div>
+        <div class="dc-compare-col dc-compare-col--bad">
+          <h4>Areia Comum</h4>
+          <div class="dc-compare-item dc-compare-item--bad">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            Torrão que esfarela
+          </div>
+          <div class="dc-compare-item dc-compare-item--bad">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            Mais cheiro
+          </div>
+          <div class="dc-compare-item dc-compare-item--bad">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            Troca frequente
+          </div>
+          <div class="dc-compare-item dc-compare-item--bad">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" fill="currentColor" opacity=".18"/><path d="M8 8l8 8M16 8l-8 8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+            Levanta muito pó
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc-benefit-icons">
+      <div class="dc-benefit-icons__item">
+        <img src="https://www.figma.com/api/mcp/asset/a02240cc-d80e-402e-8165-03b1effbfcfa.svg" alt="">
+        <p>Feita de Mandioca e Milho</p>
+      </div>
+      <div class="dc-benefit-icons__item">
+        <img src="https://www.figma.com/api/mcp/asset/5fb1407c-2ca5-4af8-bd2e-66bc4ddfd30e.svg" alt="">
+        <p>Ajuda a detectar alterações na urina rapidamente</p>
+      </div>
+      <div class="dc-benefit-icons__item">
+        <img src="https://www.figma.com/api/mcp/asset/6c4fcf7e-4ed7-4242-8945-b956c2d63f8c.svg" alt="">
+        <p>Absorção instantânea, reduzindo o cheiro no ambiente</p>
+      </div>
+      <div class="dc-benefit-icons__item">
+        <img src="https://www.figma.com/api/mcp/asset/02228438-55be-401e-adef-c0243fa900bb.svg" alt="">
+        <p>Baixo rastreamento em sua casa</p>
+      </div>
+      <div class="dc-benefit-icons__item">
+        <img src="https://www.figma.com/api/mcp/asset/d3dabd76-1e55-49aa-b774-b174dfd17d00.svg" alt="">
+        <p>Forma torrões firmes para facilitar a limpeza</p>
+      </div>
+    </div>
+
+    <div class="dc-lifestyle-photos">
+      <img src="https://www.figma.com/api/mcp/asset/ad0a9123-e6f2-4c48-a3f7-01210241d045.png" alt="Gato tutor com Dona Chica Cat Care">
+      <img src="https://www.figma.com/api/mcp/asset/4a4cbd45-0047-4f6f-adc6-c044a9dd3585.png" alt="Gato tutor com Dona Chica Cat Care">
+    </div>
+
+    <div class="dc-btn-row" style="justify-content:center; margin-top:56px;">
+      <a class="dc-btn dc-btn--primary dc-btn--icon" href="https://wa.me/5544999751717?text=Quero%20experimentar%20a%20Dona%20Chica%20Cat%20Care" target="_blank" rel="noopener">
+        <img src="https://www.figma.com/api/mcp/asset/22559cdd-499a-4576-8cd4-d3e2028df787.svg" alt="" aria-hidden="true">
+        Quero experimentar dona chica cat care
+      </a>
+    </div>
+
+    <div class="dc-grains">
+      <h2 class="dc-h2">Escolha o Grão Ideal</h2>
+      <div class="dc-grains__grid">
+        <div class="dc-grain-card">
+          <img class="dc-grain-card__mockup" src="https://www.figma.com/api/mcp/asset/7b250cc1-56ec-49b9-b6af-20efcc903f72.png" alt="Mockup Dona Chica Grãos Finos 4kg">
+          <div>
+            <h4>Grãos Finos</h4>
+            <div class="dc-pill-list">
+              <span class="dc-pill">Ideal para filhotes</span>
+              <span class="dc-pill">Controle de odor</span>
+              <span class="dc-pill">Torrão rápido e firme</span>
+              <span class="dc-pill">Textura mais fina e macia</span>
+            </div>
+          </div>
+        </div>
+        <div class="dc-grain-card">
+          <img class="dc-grain-card__mockup" src="https://www.figma.com/api/mcp/asset/8479f8de-ca65-46f1-8c5f-382a1d7b8416.png" alt="Mockup Dona Chica Grãos Grossos 4kg">
+          <div>
+            <h4>Grãos Grossos</h4>
+            <div class="dc-pill-list">
+              <span class="dc-pill">Menor espalhamento</span>
+              <span class="dc-pill">Fácil peneiramento</span>
+              <span class="dc-pill">Ideal para gatos adultos</span>
+              <span class="dc-pill">Mais praticidade</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     TESTEMUNHOS
+     ASSET: ícone aspas -> 92e309f8-32a7-4448-8d64-4ad1d19b2263 (svg)
+     ====================================================================== -->
+<section class="dc-section dc-section--tan">
+  <div class="dc-container">
+    <h2 class="dc-h2">Quem experimentou aprovou</h2>
+    <div class="dc-testimonials__grid">
+      <div class="dc-testimonial">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 7C6.5 8 5 10.3 5 13.5c0 2.2 1.4 3.7 3.4 3.7 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.2 0-.4 0-.6.1.2-1.4 1.4-2.6 2.9-3.2L9.5 7zm9 0c-3 1-4.5 3.3-4.5 6.5 0 2.2 1.4 3.7 3.4 3.7 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.2 0-.4 0-.6.1.2-1.4 1.4-2.6 2.9-3.2L18.5 7z"/></svg>
+        <p class="dc-testimonial__quote">"Foi a primeira areia vegetal que meu gato aceitou sem estranhar. O torrão fica firme e praticamente não sinto mais cheiro na casa."</p>
+        <p class="dc-testimonial__author">— Juliana M., tutora de 2 gatos</p>
+      </div>
+      <div class="dc-testimonial">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 7C6.5 8 5 10.3 5 13.5c0 2.2 1.4 3.7 3.4 3.7 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.2 0-.4 0-.6.1.2-1.4 1.4-2.6 2.9-3.2L9.5 7zm9 0c-3 1-4.5 3.3-4.5 6.5 0 2.2 1.4 3.7 3.4 3.7 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.2 0-.4 0-.6.1.2-1.4 1.4-2.6 2.9-3.2L18.5 7z"/></svg>
+        <p class="dc-testimonial__quote">"Tenho quatro gatos e achei que fosse gastar muito mais. Pelo contrário, ela rende bastante e espalha bem menos."</p>
+        <p class="dc-testimonial__author">— Rafael S., tutor de 4 gatos</p>
+      </div>
+      <div class="dc-testimonial">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 7C6.5 8 5 10.3 5 13.5c0 2.2 1.4 3.7 3.4 3.7 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.2 0-.4 0-.6.1.2-1.4 1.4-2.6 2.9-3.2L9.5 7zm9 0c-3 1-4.5 3.3-4.5 6.5 0 2.2 1.4 3.7 3.4 3.7 1.7 0 3-1.2 3-2.9 0-1.6-1.1-2.7-2.6-2.7-.2 0-.4 0-.6.1.2-1.4 1.4-2.6 2.9-3.2L18.5 7z"/></svg>
+        <p class="dc-testimonial__quote">"Gostei porque é natural e consigo acompanhar melhor a saúde do meu gato pela cor da urina."</p>
+        <p class="dc-testimonial__author">— Fernanda A.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     TRUST BAR
+     ASSET: lock/truck/card icons -> ef446ce5..., 22559cdd..., e0364918... (svg)
+     ====================================================================== -->
+<section class="dc-trustbar">
+  <div class="dc-container dc-trustbar__grid">
+    <p class="dc-trustbar__title">Leve para sua casa essa experiência também</p>
+    <div class="dc-trust-badges">
+      <div class="dc-trust-badge">
+        <img src="https://www.figma.com/api/mcp/asset/ef446ce5-a86b-48c5-8a72-1a3fde5f2d4a.svg" alt="">
+        <span>Compra<br>segura</span>
+      </div>
+      <div class="dc-trust-badge">
+        <img src="https://www.figma.com/api/mcp/asset/22559cdd-499a-4576-8cd4-d3e2028df787.svg" alt="">
+        <span>Entrega em<br>todo o Brasil</span>
+      </div>
+      <div class="dc-trust-badge">
+        <img src="https://www.figma.com/api/mcp/asset/e0364918-bb36-4458-8a26-60102c5fe853.svg" alt="">
+        <span>Parcelamento<br>em até 5 X</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     QUIZ — "Nós te ajudamos"
+     ASSET: mockups decorativos -> 622bc4e7... / 7e9748eb... (png)
+     ====================================================================== -->
+<section class="dc-section" id="quiz">
+  <div class="dc-container">
+    <div class="dc-quiz__intro">
+      <h2 class="dc-h2">Nós te ajudamos</h2>
+      <p>Não sabe qual areia escolher?</p>
+    </div>
+
+    <div class="dc-quiz__grid">
+      <form class="dc-quiz-card" id="dcQuizForm">
+        <div class="dc-quiz-steps">
+          <span class="is-active">1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+        </div>
+
+        <div class="dc-quiz-field">
+          <label for="dcQtdGatos">Quantos gatinhos você tem?</label>
+          <select id="dcQtdGatos" name="qtd_gatos">
+            <option>1 gatinho</option>
+            <option>2 gatinhos</option>
+            <option>3 gatinhos</option>
+            <option>4 ou mais</option>
+          </select>
+        </div>
+
+        <div class="dc-quiz-field">
+          <label for="dcIdadeGato">Seu gato é adulto, filhote ou idoso?</label>
+          <select id="dcIdadeGato" name="idade_gato">
+            <option>Filhote</option>
+            <option>Adulto</option>
+            <option>Idoso</option>
+          </select>
+        </div>
+
+        <div class="dc-quiz-field">
+          <label for="dcTamanhoCaixa">Qual o tamanho da sua caixa de areia?</label>
+          <select id="dcTamanhoCaixa" name="tamanho_caixa">
+            <option>Pequena</option>
+            <option>Média</option>
+            <option>Grande</option>
+          </select>
+        </div>
+
+        <div class="dc-quiz-field">
+          <label>O que mais te incomoda?</label>
+          <div class="dc-quiz-checks">
+            <label><input type="checkbox" name="incomoda" value="Cheiro forte" checked> Cheiro forte</label>
+            <label><input type="checkbox" name="incomoda" value="Areia espalhada pela casa"> Areia espalhada pela casa</label>
+            <label><input type="checkbox" name="incomoda" value="Baixo rendimento da areia"> Baixo rendimento da areia</label>
+          </div>
+        </div>
+
+        <button type="submit" class="dc-btn dc-btn--primary">Descobrir a areia ideal</button>
+      </form>
+
+      <div class="dc-quiz-aside">
+        <div class="dc-quiz-photo">
+          <img src="https://www.figma.com/api/mcp/asset/622bc4e7-987d-4c85-8d5b-a8a53fde87d3.png" alt="Linha de produtos Dona Chica Cat Care">
+        </div>
+        <div class="dc-quiz-result" id="dcQuizResult">
+          <strong>Baseado em suas respostas, indicamos a areia Grãos Finos 4 kilos para o mês.</strong>
+          Garantindo a troca mensal e reposição de 5 cm sempre que necessário.
+        </div>
+        <div class="dc-quiz-result dc-quiz-result--muted is-visible">
+          Por seu gato ser filhote, a areia de grãos finos é mais delicada para as patinhas, e espalha menos pela casa.
+        </div>
+      </div>
+    </div>
+    <!--
+      OBS: o quiz acima é uma demonstração estática (não envia dados a
+      nenhum servidor). O clique em "Descobrir a areia ideal" apenas revela
+      o card de recomendação. Para uma versão funcional de verdade, conecte
+      este formulário a uma automação (ex.: RD Station, WhatsApp API) e
+      personalize a recomendação de acordo com as respostas.
+    -->
+  </div>
+</section>
+
+<!-- ======================================================================
+     REVENDEDOR
+     ====================================================================== -->
+<section class="dc-section dc-reseller" id="revenda">
+  <div class="dc-container dc-reseller__grid">
+    <div>
+      <h2 class="dc-reseller__title">É revendedor? <span>Então você precisa ter nossa areia em seu negócio</span></h2>
+      <p class="dc-reseller__lede">Leve para sua loja um produto natural, de alta qualidade, com uma excelente lucratividade e que os tutores já amam.</p>
+    </div>
+    <form class="dc-reseller__form" id="dcResellerForm">
+      <div>
+        <label for="dcNome">Nome:</label>
+        <input type="text" id="dcNome" name="nome" placeholder="Seu nome completo" required>
+      </div>
+      <div>
+        <label for="dcWhats">WhatsApp</label>
+        <input type="tel" id="dcWhats" name="whatsapp" placeholder="(00) 00000-0000" required>
+      </div>
+      <div>
+        <label for="dcTipoNegocio">Tipo de negócio:</label>
+        <input type="text" id="dcTipoNegocio" name="tipo_negocio" placeholder="Pet shop, clínica, distribuidora...">
+      </div>
+      <div>
+        <label for="dcEmpresa">Empresa:</label>
+        <input type="text" id="dcEmpresa" name="empresa" placeholder="Nome da empresa">
+      </div>
+      <div>
+        <label for="dcCnpj">CNPJ:</label>
+        <input type="text" id="dcCnpj" name="cnpj" placeholder="00.000.000/0000-00">
+      </div>
+      <div>
+        <label for="dcCidade">Cidade/Estado:</label>
+        <input type="text" id="dcCidade" name="cidade_estado" placeholder="Cidade / UF">
+      </div>
+      <div>
+        <label for="dcMensagem">Mensagem</label>
+        <textarea id="dcMensagem" name="mensagem" placeholder="Conte um pouco mais sobre o seu negócio"></textarea>
+      </div>
+      <div class="dc-reseller__submit">
+        <button type="submit" class="dc-btn dc-btn--primary">Quero revender Dona Chica</button>
+        <p class="dc-reseller__note">Fica tranquilo, a gente não vai ficar te mandando mensagem sem parar 💛</p>
+      </div>
+    </form>
+    <!--
+      OBS: troque o "action"/integração deste formulário pelo destino real
+      (Elementor Forms, RD Station, e-mail, etc.). Como está, ele apenas
+      abre o WhatsApp com um resumo dos dados preenchidos.
+    -->
+  </div>
+</section>
+
+<!-- ======================================================================
+     QUEM SOMOS
+     ASSET: foto -> c99cc02f-1b82-4290-a689-7f4961bf316d (png)
+     ASSET: ícones diferenciais -> 091524cb..., 3ef90188..., 39ba3e54..., e54b8dc6..., 97e50957..., b0cf02b5... (svg)
+     ====================================================================== -->
+<section class="dc-section dc-section--cream" id="quem-somos">
+  <div class="dc-container dc-about">
+    <div class="dc-about__grid">
+      <div class="dc-about__photo">
+        <img src="https://www.figma.com/api/mcp/asset/c99cc02f-1b82-4290-a689-7f4961bf316d.png" alt="Equipe e produção Dona Chica Cat Care">
+      </div>
+      <div>
+        <h2 class="dc-h2 dc-h2--dark">Quem Somos?</h2>
+        <p class="dc-about__lede">Unimos a expertise de uma grande indústria, com o carinho de uma marca feita para quem ama gatos.</p>
+        <div class="dc-about__body">
+          <p>A Dona Chica Cat Care nasceu do amor de quem vive rodeado de miados, ronrons e muito carinho felino. Criamos uma areia higiênica feita de mandioca e milho, 100% natural, biodegradável e sustentável, que une praticidade, segurança e respeito à natureza para quem acredita que gato é parte da família.</p>
+          <p>Por trás desse cuidado está a experiência do Grupo Amifec Alimentos, uma empresa brasileira com mais de 20 anos de tradição na transformação da mandioca e reconhecida pela qualidade de seus produtos no Brasil e no mercado internacional. É dessa estrutura, tecnologia e compromisso com a excelência que nasce a qualidade da Dona Chica.</p>
+          <p>Mais do que uma marca, a Dona Chica representa aquela pessoa que cuida com carinho. É a tia amorosa dos gatos: acolhe, protege, mima e faz do cuidado diário um gesto de afeto. Porque acreditamos que até o que ninguém vê, como a higiene da caixinha de areia, também é uma forma de demonstrar amor.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dc-differentiators">
+      <div class="dc-differentiators__item">
+        <img src="https://www.figma.com/api/mcp/asset/091524cb-2868-4ce1-927f-e6578abcf4d1.svg" alt="">
+        <p>Produção própria com alto padrão de qualidade</p>
+      </div>
+      <div class="dc-differentiators__item">
+        <div class="dc-differentiators__icon-stack">
+          <img src="https://www.figma.com/api/mcp/asset/3ef90188-3c12-4bf9-b7c6-4dc56048d8c8.svg" alt="">
+          <img src="https://www.figma.com/api/mcp/asset/39ba3e54-c56f-4f1f-9622-1ce2b2265bc2.svg" alt="">
+        </div>
+        <p>Ingredientes Naturais</p>
+      </div>
+      <div class="dc-differentiators__item">
+        <img src="https://www.figma.com/api/mcp/asset/e54b8dc6-013a-4a43-b352-b5b34820ce49.svg" alt="">
+        <p>Logística própria que garante abastecimento</p>
+      </div>
+      <div class="dc-differentiators__item">
+        <img src="https://www.figma.com/api/mcp/asset/97e50957-b8a2-457f-b2af-9e49add9c7cd.svg" alt="">
+        <p>Responsabilidade ambiental</p>
+      </div>
+      <div class="dc-differentiators__item">
+        <img src="https://www.figma.com/api/mcp/asset/b0cf02b5-1abf-40ca-be67-ba9e035c1f4b.svg" alt="">
+        <p>Produto Brasileiro</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     FAQ
+     ====================================================================== -->
+<section class="dc-section" id="faq">
+  <div class="dc-container">
+    <h2 class="dc-h2 dc-h2--dark">Perguntas frequentes</h2>
+    <div class="dc-faq__list">
+      <details class="dc-faq-item" open>
+        <summary>Posso descartar no vaso sanitário? <span class="dc-faq-plus">+</span></summary>
+        <div class="dc-faq-item__body">Apesar de ser uma areia totalmente natural, não indicamos o descarte em vasos sanitários, pois cada casa possui um sistema de encanamento diferente.</div>
+      </details>
+      <details class="dc-faq-item">
+        <summary>Tem perfume? <span class="dc-faq-plus">+</span></summary>
+        <div class="dc-faq-item__body">Não. O controle de odores acontece naturalmente pela alta absorção da areia.</div>
+      </details>
+      <details class="dc-faq-item">
+        <summary>Qual a diferença entre as areias? <span class="dc-faq-plus">+</span></summary>
+        <div class="dc-faq-item__body">A areia fina tem absorção mais rápida e indicamos para gatos sensíveis e filhotes. A areia grossa é ideal para casas com muitos gatinhos, e para maior rendimento.</div>
+      </details>
+      <details class="dc-faq-item">
+        <summary>Onde posso comprar? <span class="dc-faq-plus">+</span></summary>
+        <div class="dc-faq-item__body">Clique aqui e fale com nosso time para encontrar a areia mais próxima da sua casa: <a href="https://wa.me/5544999751717" target="_blank" rel="noopener" style="text-decoration:underline;">chamar no WhatsApp</a>.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     CTA FINAL
+     ASSET: foto grande -> 7a6d6fa5-61ce-49f9-8984-6fb0fbf2cc74 (png)
+     ASSET: coroa -> 4c44ab58-6538-4d7b-9575-816911c8d694 (svg)
+     ====================================================================== -->
+<section class="dc-section dc-final-cta">
+  <div class="dc-container dc-final-cta__grid">
+    <div class="dc-final-cta__photo">
+      <img class="dc-final-cta__main" src="https://www.figma.com/api/mcp/asset/7a6d6fa5-61ce-49f9-8984-6fb0fbf2cc74.png" alt="Gato cuidado com carinho, Dona Chica Cat Care">
+      <img class="dc-final-cta__crown" src="https://www.figma.com/api/mcp/asset/4c44ab58-6538-4d7b-9575-816911c8d694.svg" alt="" aria-hidden="true">
+    </div>
+    <div>
+      <p class="dc-final-cta__title">Cuidado natural, porque amar é da nossa natureza</p>
+      <div class="dc-final-cta__actions dc-btn-row">
+        <a class="dc-btn dc-btn--primary dc-btn--icon" href="https://wa.me/5544999751717?text=Quero%20experimentar%20a%20Dona%20Chica%20Cat%20Care" target="_blank" rel="noopener">
+          <img src="https://www.figma.com/api/mcp/asset/22559cdd-499a-4576-8cd4-d3e2028df787.svg" alt="" aria-hidden="true">
+          Quero experimentar dona chica cat care
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     FOOTER
+     ====================================================================== -->
+<footer class="dc-footer">
+  <div class="dc-container dc-footer__grid">
+    <div class="dc-footer__brand">
+      <span>dona chica cat care</span>
+      <p>Do grão à indústria, ingredientes que transformam. Uma marca do Grupo Amifec Alimentos.</p>
+      <div class="dc-footer__social" style="margin-top:20px;">
+        <a href="#" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        </a>
+        <a href="https://wa.me/5544999751717" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.7 14.9L2 22l5.3-1.4A10 10 0 1012 2zm5.7 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1.1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.7.8c.2.1.4.2.4.3.1.2.1.9-.1 1.6z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="dc-footer__contact">
+      <h5>Fale com a gente</h5>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .3 2 .7 2.9a2 2 0 01-.4 2.1L8.1 10a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.4 1.9.6 2.9.7a2 2 0 011.6 2z"/></svg>
+          <a href="tel:+5544999751717">+ 55 (44) 99975-1717</a>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 6l10 7 10-7"/></svg>
+          <a href="mailto:amifec@amifec.com.br">amifec@amifec.com.br</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="dc-footer__nav">
+      <h5>Navegação</h5>
+      <ul>
+        <li><a href="#beneficios">Benefícios</a></li>
+        <li><a href="#quiz">Ache sua areia</a></li>
+        <li><a href="#quem-somos">Quem somos</a></li>
+        <li><a href="#faq">Perguntas frequentes</a></li>
+        <li><a href="#revenda">Seja revendedor</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="dc-container dc-footer__bottom">
+    © 2026 Amifec. Todos os direitos reservados. Do grão à indústria, ingredientes que transformam.
+  </div>
+</footer>
+
+<a class="dc-whatsapp-float" href="https://wa.me/5544999751717?text=Quero%20experimentar%20a%20Dona%20Chica%20Cat%20Care" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 00-8.7 14.9L2 22l5.3-1.4A10 10 0 1012 2zm5.7 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5.1-4.5-.1-.2-1.2-1.6-1.2-3.1s.8-2.2 1.1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.2.1.3 0 .5-.1.2-.1.3-.3.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.7.8c.2.1.4.2.4.3.1.2.1.9-.1 1.6z"/></svg>
+</a>
+
+<script>
+(function () {
+  var root = document.getElementById('dc-lp');
+  if (!root) return;
+
+  // Mobile menu toggle
+  var burger = root.querySelector('#dcBurger');
+  var menu = root.querySelector('#dcMobileMenu');
+  if (burger && menu) {
+    burger.addEventListener('click', function () {
+      var open = menu.classList.toggle('is-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    menu.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        menu.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  // Quiz — reveal recommendation (demonstração estática, sem envio de dados)
+  var quizForm = root.querySelector('#dcQuizForm');
+  var quizResult = root.querySelector('#dcQuizResult');
+  if (quizForm && quizResult) {
+    quizForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      quizResult.classList.add('is-visible');
+      quizResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+
+  // Reseller form — abre WhatsApp com um resumo (troque pela sua integração real)
+  var resellerForm = root.querySelector('#dcResellerForm');
+  if (resellerForm) {
+    resellerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(resellerForm);
+      var lines = [
+        'Quero revender Dona Chica',
+        'Nome: ' + (data.get('nome') || ''),
+        'WhatsApp: ' + (data.get('whatsapp') || ''),
+        'Tipo de negócio: ' + (data.get('tipo_negocio') || ''),
+        'Empresa: ' + (data.get('empresa') || ''),
+        'CNPJ: ' + (data.get('cnpj') || ''),
+        'Cidade/Estado: ' + (data.get('cidade_estado') || ''),
+        'Mensagem: ' + (data.get('mensagem') || '')
+      ];
+      var text = encodeURIComponent(lines.join('\n'));
+      window.open('https://wa.me/5544999751717?text=' + text, '_blank');
+    });
+  }
+})();
+</script>
+
+</div>
+<!-- ==================== FIM DA LANDING PAGE — DONA CHICA CAT CARE ==================== -->
