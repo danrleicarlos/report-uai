@@ -542,6 +542,105 @@ h1,h2,h3,h4{ font-family: var(--f-display); font-weight: 700; line-height: 1.08;
 
 @media (max-width: 900px){ .sim-wrap{ grid-template-columns: 1fr; } }
 
+/* Calculadora interativa / gamificada ------------------------------------ */
+.sim-interactive{
+  margin-top: 48px;
+  background: var(--ink);
+  color: var(--text-light);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+}
+.sim-interactive::before{
+  content: "";
+  position: absolute; top: -180px; right: -180px;
+  width: 380px; height: 380px; border-radius: 50%;
+  border: 1px solid rgba(221,107,53,.22);
+  pointer-events: none;
+}
+.sim-interactive > *{ position: relative; z-index: 1; }
+
+.sim-interactive-head{
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+  margin-bottom: 34px;
+}
+.sim-interactive-head .h3{ color: var(--text-light); }
+
+.level-badge{
+  display: flex; align-items: center; gap: 12px;
+  background: var(--ink-soft); border: 1px solid var(--ink-line);
+  border-radius: 999px; padding: 10px 18px 10px 14px; white-space: nowrap;
+}
+.level-dots{ display: flex; gap: 4px; }
+.level-dots .dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--ink-line); }
+.level-dots .dot.on{ background: var(--orange); }
+.level-name{ font-family: var(--f-display); font-weight: 600; font-size: 13.5px; transition: opacity .15s ease; }
+
+.slider-block{ margin-bottom: 34px; }
+.slider-value-row{ display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+.slider-label{ font-family: var(--f-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-light-mute); }
+.slider-value{ font-family: var(--f-mono); font-size: 13px; color: var(--text-light-mute); }
+.slider-value b{ font-family: var(--f-display); font-size: 26px; color: var(--orange); font-weight: 700; transition: color .2s ease; }
+
+input.slider{
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 6px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--orange) 0%, var(--orange) var(--fill, 30%), var(--ink-line) var(--fill, 30%), var(--ink-line) 100%);
+  outline: none; margin: 0;
+}
+input.slider::-webkit-slider-thumb{
+  -webkit-appearance: none; appearance: none;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--cream); border: 4px solid var(--orange);
+  cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.35);
+  transition: transform .15s ease;
+}
+input.slider::-webkit-slider-thumb:hover{ transform: scale(1.1); }
+input.slider::-moz-range-thumb{
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--cream); border: 4px solid var(--orange);
+  cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.35);
+}
+input.slider::-moz-range-track{ height: 6px; border-radius: 999px; background: var(--ink-line); }
+input.slider::-moz-range-progress{ height: 6px; border-radius: 999px; background: var(--orange); }
+
+.slider-ticks{ display: flex; justify-content: space-between; margin-top: 10px; font-family: var(--f-mono); font-size: 11px; color: var(--text-light-mute); }
+
+.level-track{ height: 4px; border-radius: 999px; background: var(--ink-line); margin-top: 18px; overflow: hidden; }
+.level-fill{ height: 100%; width: 30%; background: linear-gradient(90deg, var(--orange-dk), var(--orange)); border-radius: 999px; transition: width .25s ease; }
+
+.sim-cost-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 34px; }
+.cost-tile{
+  background: var(--ink-soft); border: 1px solid var(--ink-line); border-radius: var(--radius-sm);
+  padding: 18px 20px; display: flex; flex-direction: column; gap: 8px;
+}
+.cost-tile span{ font-family: var(--f-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-light-mute); }
+.cost-tile b{ font-family: var(--f-display); font-size: 22px; font-weight: 700; }
+.cost-tile.is-total{ background: var(--orange); border-color: var(--orange); }
+.cost-tile.is-total span{ color: rgba(23,20,15,.65); }
+.cost-tile.is-total b{ color: var(--ink); }
+
+.sim-projection{ border-top: 1px dashed var(--ink-line); padding-top: 30px; margin-bottom: 30px; }
+.proj-grid{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px; }
+.proj-tile{
+  background: var(--ink-soft); border-radius: var(--radius-sm); padding: 16px 14px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.proj-tile span{ font-family: var(--f-mono); font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-light-mute); line-height: 1.3; }
+.proj-tile b{ font-family: var(--f-display); font-size: 18px; }
+.proj-tile.is-highlight{ background: rgba(221,107,53,.14); border: 1px solid rgba(221,107,53,.4); }
+.proj-tile.is-highlight b{ color: var(--orange); }
+.sim-interactive .sim-note{ color: var(--text-light-mute); max-width: 760px; }
+
+@media (max-width: 900px){
+  .sim-cost-grid{ grid-template-columns: 1fr; }
+  .proj-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px){
+  .sim-interactive{ padding: 30px 22px; }
+}
+
 /* ==========================================================================
    FAQ
    ========================================================================== */
@@ -750,7 +849,7 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
         <ul class="strike-list">
           <li>Mais um CRM</li>
           <li>Mais uma automação</li>
-          <li>Mais uma ferramenta de IA</li>
+          <li>Mais uma plataforma de disparo</li>
         </ul>
       </div>
 
@@ -918,7 +1017,7 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
   <div class="container">
     <div class="section-head reveal">
       <div class="eyebrow">O que você acompanha</div>
-      <h2 class="h2 serif" style="font-weight:600;">Você não precisa entender de IA, tokens ou integrações.<br>Precisa ver esse painel crescer.</h2>
+      <h2 class="h2 serif" style="font-weight:600;">Você não precisa entender o que roda por trás.<br>Precisa ver esse painel crescer.</h2>
     </div>
 
     <div class="kpi-strip reveal">
@@ -942,7 +1041,7 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
     <div class="section-head center reveal" style="margin-left:auto;margin-right:auto;">
       <div class="eyebrow">Planos</div>
       <h2 class="h2">Escolha o tamanho da sua operação de recuperação</h2>
-      <p class="lede" style="margin:16px auto 0;">Implantação única do Método 5R + mensalidade da operação. O consumo de WhatsApp oficial e Inteligência Artificial é cobrado conforme o uso — com total transparência (veja o simulador mais abaixo).</p>
+      <p class="lede" style="margin:16px auto 0;">Implantação única do Método 5R + mensalidade da operação. O consumo de WhatsApp oficial e do motor de conversas é cobrado conforme o uso — com total transparência (veja o simulador mais abaixo).</p>
     </div>
 
     <div class="pricing-grid reveal">
@@ -962,7 +1061,7 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Alertas para vendedores</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Agendamento automático de reuniões</li>
         </ul>
-        <div class="plan-consumo"><b>Consumos cobrados conforme uso</b>API Oficial do WhatsApp · Inteligência Artificial</div>
+        <div class="plan-consumo"><b>Consumos cobrados conforme uso</b>API Oficial do WhatsApp · Motor de Conversas</div>
         <a href="https://wa.me/[SEU-WHATSAPP]?text=Quero%20o%20plano%20Recupera%C3%A7%C3%A3o%20Inicial" class="btn btn-ghost-cream btn-block">Quero esse plano</a>
       </div>
 
@@ -984,7 +1083,7 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Agendamento automático de reuniões</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Suporte prioritário</li>
         </ul>
-        <div class="plan-consumo"><b>Consumos cobrados conforme uso</b>API Oficial do WhatsApp · Inteligência Artificial</div>
+        <div class="plan-consumo"><b>Consumos cobrados conforme uso</b>API Oficial do WhatsApp · Motor de Conversas</div>
         <a href="https://wa.me/[SEU-WHATSAPP]?text=Quero%20o%20plano%20Recupera%C3%A7%C3%A3o%20Pro" class="btn btn-primary btn-block">Quero esse plano</a>
       </div>
 
@@ -1005,7 +1104,7 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Suporte prioritário</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>Evolução contínua da estratégia de recuperação</li>
         </ul>
-        <div class="plan-consumo"><b>Consumos cobrados conforme uso</b>API Oficial do WhatsApp · Inteligência Artificial</div>
+        <div class="plan-consumo"><b>Consumos cobrados conforme uso</b>API Oficial do WhatsApp · Motor de Conversas</div>
         <a href="https://wa.me/[SEU-WHATSAPP]?text=Quero%20o%20plano%20Recupera%C3%A7%C3%A3o%20Total" class="btn btn-ghost-cream btn-block">Quero esse plano</a>
       </div>
     </div>
@@ -1042,8 +1141,8 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
           <p>Cobrança conforme as janelas de conversa oficiais da Meta.</p>
         </div>
         <div class="consumo-card">
-          <h5>Inteligência Artificial</h5>
-          <p>Cobrança conforme o consumo de tokens usado nas conversas.</p>
+          <h5>Motor de Conversas</h5>
+          <p>Cobrança conforme o volume de conversas processadas na base.</p>
         </div>
       </div>
     </div>
@@ -1093,15 +1192,15 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
     <div class="section-head reveal">
       <div class="eyebrow">Transparência total</div>
       <h2 class="h2">Simulador de investimento operacional</h2>
-      <p class="lede" style="margin-top:16px;">Além da implantação e da mensalidade, o único custo variável é o consumo de WhatsApp oficial e IA — cobrado conforme o volume de contatos ativados. Veja como isso se traduz na prática.</p>
+      <p class="lede" style="margin-top:16px;">Além da implantação e da mensalidade, o único custo variável é o consumo de WhatsApp oficial e do motor de conversas — cobrado conforme o volume de contatos ativados. Veja como isso se traduz na prática.</p>
     </div>
 
     <div class="sim-wrap reveal">
       <div class="sim-formula">
         <h5>Premissas utilizadas</h5>
         <div class="sim-formula-row"><span>WhatsApp Oficial (por contato abordado)</span><b>R$ 0,40</b></div>
-        <div class="sim-formula-row"><span>Execuções médias de IA por lead que responde</span><b>5x</b></div>
-        <div class="sim-formula-row"><span>Custo por execução de IA</span><b>R$ 0,066</b></div>
+        <div class="sim-formula-row"><span>Interações médias do motor por lead que responde</span><b>5x</b></div>
+        <div class="sim-formula-row"><span>Custo por interação do motor</span><b>R$ 0,066</b></div>
         <div class="sim-formula-row"><span>Taxa média de resposta da base</span><b>20%</b></div>
         <div class="sim-formula-total">
           <span>Custo operacional médio / contato</span>
@@ -1113,7 +1212,7 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
         <div class="table-scroll">
           <table class="sim-table">
             <thead>
-              <tr><th>Base de contatos</th><th>WhatsApp</th><th>IA</th><th>Custo operacional</th></tr>
+              <tr><th>Base de contatos</th><th>WhatsApp</th><th>Motor</th><th>Custo operacional</th></tr>
             </thead>
             <tbody>
               <tr><td>500 contatos</td><td>R$ 200,00</td><td>R$ 33,00</td><td class="total">R$ 233,00</td></tr>
@@ -1125,6 +1224,63 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
         </div>
         <p class="sim-note">Valores estimados considerando uma taxa média de resposta de 20%. O consumo pode variar conforme o comportamento da base e o volume de interações.</p>
       </div>
+    </div>
+
+    <!-- Calculadora interativa / gamificada -->
+    <div class="sim-interactive reveal">
+      <div class="sim-interactive-head">
+        <div>
+          <div class="eyebrow" style="margin-bottom:10px;">Calculadora ao vivo</div>
+          <h3 class="h3">Arraste e veja o custo da sua própria base</h3>
+        </div>
+        <div class="level-badge" id="levelBadge">
+          <span class="level-dots" id="levelDots">
+            <i class="dot on"></i><i class="dot"></i><i class="dot"></i>
+          </span>
+          <span class="level-name" id="levelName">Recuperação Inicial</span>
+        </div>
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-value-row">
+          <span class="slider-label">Tamanho da base</span>
+          <span class="slider-value"><b id="sliderContacts">5.000</b> contatos</span>
+        </div>
+        <input type="range" id="baseSlider" class="slider" min="300" max="20000" step="100" value="5000" aria-label="Tamanho da base de contatos">
+        <div class="slider-ticks"><span>300</span><span>5.000</span><span>10.000</span><span>20.000</span></div>
+        <div class="level-track"><div class="level-fill" id="levelFill"></div></div>
+      </div>
+
+      <div class="sim-cost-grid">
+        <div class="cost-tile">
+          <span>WhatsApp</span>
+          <b id="costWhats">R$ 2.000,00</b>
+        </div>
+        <div class="cost-tile">
+          <span>Motor de Conversas</span>
+          <b id="costMotor">R$ 330,00</b>
+        </div>
+        <div class="cost-tile is-total">
+          <span>Custo operacional / mês</span>
+          <b id="costTotal">R$ 2.330,00</b>
+        </div>
+      </div>
+
+      <div class="sim-projection">
+        <div class="eyebrow" style="margin-bottom:16px;">Projeção estimada com o Método 5R rodando nessa base</div>
+        <div class="proj-grid">
+          <div class="proj-tile"><span>Conversas iniciadas</span><b id="projConversas">4.100</b></div>
+          <div class="proj-tile"><span>Responderam</span><b id="projRespostas">1.000</b></div>
+          <div class="proj-tile"><span>Reuniões agendadas</span><b id="projReunioes">310</b></div>
+          <div class="proj-tile"><span>Vendas estimadas</span><b id="projVendas">92</b></div>
+          <div class="proj-tile is-highlight"><span>Receita recuperada</span><b id="projReceita">R$ 184.000,00</b></div>
+        </div>
+        <p class="sim-note">Projeção educada com base nas taxas médias observadas em campanhas semelhantes (resposta 20%, agendamento 45% dos requalificados, fechamento 30% das reuniões, ticket médio de R$ 2.000). Resultados variam conforme segmento, ticket e processo comercial.</p>
+      </div>
+
+      <a href="#planos" class="btn btn-primary" id="planCtaBtn"><span>Ver plano recomendado: <b id="planCtaName">Recuperação Inicial</b></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -1159,10 +1315,10 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
         <div class="faq-a"><p>É um ciclo de reativação aplicado sobre um segmento específico da sua base — com abordagem, cadência e critérios de qualificação definidos para aquele grupo de contatos.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">O custo de WhatsApp e IA está incluso na mensalidade?
+        <button class="faq-q">O custo de WhatsApp e do motor de conversas está incluso na mensalidade?
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
         </button>
-        <div class="faq-a"><p>Não. A mensalidade cobre a operação, o painel e o suporte. WhatsApp e IA são consumos variáveis, cobrados conforme o uso — veja o simulador de investimento acima para estimar o seu.</p></div>
+        <div class="faq-a"><p>Não. A mensalidade cobre a operação, o painel e o suporte. WhatsApp e o motor de conversas são consumos variáveis, cobrados conforme o uso — veja a calculadora ao vivo acima para estimar o seu.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">Minha base tem mais de 10.000 contatos. E agora?
@@ -1230,7 +1386,6 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
     </div>
     <div class="footer-bottom">
       <span>© 2026 Método 5R. Todos os direitos reservados.</span>
-      <span>Operado por [SUA-EMPRESA]</span>
     </div>
   </div>
 </footer>
@@ -1273,6 +1428,82 @@ footer{ background: var(--ink); color: var(--text-light-mute); padding: 56px 0 2
       }
     });
   });
+
+  // Calculadora interativa da base (slider gamificado)
+  var slider = document.getElementById('baseSlider');
+  if (slider) {
+    var elContacts   = document.getElementById('sliderContacts');
+    var elCostWhats  = document.getElementById('costWhats');
+    var elCostMotor  = document.getElementById('costMotor');
+    var elCostTotal  = document.getElementById('costTotal');
+    var elLevelName  = document.getElementById('levelName');
+    var elLevelFill  = document.getElementById('levelFill');
+    var elLevelDots  = document.querySelectorAll('#levelDots .dot');
+    var elPlanCtaName = document.getElementById('planCtaName');
+    var elProjConversas = document.getElementById('projConversas');
+    var elProjRespostas = document.getElementById('projRespostas');
+    var elProjReunioes  = document.getElementById('projReunioes');
+    var elProjVendas    = document.getElementById('projVendas');
+    var elProjReceita   = document.getElementById('projReceita');
+
+    var WHATS_POR_CONTATO = 0.40;
+    var MOTOR_POR_CONTATO = 0.066; // 20% resposta x 5 interações x R$0,066
+    var TICKET_MEDIO = 2000;
+
+    function brl(n){
+      return 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function intBr(n){ return Math.round(n).toLocaleString('pt-BR'); }
+
+    function tierFor(v){
+      var min = parseInt(slider.min, 10), max = parseInt(slider.max, 10);
+      if (v <= 5000) {
+        return { name: 'Recuperação Inicial', dots: 1, pct: ((v - min) / (5000 - min)) * 33 };
+      }
+      if (v <= 10000) {
+        return { name: 'Recuperação Pro', dots: 2, pct: 33 + ((v - 5000) / 5000) * 33 };
+      }
+      return { name: 'Recuperação Total', dots: 3, pct: 66 + ((v - 10000) / (max - 10000)) * 34 };
+    }
+
+    function update(){
+      var v = parseInt(slider.value, 10);
+      var fillPct = ((v - slider.min) / (slider.max - slider.min)) * 100;
+      slider.style.setProperty('--fill', fillPct + '%');
+
+      elContacts.textContent = intBr(v);
+
+      var whats = v * WHATS_POR_CONTATO;
+      var motor = v * MOTOR_POR_CONTATO;
+      var total = whats + motor;
+      elCostWhats.textContent = brl(whats);
+      elCostMotor.textContent = brl(motor);
+      elCostTotal.textContent = brl(total);
+
+      var tier = tierFor(v);
+      elLevelName.textContent = tier.name;
+      elLevelFill.style.width = Math.min(Math.max(tier.pct, 4), 100) + '%';
+      elLevelDots.forEach(function(dot, i){ dot.classList.toggle('on', i < tier.dots); });
+      if (elPlanCtaName) elPlanCtaName.textContent = tier.name;
+
+      // Projeção estimada (mesmas taxas do funil de exemplo do topo da página)
+      var conversas = v * 0.82;
+      var respostas = v * 0.20;
+      var requalificados = respostas * 0.69;
+      var reunioes = requalificados * 0.45;
+      var vendas = reunioes * 0.30;
+      var receita = vendas * TICKET_MEDIO;
+
+      elProjConversas.textContent = intBr(conversas);
+      elProjRespostas.textContent = intBr(respostas);
+      elProjReunioes.textContent = intBr(reunioes);
+      elProjVendas.textContent = intBr(vendas);
+      elProjReceita.textContent = brl(receita);
+    }
+
+    slider.addEventListener('input', update);
+    update();
+  }
 
   // Reveal on scroll (progressivo: sem este script, tudo continua visível)
   if ('IntersectionObserver' in window) {
