@@ -6,6 +6,9 @@
  * `shortcode_form_exper_academy` (mesmo padrão de config via atributos,
  * envio por webhook + e-mail e redirecionamento ao final).
  *
+ * Ao marcar "Outros:" (segmento) ou "outros" (função), um campo de texto
+ * aparece para a pessoa detalhar a resposta (segmento_outro / funcao_outro).
+ *
  * Este arquivo é um SNIPPET para colar dentro do functions.php do tema
  * (hello-elementor-child). Ele não é executado neste repositório — o
  * repositório report-uai é um projeto Next.js separado do site WordPress
@@ -171,6 +174,19 @@ function shortcode_form_grupo_vip($atts)
             display: none;
         }
 
+        .campo-outro {
+            display: none;
+            width: calc(100% - 36px);
+            margin: -4px 0 14px 36px;
+            border: 2px solid #d4d91e;
+            border-radius: 12px;
+            padding: 8px 12px;
+            outline: none;
+            font-size: 15px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
         @media (max-width: 767px) {
             .form-row {
                 flex-direction: column;
@@ -229,9 +245,14 @@ function shortcode_form_grupo_vip($atts)
                             <input type="checkbox" name="segmento[]" value="<?php echo esc_attr($s); ?>">
                             <?php echo esc_html($s); ?>
                         </label>
+                        <?php if ($s === 'Outros:'): ?>
+                            <input type="text" name="segmento_outro" id="segmento-outro-input" class="campo-outro"
+                                placeholder="Qual?">
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
                 <div class="grupo-erro" id="erro-segmento-vip">Selecione pelo menos uma opção.</div>
+                <div class="grupo-erro" id="erro-segmento-outro-vip">Preencha o campo "Outros".</div>
 
                 <p class="pergunta">Qual sua função?</p>
                 <div class="opcoes-container">
@@ -250,9 +271,14 @@ function shortcode_form_grupo_vip($atts)
                             <input type="checkbox" name="funcao[]" value="<?php echo esc_attr($f); ?>">
                             <?php echo esc_html($f); ?>
                         </label>
+                        <?php if ($f === 'outros'): ?>
+                            <input type="text" name="funcao_outro" id="funcao-outro-input" class="campo-outro"
+                                placeholder="Qual?">
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
                 <div class="grupo-erro" id="erro-funcao-vip">Selecione pelo menos uma opção.</div>
+                <div class="grupo-erro" id="erro-funcao-outro-vip">Preencha o campo "Outros".</div>
 
                 <button type="submit" name="enviar_grupo_vip" class="btn-exper">ENTRA GRUPO VIP</button>
             </div>
@@ -271,11 +297,36 @@ function shortcode_form_grupo_vip($atts)
                 });
             }
 
+            // Mostra/esconde o campo de texto quando "Outros" é marcado/desmarcado
+            function setupCampoOutro(groupSelector, valorOutro, inputId) {
+                var checkboxes = document.querySelectorAll(groupSelector);
+                var input = document.getElementById(inputId);
+                if (!input) return;
+
+                Array.prototype.forEach.call(checkboxes, function (cb) {
+                    if (cb.value === valorOutro) {
+                        cb.addEventListener('change', function () {
+                            input.style.display = cb.checked ? 'block' : 'none';
+                            if (!cb.checked) {
+                                input.value = '';
+                            }
+                        });
+                    }
+                });
+            }
+
+            setupCampoOutro('input[name="segmento[]"]', 'Outros:', 'segmento-outro-input');
+            setupCampoOutro('input[name="funcao[]"]', 'outros', 'funcao-outro-input');
+
             var form = document.getElementById('grupoVipForm');
             if (form) {
                 form.addEventListener('submit', function (e) {
                     var segmento = document.querySelectorAll('input[name="segmento[]"]');
                     var funcao = document.querySelectorAll('input[name="funcao[]"]');
+                    var segmentoOutroCb = document.querySelector('input[name="segmento[]"][value="Outros:"]');
+                    var funcaoOutroCb = document.querySelector('input[name="funcao[]"][value="outros"]');
+                    var segmentoOutroInput = document.getElementById('segmento-outro-input');
+                    var funcaoOutroInput = document.getElementById('funcao-outro-input');
 
                     var segmentoMarcado = Array.prototype.some.call(segmento, function (el) {
                         return el.checked;
@@ -285,10 +336,18 @@ function shortcode_form_grupo_vip($atts)
                         return el.checked;
                     });
 
+                    var segmentoOutroOk = !segmentoOutroCb || !segmentoOutroCb.checked
+                        || (segmentoOutroInput && segmentoOutroInput.value.trim() !== '');
+
+                    var funcaoOutroOk = !funcaoOutroCb || !funcaoOutroCb.checked
+                        || (funcaoOutroInput && funcaoOutroInput.value.trim() !== '');
+
                     document.getElementById('erro-segmento-vip').style.display = segmentoMarcado ? 'none' : 'block';
                     document.getElementById('erro-funcao-vip').style.display = funcaoMarcado ? 'none' : 'block';
+                    document.getElementById('erro-segmento-outro-vip').style.display = segmentoOutroOk ? 'none' : 'block';
+                    document.getElementById('erro-funcao-outro-vip').style.display = funcaoOutroOk ? 'none' : 'block';
 
-                    if (!segmentoMarcado || !funcaoMarcado) {
+                    if (!segmentoMarcado || !funcaoMarcado || !segmentoOutroOk || !funcaoOutroOk) {
                         e.preventDefault();
                     }
                 });

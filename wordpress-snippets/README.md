@@ -9,7 +9,8 @@ gerar/versionar o código antes de você copiar para o site.
   da estrutura dos shortcodes `formulario_exper_academy` / `formulario_xtalks`
   já existentes no seu `functions.php`, com as perguntas do formulário
   "Grupo VIP" (nome, celular, email, instagram do negócio, segmento, função)
-  e botão "ENTRA GRUPO VIP".
+  e botão "ENTRA GRUPO VIP". Ao marcar "Outros:" (segmento) ou "outros"
+  (função), um campo de texto aparece para detalhar a resposta.
 
 ## Como usar
 
