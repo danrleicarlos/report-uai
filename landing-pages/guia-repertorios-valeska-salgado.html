@@ -56,11 +56,21 @@
   section.dark .kicker{color:var(--ember);}
   section.dark .kicker::before{background:var(--ember);}
 
+  /* ============ SCROLL PROGRESS ============ */
+  .vps .scrollbar{
+    position:fixed;top:0;left:0;height:3px;width:0%;
+    background:var(--ember);z-index:80;
+    box-shadow:0 0 10px rgba(238,125,31,.7);
+  }
+
   /* ============ NAV ============ */
   .vps .nav{
     background:var(--ink);
     padding:14px 0;
+    position:sticky;top:0;z-index:60;
+    transition:box-shadow .25s ease, padding .25s ease;
   }
+  .vps .nav.is-scrolled{padding:10px 0;box-shadow:0 8px 24px -12px rgba(0,0,0,.5);}
   .vps .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;}
   .vps .nav__brand{
     font-family:'Fraunces',serif;font-weight:700;font-size:18px;color:var(--paper);
@@ -78,6 +88,7 @@
 
   /* ============ BUTTONS ============ */
   .vps .btn{
+    position:relative;overflow:hidden;
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
     font-family:'Manrope',sans-serif;font-weight:800;font-size:16.5px;
     padding:17px 30px;border-radius:12px;text-decoration:none;
@@ -86,13 +97,33 @@
     transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
     border:none;cursor:pointer;
   }
+  .vps .btn::after{
+    content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;
+    background:linear-gradient(115deg,transparent,rgba(255,255,255,.55),transparent);
+    transform:skewX(-18deg);transition:left .65s ease;
+  }
+  .vps .btn:hover::after{left:130%;}
   .vps .btn:hover{background:#ff9138;transform:translateY(-2px);box-shadow:0 18px 36px -12px rgba(238,125,31,.6);}
+  .vps .btn:active{transform:translateY(0) scale(.98);}
   .vps .btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px;}
   .vps .btn--lg{padding:20px 38px;font-size:18.5px;}
   .vps .btn__sub{
-    display:block;margin-top:12px;font-size:13px;color:var(--ink-soft);font-weight:600;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin-top:12px;font-size:13px;color:var(--ink-soft);font-weight:600;
   }
+  .vps .hero__ctas + .btn__sub{justify-content:flex-start;}
   section.dark .btn__sub{color:var(--cream-ink);opacity:.85;}
+  .vps .pulse-dot{
+    position:relative;width:7px;height:7px;border-radius:50%;background:var(--ember);flex-shrink:0;
+  }
+  .vps .pulse-dot::after{
+    content:"";position:absolute;inset:-5px;border-radius:50%;
+    border:1.5px solid var(--ember);animation:pulseRing 1.8s ease-out infinite;
+  }
+  @keyframes pulseRing{
+    0%{transform:scale(.5);opacity:.9;}
+    100%{transform:scale(1.9);opacity:0;}
+  }
 
   /* ============ DIAGONAL SEAM ============ */
   .vps .seam{
@@ -136,15 +167,21 @@
     border:1px solid rgba(247,242,232,.14);
     aspect-ratio:4/5;
   }
-  .vps .hero__frame img{width:100%;height:100%;object-fit:cover;}
+  .vps .hero__frame img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,.84,.44,1);}
+  .vps .hero__frame:hover img{transform:scale(1.05);}
   .vps .hero__badge{
     position:absolute;left:-18px;bottom:26px;
     background:var(--paper-2);color:var(--ink);
     border-radius:14px;padding:14px 18px;box-shadow:var(--shadow);
     max-width:220px;font-size:13px;font-weight:600;
     display:flex;gap:10px;align-items:flex-start;
+    animation:floatBadge 4s ease-in-out infinite;
   }
   .vps .hero__badge b{display:block;font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--ember-deep);}
+  @keyframes floatBadge{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-8px);}
+  }
 
   /* ============ PAIN ============ */
   .vps .pain{padding:96px 0 84px;background:var(--paper);}
@@ -155,6 +192,11 @@
   .vps .pain__card{
     background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);
     padding:26px 26px 24px;
+    transition:transform .3s cubic-bezier(.16,.84,.44,1), box-shadow .3s ease, border-color .3s ease;
+  }
+  .vps .pain__card:hover{
+    transform:translateY(-6px);border-color:var(--ember);
+    box-shadow:0 22px 40px -22px rgba(19,35,56,.35);
   }
   .vps .pain__card h3{font-size:19px;margin-bottom:10px;color:var(--ink);}
   .vps .pain__card p{font-size:15px;color:var(--ink-soft);margin:0;}
@@ -162,8 +204,9 @@
     display:inline-flex;align-items:center;justify-content:center;
     width:34px;height:34px;border-radius:9px;background:var(--ember-light);
     color:var(--ember-deep);font-family:'Fraunces',serif;font-weight:700;font-size:16px;
-    margin-bottom:14px;
+    margin-bottom:14px;transition:transform .3s cubic-bezier(.34,1.56,.64,1), background .3s ease, color .3s ease;
   }
+  .vps .pain__card:hover .pain__mark{transform:scale(1.12) rotate(-4deg);background:var(--ember);color:#fff;}
 
   /* ============ METHOD ============ */
   .vps .method{background:var(--paper-2);padding:92px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
@@ -176,11 +219,18 @@
   .vps .step{
     background:var(--paper);border-radius:var(--radius);padding:24px 20px;
     border:1px solid var(--line);
+    transition:transform .3s cubic-bezier(.16,.84,.44,1), box-shadow .3s ease, border-color .3s ease;
+  }
+  .vps .step:hover{
+    transform:translateY(-6px);border-color:var(--ember);
+    box-shadow:0 22px 40px -22px rgba(19,35,56,.3);
   }
   .vps .step__n{
     font-family:'Fraunces',serif;font-weight:600;font-size:34px;color:var(--ember);
     line-height:1;margin-bottom:12px;font-variant-numeric:tabular-nums;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1);
   }
+  .vps .step:hover .step__n{transform:scale(1.14);}
   .vps .step h3{font-size:16px;font-weight:800;font-family:'Manrope',sans-serif;margin-bottom:8px;color:var(--ink);}
   .vps .step p{font-size:14px;color:var(--ink-soft);margin:0;}
   .vps .proof{
@@ -203,8 +253,10 @@
   .vps .stack__head p{margin-top:16px;color:var(--ink-soft);font-size:17px;}
   .vps .stack__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 28px;}
   .vps .stack__item{
-    display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);
+    display:flex;gap:16px;padding:18px 4px;border-bottom:1px solid var(--line);
+    border-radius:10px;transition:background .25s ease, padding-left .25s ease;
   }
+  .vps .stack__item:hover{background:var(--ember-light);padding-left:14px;}
   .vps .stack__num{
     font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--ember-deep);
     flex-shrink:0;width:26px;padding-top:2px;
@@ -220,7 +272,8 @@
     border-radius:16px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/3;
     border:1px solid var(--line);
   }
-  .vps .author__photo img{width:100%;height:100%;object-fit:cover;}
+  .vps .author__photo img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,.84,.44,1);}
+  .vps .author__photo:hover img{transform:scale(1.05);}
   .vps .author__cred{font-size:12.5px;color:var(--ink-soft);margin-top:10px;letter-spacing:.02em;}
   .vps .author h2{font-size:clamp(26px,3.2vw,36px);margin:16px 0 18px;}
   .vps .author p{color:var(--ink-soft);font-size:16.5px;margin-bottom:14px;}
@@ -257,7 +310,8 @@
     border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -20px rgba(0,0,0,.55);
     aspect-ratio:4/3;border:1px solid rgba(247,242,232,.16);
   }
-  .vps .who__frame img{width:100%;height:100%;object-fit:cover;}
+  .vps .who__frame img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,.84,.44,1);}
+  .vps .who__frame:hover img{transform:scale(1.05);}
 
   /* ============ OFFER ============ */
   .vps .offer{padding:100px 0;background:var(--paper);}
@@ -267,7 +321,9 @@
   .vps .offer__card{
     margin-top:44px;background:var(--ink);color:var(--paper);border-radius:24px;
     display:grid;grid-template-columns:1.15fr .85fr;overflow:hidden;box-shadow:var(--shadow);
+    transition:transform .35s cubic-bezier(.16,.84,.44,1), box-shadow .35s ease;
   }
+  .vps .offer__card:hover{transform:translateY(-4px);box-shadow:0 30px 60px -20px rgba(19,35,56,.5);}
   .vps .offer__left{padding:44px 46px;border-right:1px solid rgba(247,242,232,.14);}
   .vps .offer__left h3{font-family:'Manrope',sans-serif;font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);margin-bottom:18px;}
   .vps .offer__list{display:flex;flex-direction:column;gap:13px;}
@@ -282,6 +338,12 @@
   .vps .offer__price{
     font-family:'Fraunces',serif;font-weight:700;font-size:52px;color:#fff;
     line-height:1;margin:6px 0 4px;font-variant-numeric:tabular-nums;
+    text-shadow:0 0 0 rgba(238,125,31,0);
+    animation:priceGlow 2.6s ease-in-out infinite;
+  }
+  @keyframes priceGlow{
+    0%,100%{text-shadow:0 0 0 rgba(238,125,31,0);}
+    50%{text-shadow:0 0 26px rgba(238,125,31,.55);}
   }
   .vps .offer__price small{font-size:16px;font-weight:500;color:var(--cream-ink);}
   .vps .offer__cash{font-size:13.5px;color:var(--ember);font-weight:700;margin-bottom:22px;}
@@ -323,6 +385,30 @@
   .vps footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;}
   .vps footer p{margin:0;font-size:12.5px;color:var(--cream-ink);opacity:.7;}
 
+  /* ============ REVEAL ON SCROLL ============ */
+  .vps .reveal{
+    opacity:0;transform:translateY(26px);
+    transition:opacity .7s cubic-bezier(.16,.84,.44,1), transform .7s cubic-bezier(.16,.84,.44,1);
+  }
+  .vps .reveal.is-visible{opacity:1;transform:none;}
+
+  /* ============ STICKY OFFER BAR (mobile-first, shows on all sizes) ============ */
+  .vps .stickybar{
+    position:fixed;left:0;right:0;bottom:0;z-index:70;
+    background:var(--ink);color:var(--paper);
+    border-top:1px solid rgba(247,242,232,.16);
+    padding:12px 20px;
+    display:flex;align-items:center;justify-content:space-between;gap:18px;
+    transform:translateY(120%);
+    transition:transform .4s cubic-bezier(.16,.84,.44,1);
+    box-shadow:0 -16px 34px -18px rgba(0,0,0,.55);
+  }
+  .vps .stickybar.is-visible{transform:translateY(0);}
+  .vps .stickybar__price{display:flex;flex-direction:column;line-height:1.15;}
+  .vps .stickybar__price s{font-size:12px;color:var(--cream-ink);opacity:.7;}
+  .vps .stickybar__price b{font-family:'Fraunces',serif;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;}
+  .vps .stickybar .btn{padding:12px 22px;font-size:14.5px;white-space:nowrap;}
+
   /* ============ RESPONSIVE ============ */
   @media (max-width:920px){
     .vps .hero .wrap,.vps .author .wrap,.vps .who .wrap,.vps .offer__card{grid-template-columns:1fr;}
@@ -341,18 +427,26 @@
     .vps .hero__ctas{flex-direction:column;align-items:stretch;}
     .vps .hero__ctas .btn{width:100%;}
     .vps .trustbar{gap:20px;}
+    .vps .stickybar__price b{font-size:18px;}
+    .vps footer{padding-bottom:84px;}
   }
 
   /* ============ MOTION ============ */
   @media (prefers-reduced-motion:reduce){
-    .vps .btn,.vps .nav__cta{transition:none;}
+    .vps *{animation-duration:.001ms !important;animation-iteration-count:1 !important;}
+    .vps .btn,.vps .nav__cta,.vps .reveal,.vps .stickybar,
+    .vps .pain__card,.vps .step,.vps .stack__item,.vps .offer__card,
+    .vps .hero__frame img,.vps .author__photo img,.vps .who__frame img{transition:none;}
+    .vps .reveal{opacity:1;transform:none;}
   }
 </style>
 
 <div class="vps">
 
+  <div class="scrollbar" id="vpsScrollbar"></div>
+
   <!-- ============ NAV ============ -->
-  <div class="nav">
+  <div class="nav" id="vpsNav">
     <div class="wrap">
       <span class="nav__brand">Redação <em>Valeska Salgado</em></span>
       <a class="nav__cta" href="#oferta">Garantir meu guia</a>
@@ -364,20 +458,20 @@
     <div class="wrap">
       <div class="hero__copy">
         <span class="kicker hero__eyebrow">Redação · Enem 2026</span>
-        <h1>Redação não é talento. É <span class="accent">estrutura</span> — e estrutura se ensina.</h1>
-        <p class="lede">O <strong>Guia de Repertórios Destrava Nota Mil</strong> entrega o argumento pronto: de onde vem a falha do Estado, por que a sociedade não cobra, e qual obra abre a sua redação. Chega de decorar frase solta — comece a escrever como quem entende o país sobre o qual está escrevendo.</p>
+        <h1>Redação não é talento. É <span class="accent">estrutura</span>, e estrutura se ensina.</h1>
+        <p class="lede">O <strong>Guia de Repertórios Destrava Nota Mil</strong> entrega o argumento pronto: de onde vem a falha do Estado, por que a sociedade não cobra, e qual obra abre a sua redação. Chega de decorar frase solta. Comece a escrever como quem entende o país sobre o qual está escrevendo.</p>
         <div class="hero__ctas">
           <a class="btn btn--lg" href="#oferta">Quero o meu guia agora</a>
         </div>
-        <span class="btn__sub">Acesso imediato após a compra · Ambiente seguro Hotmart</span>
+        <span class="btn__sub"><span class="pulse-dot"></span>Acesso imediato após a compra · Ambiente seguro Hotmart</span>
 
         <div class="trustbar">
           <div class="trustbar__item">
-            <span class="trustbar__num">25</span>
+            <span class="trustbar__num" data-count="25">25</span>
             <span class="trustbar__label">anos de sala de aula, em escola pública e particular</span>
           </div>
           <div class="trustbar__item">
-            <span class="trustbar__num">2020</span>
+            <span class="trustbar__num" data-count="2020">2020</span>
             <span class="trustbar__label">ano em que a professora começou a fazer o Enem como candidata, todo ano</span>
           </div>
           <div class="trustbar__item">
@@ -402,31 +496,31 @@
   <!-- ============ PAIN ============ -->
   <section class="pain">
     <div class="wrap">
-      <div class="pain__head measure">
+      <div class="pain__head measure reveal">
         <span class="kicker">Se isso já aconteceu com você</span>
         <h2>Você decorou a citação certa. E mesmo assim, travou.</h2>
-        <p>Não é falta de repertório. É repertório usado do jeito errado — e isso tem nome, e tem conserto.</p>
+        <p>Repertório usado do jeito errado tem nome, e tem conserto.</p>
       </div>
       <div class="pain__grid">
-        <div class="pain__card">
+        <div class="pain__card reveal">
           <span class="pain__mark">01</span>
           <h3>A frase pronta não encaixou</h3>
-          <p>Você decorou uma citação de filósofo no cursinho. Na prova, o tema mudou — e a frase ficou colada, sem conversar com o texto.</p>
+          <p>Você decorou uma citação de filósofo no cursinho. Na prova, o tema mudou, e a frase ficou colada, sem conversar com o texto.</p>
         </div>
-        <div class="pain__card">
+        <div class="pain__card reveal">
           <span class="pain__mark">02</span>
           <h3>O corretor reconheceu o molde</h3>
           <p>Repertório repetido não passa despercebido para quem corrige centenas de redações. O que deveria mostrar repertório, mostra cursinho.</p>
         </div>
-        <div class="pain__card">
+        <div class="pain__card reveal">
           <span class="pain__mark">03</span>
           <h3>Você não sabe por que trava no 880</h3>
-          <p>Repertório usado como enfeite não sustenta o parágrafo — e enfeite não pontua na Competência II. O problema nunca foi a citação: foi o uso dela.</p>
+          <p>Repertório usado como enfeite não sustenta o parágrafo, e enfeite não pontua na Competência II. O problema nunca foi a citação: foi o uso dela.</p>
         </div>
-        <div class="pain__card">
+        <div class="pain__card reveal">
           <span class="pain__mark">04</span>
           <h3>A introdução não tinha para onde ir</h3>
-          <p>Você abriu com uma obra que falava do assunto, não da vítima do problema — e passou o resto da redação tentando emendar dois textos que não se encontram.</p>
+          <p>Você abriu com uma obra que falava do assunto, não da vítima do problema, e passou o resto da redação tentando emendar dois textos que não se encontram.</p>
         </div>
       </div>
     </div>
@@ -435,38 +529,38 @@
   <!-- ============ METHOD ============ -->
   <section class="method">
     <div class="wrap">
-      <div class="method__head">
+      <div class="method__head reveal">
         <span class="kicker">O método</span>
         <h2>O Destrava Inteligente</h2>
-        <p>Este guia não é um banco de frases de efeito. É um sistema de consulta — a mesma pergunta que abre qualquer redação do Enem, respondida em quatro passos.</p>
+        <p>Este guia não é um banco de frases de efeito. É um sistema de consulta: a mesma pergunta que abre qualquer redação do Enem, respondida em quatro passos.</p>
       </div>
       <div class="method__steps">
-        <div class="step">
+        <div class="step reveal">
           <span class="step__n">01</span>
           <h3>Quem é a vítima?</h3>
-          <p>Responda com precisão: não "a população" — e sim quem exatamente sofre esse problema.</p>
+          <p>Responda com precisão: não "a população", e sim quem exatamente sofre esse problema.</p>
         </div>
-        <div class="step">
+        <div class="step reveal">
           <span class="step__n">02</span>
           <h3>Como o Estado falhou?</h3>
           <p>Escolha, entre 8 falhas mapeadas, a que nomeia esse mecanismo exato. Esse é o seu D1.</p>
         </div>
-        <div class="step">
+        <div class="step reveal">
           <span class="step__n">03</span>
           <h3>Por que ninguém cobra?</h3>
           <p>A sociedade absorveu a falha, ou foi a mídia que naturalizou. Esse é o seu D2.</p>
         </div>
-        <div class="step">
+        <div class="step reveal">
           <span class="step__n">04</span>
           <h3>Qual obra abre o texto?</h3>
-          <p>A que fala da vítima — não do assunto. É o que faz a moldura fechar sozinha na conclusão.</p>
+          <p>A que fala da vítima, não do assunto: é o que faz a moldura fechar sozinha na conclusão.</p>
         </div>
       </div>
-      <div class="proof">
+      <div class="proof reveal">
         <span class="proof__icon">✓</span>
         <div>
           <h4>O teste da retirada</h4>
-          <p>Cubra o repertório com o dedo e leia o parágrafo sem ele. Se o raciocínio continuar de pé, o repertório era enfeite — e enfeite não pontua.</p>
+          <p>Cubra o repertório com o dedo e leia o parágrafo sem ele. Se o raciocínio continuar de pé, o repertório era enfeite: enfeite não pontua.</p>
           <p>Se o parágrafo desabar, ele estava sustentando a argumentação. É esse o uso que a Competência II reconhece e premia.</p>
         </div>
       </div>
@@ -476,35 +570,35 @@
   <!-- ============ STACK ============ -->
   <section class="stack">
     <div class="wrap">
-      <div class="stack__head">
+      <div class="stack__head reveal">
         <span class="kicker">O que você recebe</span>
         <h2>Um guia de consulta, não uma lista de citações</h2>
-        <p>94 páginas organizadas para você abrir, encontrar o argumento certo e escrever — sem se perder em teoria solta.</p>
+        <p>94 páginas organizadas para você abrir, encontrar o argumento certo e escrever sem se perder em teoria solta.</p>
       </div>
       <div class="stack__grid">
-        <div class="stack__item">
+        <div class="stack__item reveal">
           <span class="stack__num">01</span>
-          <div><h3>8 falhas do Estado, com autor e mapa de temas</h3><p>Safatle, Sérgio Buarque de Holanda, Marilena Chauí, José Murilo de Carvalho, Ruy Braga, Iago Montalvão, Milton Santos e Achille Mbembe — cada um com "como reconhecer" e "em quais temas cabe".</p></div>
+          <div><h3>8 falhas do Estado, com autor e mapa de temas</h3><p>Safatle, Sérgio Buarque de Holanda, Marilena Chauí, José Murilo de Carvalho, Ruy Braga, Iago Montalvão, Milton Santos e Achille Mbembe, cada um com "como reconhecer" e "em quais temas cabe".</p></div>
         </div>
-        <div class="stack__item">
+        <div class="stack__item reveal">
           <span class="stack__num">02</span>
-          <div><h3>Os repertórios da sociedade</h3><p>Jessé Souza, Florestan Fernandes, Sueli Carneiro, Boaventura de Sousa Santos, Ailton Krenak e Débora Diniz — para o seu D2.</p></div>
+          <div><h3>Os repertórios da sociedade</h3><p>Jessé Souza, Florestan Fernandes, Sueli Carneiro, Boaventura de Sousa Santos, Ailton Krenak e Débora Diniz, para montar o seu D2.</p></div>
         </div>
-        <div class="stack__item">
+        <div class="stack__item reveal">
           <span class="stack__num">03</span>
           <div><h3>A mídia como quarto poder</h3><p>Afonso de Albuquerque, para os temas em que quem naturaliza o problema é a informação que circula, não a elite econômica.</p></div>
         </div>
-        <div class="stack__item">
+        <div class="stack__item reveal">
           <span class="stack__num">04</span>
-          <div><h3>Repertórios de introdução, por vítima</h3><p>Pinturas modernistas, cinema brasileiro, literatura e as fotografias de Sebastião Salgado — organizados por quem sofre o problema, não pelo assunto.</p></div>
+          <div><h3>Repertórios de introdução, por vítima</h3><p>Pinturas modernistas, cinema brasileiro, literatura e as fotografias de Sebastião Salgado, organizados por quem sofre o problema, não pelo assunto.</p></div>
         </div>
-        <div class="stack__item">
+        <div class="stack__item reveal">
           <span class="stack__num">05</span>
-          <div><h3>Frases prontas e operadores de entrada</h3><p>Para cada autor: a frase de citação, o operador que introduz e a validação que fecha o parágrafo. Copie a estrutura — não a frase.</p></div>
+          <div><h3>Frases prontas e operadores de entrada</h3><p>Para cada autor: a frase de citação, o operador que introduz e a validação que fecha o parágrafo. Copie a estrutura, não a frase.</p></div>
         </div>
-        <div class="stack__item">
+        <div class="stack__item reveal">
           <span class="stack__num">06</span>
-          <div><h3>Índice de consulta para a véspera da prova</h3><p>Autor, conceito e função (D1 ou D2) numa única tabela — para revisar em minutos, não em horas.</p></div>
+          <div><h3>Índice de consulta para a véspera da prova</h3><p>Autor, conceito e função (D1 ou D2) numa única tabela, para revisar em minutos, não em horas.</p></div>
         </div>
       </div>
     </div>
@@ -513,21 +607,21 @@
   <!-- ============ AUTHOR ============ -->
   <section class="author">
     <div class="wrap">
-      <div class="author__photos">
+      <div class="author__photos reveal">
         <div class="author__photo">
           <!-- SUBSTITUIR: foto 2 — Valeska dando aula, sala cheia de alunos, quadro branco (VPS+) -->
           <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiB2aWV3Qm94PSIwIDAgOTAwIDY3NSI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTMyMzNhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFkM2E1YyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiBmaWxsPSJ1cmwoI2cpIi8+Cjxwb2x5Z29uIHBvaW50cz0iOTAwLDY3NSA0OTUuMDAwMDAwMDAwMDAwMDYsNjc1IDkwMCw0MTguNSIgZmlsbD0iI2VlN2QxZiIgb3BhY2l0eT0iMC45Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMCwwIDI4OC4wLDAgMCwxNDguNSIgZmlsbD0iI2Y3ZjJlOSIgb3BhY2l0eT0iMC4wOCIvPgo8Y2lyY2xlIGN4PSI0NTAuMCIgY3k9IjI4My41IiByPSIxMDEuMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3ZjJlOSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGQ9Ik0gMzgyLjUgNDMyLjAgcSA2Ny41IC0xMDguMCAxMzUuMCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2YyZTkiIHN0cm9rZS1vcGFjaXR5PSIwLjU1IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI0ODYuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4LjgiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjZWU3ZDFmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNzAwIj5GT1RPIDI8L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI1MjYuNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzLjQiIGxldHRlci1zcGFjaW5nPSIwLjUiIGZpbGw9IiNmN2YyZTkiIGZpbGwtb3BhY2l0eT0iMC43NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RU0gU0FMQSBERSBBVUxBIMK3IFNVQlNUSVRVSVI8L3RleHQ+Cjwvc3ZnPg==" alt="Valeska Salgado dando aula em sala" />
         </div>
         <span class="author__cred">Formada em Letras (UFJF) e em Direito (Instituto Vianna Júnior) · 25 anos de sala de aula</span>
       </div>
-      <div class="author__copy">
+      <div class="author__copy reveal">
         <span class="kicker">Quem ensina</span>
         <h2>Valeska Salgado</h2>
-        <p>Vinte e cinco anos de sala de aula — em escola pública e em escola particular, os dois chãos. Em 2012, abriu o próprio cursinho porque o modelo não a deixava ensinar do jeito que funciona.</p>
-        <p>Faz o Enem todos os anos, desde 2020, sentada na mesma carteira que os alunos. A segunda graduação, em Direito, mudou a forma como ensina redação: deu a ela a leitura técnica de como o Estado brasileiro foi formado — e é dessa leitura que nasce o método deste guia.</p>
-        <p>O resultado tem endereço: alunos de escola pública que nunca tiveram intimidade com a escrita, tirando 900 e alguma coisa na redação do Enem — e entrando na USP, na UFF, na UFJF e na UFV.</p>
+        <p>Vinte e cinco anos de sala de aula: em escola pública e em escola particular, os dois chãos. Em 2012, abriu o próprio cursinho porque o modelo não a deixava ensinar do jeito que funciona.</p>
+        <p>Faz o Enem todos os anos, desde 2020, sentada na mesma carteira que os alunos. A segunda graduação, em Direito, mudou a forma como ensina redação: deu a ela a leitura técnica de como o Estado brasileiro foi formado. É dessa leitura que nasce o método deste guia.</p>
+        <p>O resultado tem endereço: alunos de escola pública que nunca tiveram intimidade com a escrita, tirando 900 e alguma coisa na redação do Enem e entrando na USP, na UFF, na UFJF e na UFV.</p>
         <blockquote>
-          "Redação não é talento. É estrutura — e estrutura se ensina."
+          "Redação não é talento. É estrutura, e estrutura se ensina."
           <cite>Valeska Salgado</cite>
         </blockquote>
         <div class="author__socials">
@@ -541,25 +635,25 @@
   <!-- ============ WHO ============ -->
   <section class="who dark">
     <div class="wrap">
-      <div class="who__copy">
+      <div class="who__copy reveal">
         <span class="kicker">Este guia foi escrito para você, se</span>
         <h2>Quatro sinais de que este é o seu guia</h2>
         <div class="who__list">
-          <div class="who__item">
+          <div class="who__item reveal">
             <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <p>Você estudou a vida toda em escola pública e nunca teve intimidade com a escrita.</p>
           </div>
-          <div class="who__item">
+          <div class="who__item reveal">
             <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <p>Você acha que redação é talento — e não é. Isso se prova, e a Valeska passou 25 anos provando.</p>
+            <p>Você acha que redação é talento. Não é. Isso se prova, e a Valeska passou 25 anos provando.</p>
           </div>
-          <div class="who__item">
+          <div class="who__item reveal">
             <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             <p>Você vai fazer o Enem em 2026 e quer parar de escrever "o Estado se omitiu".</p>
           </div>
-          <div class="who__item">
+          <div class="who__item reveal">
             <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <p>Você já tem repertório, mas sente que ele não sustenta o parágrafo — só enfeita.</p>
+            <p>Você já tem repertório, mas sente que ele não sustenta o parágrafo. Só enfeita.</p>
           </div>
         </div>
         <p class="who__closing">
@@ -567,7 +661,7 @@
           <cite>Valeska Salgado</cite>
         </p>
       </div>
-      <div class="who__frame">
+      <div class="who__frame reveal">
         <!-- SUBSTITUIR: foto 3 — Valeska com três alunos, tablet com o guia, ambiente de evento -->
         <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiB2aWV3Qm94PSIwIDAgOTAwIDY3NSI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTMyMzNhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFkM2E1YyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiBmaWxsPSJ1cmwoI2cpIi8+Cjxwb2x5Z29uIHBvaW50cz0iOTAwLDY3NSA0OTUuMDAwMDAwMDAwMDAwMDYsNjc1IDkwMCw0MTguNSIgZmlsbD0iI2VlN2QxZiIgb3BhY2l0eT0iMC45Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMCwwIDI4OC4wLDAgMCwxNDguNSIgZmlsbD0iI2Y3ZjJlOSIgb3BhY2l0eT0iMC4wOCIvPgo8Y2lyY2xlIGN4PSI0NTAuMCIgY3k9IjI4My41IiByPSIxMDEuMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3ZjJlOSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGQ9Ik0gMzgyLjUgNDMyLjAgcSA2Ny41IC0xMDguMCAxMzUuMCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2YyZTkiIHN0cm9rZS1vcGFjaXR5PSIwLjU1IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI0ODYuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4LjgiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjZWU3ZDFmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNzAwIj5GT1RPIDM8L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI1MjYuNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzLjQiIGxldHRlci1zcGFjaW5nPSIwLjUiIGZpbGw9IiNmN2YyZTkiIGZpbGwtb3BhY2l0eT0iMC43NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q09NIEFMVU5PUyDCtyBTVUJTVElUVUlSPC90ZXh0Pgo8L3N2Zz4=" alt="Valeska Salgado com alunos" />
       </div>
@@ -577,20 +671,20 @@
   <!-- ============ OFFER ============ -->
   <section class="offer" id="oferta">
     <div class="wrap">
-      <div class="offer__head measure">
+      <div class="offer__head measure reveal">
         <span class="kicker">Guia de Repertórios · Destrava Nota Mil</span>
         <h2>Leve o argumento pronto para a redação do Enem 2026</h2>
-        <p>O Enem 2026 está mais perto do que parece. Quanto antes você estruturar seu repertório, mais redações você treina com o método certo — em vez de decorar frase que só funciona uma vez.</p>
+        <p>O Enem 2026 está mais perto do que parece. Quanto antes você estruturar seu repertório, mais redações você treina com o método certo, em vez de decorar frase que só funciona uma vez.</p>
       </div>
 
-      <div class="offer__card">
+      <div class="offer__card reveal">
         <div class="offer__left">
           <h3>O que está incluso</h3>
           <ul class="offer__list">
-            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Guia digital em PDF, com 94 páginas — acesso pelo computador ou celular</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Guia digital em PDF, com 94 páginas, acesso pelo computador ou celular</li>
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 8 falhas do Estado mapeadas, com autor, teste e "em quais temas cabe"</li>
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Repertórios da sociedade e da mídia, para montar o seu D2</li>
-            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Repertórios de introdução organizados por vítima — pintura, cinema, literatura e fotografia</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Repertórios de introdução organizados por vítima: pintura, cinema, literatura e fotografia</li>
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Frases prontas, operadores de entrada e índice de consulta rápida para a véspera</li>
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Referências bibliográficas completas de cada autor citado</li>
           </ul>
@@ -614,26 +708,26 @@
   <!-- ============ FAQ ============ -->
   <section class="faq">
     <div class="wrap">
-      <div class="faq__head">
+      <div class="faq__head reveal">
         <span class="kicker">Perguntas frequentes</span>
         <h2>Antes de garantir o seu</h2>
       </div>
       <div class="faq__list">
-        <details>
+        <details class="reveal">
           <summary>Como eu recebo o material?</summary>
           <p>O guia é digital, em PDF. O acesso é liberado imediatamente após a confirmação do pagamento, direto na plataforma da Hotmart.</p>
         </details>
-        <details>
+        <details class="reveal">
           <summary>O guia serve só para o Enem?</summary>
-          <p>Serve para qualquer redação dissertativo-argumentativa que cobre repertório sociocultural — o Enem e vestibulares seriados, como o PISM da UFJF, seguem a mesma lógica de argumento.</p>
+          <p>Serve para qualquer redação dissertativo-argumentativa que cobre repertório sociocultural: o Enem e vestibulares seriados, como o PISM da UFJF, seguem a mesma lógica de argumento.</p>
         </details>
-        <details>
+        <details class="reveal">
           <summary>Preciso ter lido os livros dos autores citados?</summary>
-          <p>Não. O guia entrega o argumento pronto, a frase de citação e o operador de entrada — você aplica sem precisar ler a obra original antes.</p>
+          <p>Não. O guia entrega o argumento pronto, a frase de citação e o operador de entrada. Você aplica sem precisar ler a obra original antes.</p>
         </details>
-        <details>
+        <details class="reveal">
           <summary>Já uso repertório, mas minha nota trava. Isso é para mim?</summary>
-          <p>Sim — é exatamente para isso. O capítulo sobre nomear o mecanismo antes do teórico foi feito para quem já cita autor, mas sente que o parágrafo não sustenta a nota.</p>
+          <p>Sim. É exatamente para isso. O capítulo sobre nomear o mecanismo antes do teórico foi feito para quem já cita autor, mas sente que o parágrafo não sustenta a nota.</p>
         </details>
       </div>
     </div>
@@ -641,7 +735,7 @@
 
   <!-- ============ FINAL CTA ============ -->
   <section class="finalcta">
-    <div class="wrap">
+    <div class="wrap reveal">
       <h2>Sua redação do Enem 2026 começa pelo repertório certo.</h2>
       <p>De R$ 147,00 por R$ 87,00 à vista. Acesso imediato, direto na Hotmart.</p>
       <a class="btn btn--lg" href="#oferta">Quero o meu guia agora</a>
@@ -656,4 +750,96 @@
     </div>
   </footer>
 
+  <!-- ============ STICKY OFFER BAR ============ -->
+  <div class="stickybar" id="vpsStickybar">
+    <span class="stickybar__price"><s>R$ 147,00</s><b>R$ 87,00 à vista</b></span>
+    <a class="btn" href="#oferta">Quero o guia agora</a>
+  </div>
+
 </div>
+
+<script>
+(function(){
+  var root = document.currentScript.previousElementSibling;
+  if (!root || !root.classList.contains('vps')) { root = document.querySelector('.vps'); }
+  if (!root) return;
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- Reveal on scroll, staggered by sibling order ---- */
+  var revealEls = root.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var siblings = Array.prototype.filter.call(el.parentElement.children, function(c){
+          return c.classList.contains('reveal');
+        });
+        var idx = siblings.indexOf(el);
+        var delay = Math.min(idx, 5) * 90;
+        setTimeout(function(){ el.classList.add('is-visible'); }, delay);
+        io.unobserve(el);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---- Count-up numbers ---- */
+  if (!reduceMotion) {
+    var counters = root.querySelectorAll('[data-count]');
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-count'), 10) || 0;
+        var start = null;
+        var duration = 1100;
+        function step(ts){
+          if (!start) start = ts;
+          var progress = Math.min((ts - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * eased);
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = target;
+        }
+        requestAnimationFrame(step);
+        cio.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function(el){ cio.observe(el); });
+  }
+
+  /* ---- Sticky nav shadow + scroll progress + sticky offer bar ---- */
+  var nav = document.getElementById('vpsNav');
+  var bar = document.getElementById('vpsScrollbar');
+  var sticky = document.getElementById('vpsStickybar');
+  var hero = root.querySelector('.hero');
+  var offer = root.querySelector('#oferta');
+
+  function onScroll(){
+    var doc = document.documentElement;
+    var scrolled = window.scrollY || doc.scrollTop;
+    var max = doc.scrollHeight - doc.clientHeight;
+    if (bar) bar.style.width = (max > 0 ? (scrolled / max) * 100 : 0) + '%';
+    if (nav) nav.classList.toggle('is-scrolled', scrolled > 8);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if (sticky && hero && offer && 'IntersectionObserver' in window) {
+    var pastHero = false, inOffer = false;
+    function syncSticky(){ sticky.classList.toggle('is-visible', pastHero && !inOffer); }
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ pastHero = !e.isIntersecting; });
+      syncSticky();
+    }, { threshold: 0 }).observe(hero);
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ inOffer = e.isIntersecting; });
+      syncSticky();
+    }, { threshold: 0.15 }).observe(offer);
+  }
+})();
+</script>
