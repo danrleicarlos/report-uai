@@ -1,0 +1,659 @@
+<title>Guia Destrava Nota Mil</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Fraunces:ital,opsz,wght@1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  /* ============ TOKENS ============ */
+  .vps{
+    --ink:#132338;         /* texto principal / fundo escuro */
+    --ink-2:#1c3654;       /* fundo escuro secundário (gradiente) */
+    --ink-soft:#5c6c82;    /* texto secundário sobre claro */
+    --paper:#f7f2e8;       /* fundo claro (creme) */
+    --paper-2:#fffcf6;     /* cartão sobre creme */
+    --cream-ink:#eee7d8;   /* texto secundário sobre escuro */
+    --ember:#ee7d1f;       /* laranja marca */
+    --ember-deep:#c9600b;  /* laranja hover/escuro */
+    --ember-light:#fbe4c9; /* laranja bem claro (chips) */
+    --line:#e4dbc9;        /* divisórias sobre creme */
+    --shadow:0 18px 40px -18px rgba(19,35,56,.35);
+    --radius:18px;
+    --wrap:1120px;
+    --measure:640px;
+
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Manrope',ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .vps *{box-sizing:border-box;}
+  .vps img{max-width:100%;display:block;}
+  .vps h1,.vps h2,.vps h3,.vps blockquote{
+    font-family:'Fraunces',Georgia,'Times New Roman',serif;
+    font-weight:700;
+    line-height:1.08;
+    text-wrap:balance;
+    margin:0;
+    color:var(--ink);
+  }
+  .vps a{color:inherit;}
+  .vps ul{margin:0;padding:0;list-style:none;}
+  .vps section{position:relative;}
+
+  /* ============ LAYOUT HELPERS ============ */
+  .vps .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px;}
+  .vps .measure{max-width:var(--measure);}
+  .vps .center{margin-left:auto;margin-right:auto;text-align:center;}
+  .vps .kicker{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'Manrope',sans-serif;font-weight:800;
+    font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ember-deep);
+  }
+  .vps .kicker::before{content:"";width:22px;height:2px;background:var(--ember);display:inline-block;border-radius:2px;}
+  section.dark .kicker{color:var(--ember);}
+  section.dark .kicker::before{background:var(--ember);}
+
+  /* ============ NAV ============ */
+  .vps .nav{
+    background:var(--ink);
+    padding:14px 0;
+  }
+  .vps .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;}
+  .vps .nav__brand{
+    font-family:'Fraunces',serif;font-weight:700;font-size:18px;color:var(--paper);
+    letter-spacing:.01em;
+  }
+  .vps .nav__brand em{font-style:normal;color:var(--ember);}
+  .vps .nav__cta{
+    font-family:'Manrope',sans-serif;font-weight:700;font-size:13.5px;
+    background:var(--ember);color:var(--ink);
+    padding:10px 18px;border-radius:999px;white-space:nowrap;
+    text-decoration:none;transition:background .15s ease, transform .15s ease;
+  }
+  .vps .nav__cta:hover{background:#ff9138;transform:translateY(-1px);}
+  .vps .nav__cta:focus-visible{outline:3px solid #fff;outline-offset:2px;}
+
+  /* ============ BUTTONS ============ */
+  .vps .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:16.5px;
+    padding:17px 30px;border-radius:12px;text-decoration:none;
+    background:var(--ember);color:var(--ink);
+    box-shadow:0 14px 30px -12px rgba(238,125,31,.55);
+    transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+    border:none;cursor:pointer;
+  }
+  .vps .btn:hover{background:#ff9138;transform:translateY(-2px);box-shadow:0 18px 36px -12px rgba(238,125,31,.6);}
+  .vps .btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px;}
+  .vps .btn--lg{padding:20px 38px;font-size:18.5px;}
+  .vps .btn__sub{
+    display:block;margin-top:12px;font-size:13px;color:var(--ink-soft);font-weight:600;
+  }
+  section.dark .btn__sub{color:var(--cream-ink);opacity:.85;}
+
+  /* ============ DIAGONAL SEAM ============ */
+  .vps .seam{
+    position:absolute;left:0;right:0;bottom:-1px;height:64px;
+    background:var(--paper);
+    clip-path:polygon(0 100%, 100% 100%, 100% 40%, 0 100%);
+  }
+  .vps .seam--to-dark{background:var(--ink);clip-path:polygon(0 100%, 100% 100%, 100% 100%, 0 30%);}
+
+  /* ============ HERO ============ */
+  .vps .hero{
+    background:linear-gradient(155deg,var(--ink) 0%,var(--ink-2) 100%);
+    color:var(--paper);
+    padding:56px 0 108px;
+  }
+  .vps .hero .wrap{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;
+  }
+  .vps .hero__eyebrow{margin-bottom:22px;}
+  .vps .hero h1{
+    font-size:clamp(34px,4.6vw,54px);
+    color:#fff;
+    margin-bottom:22px;
+  }
+  .vps .hero h1 .accent{color:var(--ember);}
+  .vps .hero p.lede{
+    font-size:18px;color:var(--cream-ink);max-width:52ch;margin-bottom:34px;
+  }
+  .vps .hero__ctas{display:flex;flex-wrap:wrap;align-items:flex-start;gap:18px;}
+  .vps .trustbar{
+    margin-top:44px;display:flex;flex-wrap:wrap;gap:28px 34px;
+    border-top:1px solid rgba(247,242,232,.18);padding-top:26px;
+  }
+  .vps .trustbar__item{display:flex;align-items:baseline;gap:10px;max-width:220px;}
+  .vps .trustbar__num{font-family:'Fraunces',serif;font-weight:700;font-size:22px;color:var(--ember);}
+  .vps .trustbar__label{font-size:13.5px;color:var(--cream-ink);line-height:1.35;}
+
+  .vps .hero__art{position:relative;}
+  .vps .hero__frame{
+    border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
+    border:1px solid rgba(247,242,232,.14);
+    aspect-ratio:4/5;
+  }
+  .vps .hero__frame img{width:100%;height:100%;object-fit:cover;}
+  .vps .hero__badge{
+    position:absolute;left:-18px;bottom:26px;
+    background:var(--paper-2);color:var(--ink);
+    border-radius:14px;padding:14px 18px;box-shadow:var(--shadow);
+    max-width:220px;font-size:13px;font-weight:600;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .vps .hero__badge b{display:block;font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--ember-deep);}
+
+  /* ============ PAIN ============ */
+  .vps .pain{padding:96px 0 84px;background:var(--paper);}
+  .vps .pain__head{margin-bottom:48px;}
+  .vps .pain__head h2{font-size:clamp(28px,3.4vw,40px);margin-top:18px;}
+  .vps .pain__head p{margin-top:16px;color:var(--ink-soft);font-size:17px;}
+  .vps .pain__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+  .vps .pain__card{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:26px 26px 24px;
+  }
+  .vps .pain__card h3{font-size:19px;margin-bottom:10px;color:var(--ink);}
+  .vps .pain__card p{font-size:15px;color:var(--ink-soft);margin:0;}
+  .vps .pain__mark{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:9px;background:var(--ember-light);
+    color:var(--ember-deep);font-family:'Fraunces',serif;font-weight:700;font-size:16px;
+    margin-bottom:14px;
+  }
+
+  /* ============ METHOD ============ */
+  .vps .method{background:var(--paper-2);padding:92px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .vps .method__head{max-width:680px;margin-bottom:44px;}
+  .vps .method__head h2{font-size:clamp(28px,3.4vw,40px);margin-top:18px;}
+  .vps .method__head p{margin-top:16px;color:var(--ink-soft);font-size:17px;}
+  .vps .method__steps{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px;
+  }
+  .vps .step{
+    background:var(--paper);border-radius:var(--radius);padding:24px 20px;
+    border:1px solid var(--line);
+  }
+  .vps .step__n{
+    font-family:'Fraunces',serif;font-weight:600;font-size:34px;color:var(--ember);
+    line-height:1;margin-bottom:12px;font-variant-numeric:tabular-nums;
+  }
+  .vps .step h3{font-size:16px;font-weight:800;font-family:'Manrope',sans-serif;margin-bottom:8px;color:var(--ink);}
+  .vps .step p{font-size:14px;color:var(--ink-soft);margin:0;}
+  .vps .proof{
+    background:var(--ink);color:var(--paper);border-radius:var(--radius);
+    padding:32px 34px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:flex-start;
+  }
+  .vps .proof__icon{
+    width:46px;height:46px;border-radius:50%;background:var(--ember);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    color:var(--ink);font-family:'Fraunces',serif;font-weight:700;font-size:20px;
+  }
+  .vps .proof h4{font-family:'Manrope',sans-serif;font-weight:800;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--ember);margin-bottom:8px;}
+  .vps .proof p{margin:0;color:var(--cream-ink);font-size:16px;line-height:1.55;}
+  .vps .proof p+p{margin-top:8px;}
+
+  /* ============ STACK ============ */
+  .vps .stack{padding:96px 0;background:var(--paper);}
+  .vps .stack__head{max-width:680px;margin-bottom:46px;}
+  .vps .stack__head h2{font-size:clamp(28px,3.4vw,40px);margin-top:18px;}
+  .vps .stack__head p{margin-top:16px;color:var(--ink-soft);font-size:17px;}
+  .vps .stack__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 28px;}
+  .vps .stack__item{
+    display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);
+  }
+  .vps .stack__num{
+    font-family:'Fraunces',serif;font-weight:600;font-size:15px;color:var(--ember-deep);
+    flex-shrink:0;width:26px;padding-top:2px;
+  }
+  .vps .stack__item h3{font-family:'Manrope',sans-serif;font-weight:700;font-size:15.5px;margin-bottom:5px;color:var(--ink);}
+  .vps .stack__item p{font-size:14px;color:var(--ink-soft);margin:0;}
+
+  /* ============ AUTHOR ============ */
+  .vps .author{background:var(--paper-2);padding:100px 0;border-top:1px solid var(--line);}
+  .vps .author .wrap{display:grid;grid-template-columns:.86fr 1.14fr;gap:56px;align-items:center;}
+  .vps .author__photos{display:grid;grid-template-columns:1fr;gap:16px;}
+  .vps .author__photo{
+    border-radius:16px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/3;
+    border:1px solid var(--line);
+  }
+  .vps .author__photo img{width:100%;height:100%;object-fit:cover;}
+  .vps .author__cred{font-size:12.5px;color:var(--ink-soft);margin-top:10px;letter-spacing:.02em;}
+  .vps .author h2{font-size:clamp(26px,3.2vw,36px);margin:16px 0 18px;}
+  .vps .author p{color:var(--ink-soft);font-size:16.5px;margin-bottom:14px;}
+  .vps .author blockquote{
+    font-style:italic;font-weight:500;font-size:22px;color:var(--ink);
+    border-left:3px solid var(--ember);padding-left:18px;margin:22px 0;
+  }
+  .vps .author blockquote cite{
+    display:block;font-style:normal;font-family:'Manrope',sans-serif;
+    font-size:13px;font-weight:700;color:var(--ember-deep);margin-top:8px;letter-spacing:.03em;
+  }
+  .vps .author__socials{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:20px;}
+  .vps .author__socials span{font-size:13.5px;color:var(--ink-soft);font-weight:600;}
+  .vps .author__socials b{color:var(--ink);}
+
+  /* ============ WHO ============ */
+  .vps .who{background:linear-gradient(155deg,var(--ink) 0%,var(--ink-2) 100%);color:var(--paper);padding:100px 0 88px;}
+  .vps .who .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;}
+  .vps .who h2{color:#fff;font-size:clamp(26px,3.2vw,36px);margin:18px 0 26px;max-width:20ch;}
+  .vps .who__list{display:flex;flex-direction:column;gap:16px;margin-bottom:30px;}
+  .vps .who__item{display:flex;gap:14px;align-items:flex-start;}
+  .vps .who__check{
+    flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--ember);
+    display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+  .vps .who__check svg{width:13px;height:13px;}
+  .vps .who__item p{margin:0;color:var(--cream-ink);font-size:16px;line-height:1.5;}
+  .vps .who__closing{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:500;font-size:19px;
+    color:#fff;border-top:1px solid rgba(247,242,232,.2);padding-top:24px;max-width:48ch;
+  }
+  .vps .who__closing cite{display:block;font-style:normal;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;color:var(--ember);margin-top:10px;letter-spacing:.03em;}
+  .vps .who__frame{
+    border-radius:20px;overflow:hidden;box-shadow:0 24px 50px -20px rgba(0,0,0,.55);
+    aspect-ratio:4/3;border:1px solid rgba(247,242,232,.16);
+  }
+  .vps .who__frame img{width:100%;height:100%;object-fit:cover;}
+
+  /* ============ OFFER ============ */
+  .vps .offer{padding:100px 0;background:var(--paper);}
+  .vps .offer__head{margin-bottom:8px;}
+  .vps .offer__head h2{font-size:clamp(28px,3.6vw,42px);margin-top:18px;max-width:18ch;}
+  .vps .offer__head p{margin-top:14px;color:var(--ink-soft);font-size:17px;max-width:56ch;}
+  .vps .offer__card{
+    margin-top:44px;background:var(--ink);color:var(--paper);border-radius:24px;
+    display:grid;grid-template-columns:1.15fr .85fr;overflow:hidden;box-shadow:var(--shadow);
+  }
+  .vps .offer__left{padding:44px 46px;border-right:1px solid rgba(247,242,232,.14);}
+  .vps .offer__left h3{font-family:'Manrope',sans-serif;font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);margin-bottom:18px;}
+  .vps .offer__list{display:flex;flex-direction:column;gap:13px;}
+  .vps .offer__list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--cream-ink);list-style:none;}
+  .vps .offer__list svg{flex-shrink:0;margin-top:3px;width:17px;height:17px;color:var(--ember);}
+  .vps .offer__right{
+    padding:44px 40px;display:flex;flex-direction:column;justify-content:center;
+    background:rgba(238,125,31,.08);
+  }
+  .vps .offer__was{font-size:15px;color:var(--cream-ink);opacity:.75;}
+  .vps .offer__was s{text-decoration:line-through;}
+  .vps .offer__price{
+    font-family:'Fraunces',serif;font-weight:700;font-size:52px;color:#fff;
+    line-height:1;margin:6px 0 4px;font-variant-numeric:tabular-nums;
+  }
+  .vps .offer__price small{font-size:16px;font-weight:500;color:var(--cream-ink);}
+  .vps .offer__cash{font-size:13.5px;color:var(--ember);font-weight:700;margin-bottom:22px;}
+  .vps .offer__badges{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:18px;}
+  .vps .offer__badges span{font-size:12px;color:var(--cream-ink);opacity:.8;display:flex;align-items:center;gap:6px;}
+  .vps .offer__badges svg{width:13px;height:13px;color:var(--ember);}
+
+  /* ============ FAQ ============ */
+  .vps .faq{padding:92px 0;background:var(--paper-2);border-top:1px solid var(--line);}
+  .vps .faq__head{max-width:640px;margin-bottom:36px;}
+  .vps .faq__head h2{font-size:clamp(26px,3.2vw,34px);margin-top:18px;}
+  .vps .faq__list{max-width:760px;display:flex;flex-direction:column;gap:12px;}
+  .vps details{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:6px 22px;
+  }
+  .vps details[open]{border-color:var(--ember);}
+  .vps summary{
+    cursor:pointer;list-style:none;padding:16px 0;font-family:'Manrope',sans-serif;
+    font-weight:700;font-size:16px;color:var(--ink);display:flex;justify-content:space-between;gap:16px;align-items:center;
+  }
+  .vps summary::-webkit-details-marker{display:none;}
+  .vps summary::after{
+    content:"+";font-size:22px;color:var(--ember-deep);flex-shrink:0;font-weight:400;
+    transition:transform .18s ease;
+  }
+  .vps details[open] summary::after{transform:rotate(45deg);}
+  .vps details p{margin:0 0 18px;color:var(--ink-soft);font-size:15px;max-width:64ch;}
+
+  /* ============ FINAL CTA ============ */
+  .vps .finalcta{
+    background:linear-gradient(155deg,var(--ink) 0%,var(--ink-2) 100%);
+    color:var(--paper);padding:88px 0;text-align:center;
+  }
+  .vps .finalcta h2{color:#fff;font-size:clamp(28px,3.8vw,42px);max-width:22ch;margin:0 auto 16px;}
+  .vps .finalcta p{color:var(--cream-ink);font-size:17px;max-width:52ch;margin:0 auto 34px;}
+
+  /* ============ FOOTER ============ */
+  .vps footer{background:var(--ink);padding:30px 0;border-top:1px solid rgba(247,242,232,.12);}
+  .vps footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;}
+  .vps footer p{margin:0;font-size:12.5px;color:var(--cream-ink);opacity:.7;}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:920px){
+    .vps .hero .wrap,.vps .author .wrap,.vps .who .wrap,.vps .offer__card{grid-template-columns:1fr;}
+    .vps .hero__art{order:-1;max-width:340px;margin:0 auto;}
+    .vps .hero__badge{left:12px;}
+    .vps .pain__grid{grid-template-columns:1fr;}
+    .vps .method__steps{grid-template-columns:repeat(2,1fr);}
+    .vps .stack__grid{grid-template-columns:1fr;}
+    .vps .offer__left{border-right:none;border-bottom:1px solid rgba(247,242,232,.14);}
+    .vps .who__frame{max-width:420px;margin:0 auto;}
+    .vps .author__photos{max-width:420px;margin:0 auto;}
+  }
+  @media (max-width:640px){
+    .vps .method__steps{grid-template-columns:1fr;}
+    .vps .proof{grid-template-columns:1fr;}
+    .vps .hero__ctas{flex-direction:column;align-items:stretch;}
+    .vps .hero__ctas .btn{width:100%;}
+    .vps .trustbar{gap:20px;}
+  }
+
+  /* ============ MOTION ============ */
+  @media (prefers-reduced-motion:reduce){
+    .vps .btn,.vps .nav__cta{transition:none;}
+  }
+</style>
+
+<div class="vps">
+
+  <!-- ============ NAV ============ -->
+  <div class="nav">
+    <div class="wrap">
+      <span class="nav__brand">Redação <em>Valeska Salgado</em></span>
+      <a class="nav__cta" href="#oferta">Garantir meu guia</a>
+    </div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero dark">
+    <div class="wrap">
+      <div class="hero__copy">
+        <span class="kicker hero__eyebrow">Redação · Enem 2026</span>
+        <h1>Redação não é talento. É <span class="accent">estrutura</span> — e estrutura se ensina.</h1>
+        <p class="lede">O <strong>Guia de Repertórios Destrava Nota Mil</strong> entrega o argumento pronto: de onde vem a falha do Estado, por que a sociedade não cobra, e qual obra abre a sua redação. Chega de decorar frase solta — comece a escrever como quem entende o país sobre o qual está escrevendo.</p>
+        <div class="hero__ctas">
+          <a class="btn btn--lg" href="#oferta">Quero o meu guia agora</a>
+        </div>
+        <span class="btn__sub">Acesso imediato após a compra · Ambiente seguro Hotmart</span>
+
+        <div class="trustbar">
+          <div class="trustbar__item">
+            <span class="trustbar__num">25</span>
+            <span class="trustbar__label">anos de sala de aula, em escola pública e particular</span>
+          </div>
+          <div class="trustbar__item">
+            <span class="trustbar__num">2020</span>
+            <span class="trustbar__label">ano em que a professora começou a fazer o Enem como candidata, todo ano</span>
+          </div>
+          <div class="trustbar__item">
+            <span class="trustbar__num">USP·UFF·UFJF·UFV</span>
+            <span class="trustbar__label">universidades onde alunos dela já entraram com redação 900+</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__art">
+        <div class="hero__frame">
+          <!-- SUBSTITUIR: foto 1 — Valeska sentada no banquinho, blazer branco, quadro branco ao fundo (VPS+) -->
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iOTUwIiB2aWV3Qm94PSIwIDAgNzYwIDk1MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTMyMzNhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFkM2E1YyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI3NjAiIGhlaWdodD0iOTUwIiBmaWxsPSJ1cmwoI2cpIi8+Cjxwb2x5Z29uIHBvaW50cz0iNzYwLDk1MCA0MTguMDAwMDAwMDAwMDAwMDYsOTUwIDc2MCw1ODkuMCIgZmlsbD0iI2VlN2QxZiIgb3BhY2l0eT0iMC45Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMCwwIDI0My4yMDAwMDAwMDAwMDAwMiwwIDAsMjA5LjAiIGZpbGw9IiNmN2YyZTkiIG9wYWNpdHk9IjAuMDgiLz4KPGNpcmNsZSBjeD0iMzgwLjAiIGN5PSIzOTkuMCIgcj0iMTE0LjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3ZjJlOSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGQ9Ik0gMzA0LjAgNTY2LjIgcSA3Ni4wIC0xMjEuNjAwMDAwMDAwMDAwMDEgMTUyLjAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjdmMmU5IiBzdHJva2Utb3BhY2l0eT0iMC41NSIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8dGV4dCB4PSIzODAuMCIgeT0iNjg0LjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNC4zMiIgbGV0dGVyLXNwYWNpbmc9IjIiIGZpbGw9IiNlZTdkMWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPkZPVE8gMTwvdGV4dD4KPHRleHQgeD0iMzgwLjAiIHk9IjcxOC4yIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkuNzU5OTk5OTk5OTk5OTk4IiBsZXR0ZXItc3BhY2luZz0iMC41IiBmaWxsPSIjZjdmMmU5IiBmaWxsLW9wYWNpdHk9IjAuNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJFVFJBVE8gwrcgU1VCU1RJVFVJUjwvdGV4dD4KPC9zdmc+" alt="Valeska Salgado, professora de redação" />
+        </div>
+        <div class="hero__badge">
+          <span><b>900+</b>na redação, saindo de escola pública sem intimidade com a escrita</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAIN ============ -->
+  <section class="pain">
+    <div class="wrap">
+      <div class="pain__head measure">
+        <span class="kicker">Se isso já aconteceu com você</span>
+        <h2>Você decorou a citação certa. E mesmo assim, travou.</h2>
+        <p>Não é falta de repertório. É repertório usado do jeito errado — e isso tem nome, e tem conserto.</p>
+      </div>
+      <div class="pain__grid">
+        <div class="pain__card">
+          <span class="pain__mark">01</span>
+          <h3>A frase pronta não encaixou</h3>
+          <p>Você decorou uma citação de filósofo no cursinho. Na prova, o tema mudou — e a frase ficou colada, sem conversar com o texto.</p>
+        </div>
+        <div class="pain__card">
+          <span class="pain__mark">02</span>
+          <h3>O corretor reconheceu o molde</h3>
+          <p>Repertório repetido não passa despercebido para quem corrige centenas de redações. O que deveria mostrar repertório, mostra cursinho.</p>
+        </div>
+        <div class="pain__card">
+          <span class="pain__mark">03</span>
+          <h3>Você não sabe por que trava no 880</h3>
+          <p>Repertório usado como enfeite não sustenta o parágrafo — e enfeite não pontua na Competência II. O problema nunca foi a citação: foi o uso dela.</p>
+        </div>
+        <div class="pain__card">
+          <span class="pain__mark">04</span>
+          <h3>A introdução não tinha para onde ir</h3>
+          <p>Você abriu com uma obra que falava do assunto, não da vítima do problema — e passou o resto da redação tentando emendar dois textos que não se encontram.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ METHOD ============ -->
+  <section class="method">
+    <div class="wrap">
+      <div class="method__head">
+        <span class="kicker">O método</span>
+        <h2>O Destrava Inteligente</h2>
+        <p>Este guia não é um banco de frases de efeito. É um sistema de consulta — a mesma pergunta que abre qualquer redação do Enem, respondida em quatro passos.</p>
+      </div>
+      <div class="method__steps">
+        <div class="step">
+          <span class="step__n">01</span>
+          <h3>Quem é a vítima?</h3>
+          <p>Responda com precisão: não "a população" — e sim quem exatamente sofre esse problema.</p>
+        </div>
+        <div class="step">
+          <span class="step__n">02</span>
+          <h3>Como o Estado falhou?</h3>
+          <p>Escolha, entre 8 falhas mapeadas, a que nomeia esse mecanismo exato. Esse é o seu D1.</p>
+        </div>
+        <div class="step">
+          <span class="step__n">03</span>
+          <h3>Por que ninguém cobra?</h3>
+          <p>A sociedade absorveu a falha, ou foi a mídia que naturalizou. Esse é o seu D2.</p>
+        </div>
+        <div class="step">
+          <span class="step__n">04</span>
+          <h3>Qual obra abre o texto?</h3>
+          <p>A que fala da vítima — não do assunto. É o que faz a moldura fechar sozinha na conclusão.</p>
+        </div>
+      </div>
+      <div class="proof">
+        <span class="proof__icon">✓</span>
+        <div>
+          <h4>O teste da retirada</h4>
+          <p>Cubra o repertório com o dedo e leia o parágrafo sem ele. Se o raciocínio continuar de pé, o repertório era enfeite — e enfeite não pontua.</p>
+          <p>Se o parágrafo desabar, ele estava sustentando a argumentação. É esse o uso que a Competência II reconhece e premia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section class="stack">
+    <div class="wrap">
+      <div class="stack__head">
+        <span class="kicker">O que você recebe</span>
+        <h2>Um guia de consulta, não uma lista de citações</h2>
+        <p>94 páginas organizadas para você abrir, encontrar o argumento certo e escrever — sem se perder em teoria solta.</p>
+      </div>
+      <div class="stack__grid">
+        <div class="stack__item">
+          <span class="stack__num">01</span>
+          <div><h3>8 falhas do Estado, com autor e mapa de temas</h3><p>Safatle, Sérgio Buarque de Holanda, Marilena Chauí, José Murilo de Carvalho, Ruy Braga, Iago Montalvão, Milton Santos e Achille Mbembe — cada um com "como reconhecer" e "em quais temas cabe".</p></div>
+        </div>
+        <div class="stack__item">
+          <span class="stack__num">02</span>
+          <div><h3>Os repertórios da sociedade</h3><p>Jessé Souza, Florestan Fernandes, Sueli Carneiro, Boaventura de Sousa Santos, Ailton Krenak e Débora Diniz — para o seu D2.</p></div>
+        </div>
+        <div class="stack__item">
+          <span class="stack__num">03</span>
+          <div><h3>A mídia como quarto poder</h3><p>Afonso de Albuquerque, para os temas em que quem naturaliza o problema é a informação que circula, não a elite econômica.</p></div>
+        </div>
+        <div class="stack__item">
+          <span class="stack__num">04</span>
+          <div><h3>Repertórios de introdução, por vítima</h3><p>Pinturas modernistas, cinema brasileiro, literatura e as fotografias de Sebastião Salgado — organizados por quem sofre o problema, não pelo assunto.</p></div>
+        </div>
+        <div class="stack__item">
+          <span class="stack__num">05</span>
+          <div><h3>Frases prontas e operadores de entrada</h3><p>Para cada autor: a frase de citação, o operador que introduz e a validação que fecha o parágrafo. Copie a estrutura — não a frase.</p></div>
+        </div>
+        <div class="stack__item">
+          <span class="stack__num">06</span>
+          <div><h3>Índice de consulta para a véspera da prova</h3><p>Autor, conceito e função (D1 ou D2) numa única tabela — para revisar em minutos, não em horas.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AUTHOR ============ -->
+  <section class="author">
+    <div class="wrap">
+      <div class="author__photos">
+        <div class="author__photo">
+          <!-- SUBSTITUIR: foto 2 — Valeska dando aula, sala cheia de alunos, quadro branco (VPS+) -->
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiB2aWV3Qm94PSIwIDAgOTAwIDY3NSI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTMyMzNhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFkM2E1YyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiBmaWxsPSJ1cmwoI2cpIi8+Cjxwb2x5Z29uIHBvaW50cz0iOTAwLDY3NSA0OTUuMDAwMDAwMDAwMDAwMDYsNjc1IDkwMCw0MTguNSIgZmlsbD0iI2VlN2QxZiIgb3BhY2l0eT0iMC45Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMCwwIDI4OC4wLDAgMCwxNDguNSIgZmlsbD0iI2Y3ZjJlOSIgb3BhY2l0eT0iMC4wOCIvPgo8Y2lyY2xlIGN4PSI0NTAuMCIgY3k9IjI4My41IiByPSIxMDEuMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3ZjJlOSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGQ9Ik0gMzgyLjUgNDMyLjAgcSA2Ny41IC0xMDguMCAxMzUuMCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2YyZTkiIHN0cm9rZS1vcGFjaXR5PSIwLjU1IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI0ODYuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4LjgiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjZWU3ZDFmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNzAwIj5GT1RPIDI8L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI1MjYuNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzLjQiIGxldHRlci1zcGFjaW5nPSIwLjUiIGZpbGw9IiNmN2YyZTkiIGZpbGwtb3BhY2l0eT0iMC43NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RU0gU0FMQSBERSBBVUxBIMK3IFNVQlNUSVRVSVI8L3RleHQ+Cjwvc3ZnPg==" alt="Valeska Salgado dando aula em sala" />
+        </div>
+        <span class="author__cred">Formada em Letras (UFJF) e em Direito (Instituto Vianna Júnior) · 25 anos de sala de aula</span>
+      </div>
+      <div class="author__copy">
+        <span class="kicker">Quem ensina</span>
+        <h2>Valeska Salgado</h2>
+        <p>Vinte e cinco anos de sala de aula — em escola pública e em escola particular, os dois chãos. Em 2012, abriu o próprio cursinho porque o modelo não a deixava ensinar do jeito que funciona.</p>
+        <p>Faz o Enem todos os anos, desde 2020, sentada na mesma carteira que os alunos. A segunda graduação, em Direito, mudou a forma como ensina redação: deu a ela a leitura técnica de como o Estado brasileiro foi formado — e é dessa leitura que nasce o método deste guia.</p>
+        <p>O resultado tem endereço: alunos de escola pública que nunca tiveram intimidade com a escrita, tirando 900 e alguma coisa na redação do Enem — e entrando na USP, na UFF, na UFJF e na UFV.</p>
+        <blockquote>
+          "Redação não é talento. É estrutura — e estrutura se ensina."
+          <cite>Valeska Salgado</cite>
+        </blockquote>
+        <div class="author__socials">
+          <span>Instagram <b>@valeska_salgado</b></span>
+          <span>TikTok <b>@professoravaleskasalgado</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHO ============ -->
+  <section class="who dark">
+    <div class="wrap">
+      <div class="who__copy">
+        <span class="kicker">Este guia foi escrito para você, se</span>
+        <h2>Quatro sinais de que este é o seu guia</h2>
+        <div class="who__list">
+          <div class="who__item">
+            <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p>Você estudou a vida toda em escola pública e nunca teve intimidade com a escrita.</p>
+          </div>
+          <div class="who__item">
+            <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p>Você acha que redação é talento — e não é. Isso se prova, e a Valeska passou 25 anos provando.</p>
+          </div>
+          <div class="who__item">
+            <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p>Você vai fazer o Enem em 2026 e quer parar de escrever "o Estado se omitiu".</p>
+          </div>
+          <div class="who__item">
+            <span class="who__check"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 12L13 4" stroke="#132338" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <p>Você já tem repertório, mas sente que ele não sustenta o parágrafo — só enfeita.</p>
+          </div>
+        </div>
+        <p class="who__closing">
+          "Se este guia funcionar, você não vai sair sabendo apenas escrever uma redação nota mil. Vai sair sabendo ler o país em que ela é escrita."
+          <cite>Valeska Salgado</cite>
+        </p>
+      </div>
+      <div class="who__frame">
+        <!-- SUBSTITUIR: foto 3 — Valeska com três alunos, tablet com o guia, ambiente de evento -->
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiB2aWV3Qm94PSIwIDAgOTAwIDY3NSI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTMyMzNhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFkM2E1YyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iNjc1IiBmaWxsPSJ1cmwoI2cpIi8+Cjxwb2x5Z29uIHBvaW50cz0iOTAwLDY3NSA0OTUuMDAwMDAwMDAwMDAwMDYsNjc1IDkwMCw0MTguNSIgZmlsbD0iI2VlN2QxZiIgb3BhY2l0eT0iMC45Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMCwwIDI4OC4wLDAgMCwxNDguNSIgZmlsbD0iI2Y3ZjJlOSIgb3BhY2l0eT0iMC4wOCIvPgo8Y2lyY2xlIGN4PSI0NTAuMCIgY3k9IjI4My41IiByPSIxMDEuMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3ZjJlOSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGQ9Ik0gMzgyLjUgNDMyLjAgcSA2Ny41IC0xMDguMCAxMzUuMCAwIiBmaWxsPSJub25lIiBzdHJva2U9IiNmN2YyZTkiIHN0cm9rZS1vcGFjaXR5PSIwLjU1IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI0ODYuMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjI4LjgiIGxldHRlci1zcGFjaW5nPSIyIiBmaWxsPSIjZWU3ZDFmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LXdlaWdodD0iNzAwIj5GT1RPIDM8L3RleHQ+Cjx0ZXh0IHg9IjQ1MC4wIiB5PSI1MjYuNSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIzLjQiIGxldHRlci1zcGFjaW5nPSIwLjUiIGZpbGw9IiNmN2YyZTkiIGZpbGwtb3BhY2l0eT0iMC43NSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+Q09NIEFMVU5PUyDCtyBTVUJTVElUVUlSPC90ZXh0Pgo8L3N2Zz4=" alt="Valeska Salgado com alunos" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFER ============ -->
+  <section class="offer" id="oferta">
+    <div class="wrap">
+      <div class="offer__head measure">
+        <span class="kicker">Guia de Repertórios · Destrava Nota Mil</span>
+        <h2>Leve o argumento pronto para a redação do Enem 2026</h2>
+        <p>O Enem 2026 está mais perto do que parece. Quanto antes você estruturar seu repertório, mais redações você treina com o método certo — em vez de decorar frase que só funciona uma vez.</p>
+      </div>
+
+      <div class="offer__card">
+        <div class="offer__left">
+          <h3>O que está incluso</h3>
+          <ul class="offer__list">
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Guia digital em PDF, com 94 páginas — acesso pelo computador ou celular</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 8 falhas do Estado mapeadas, com autor, teste e "em quais temas cabe"</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Repertórios da sociedade e da mídia, para montar o seu D2</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Repertórios de introdução organizados por vítima — pintura, cinema, literatura e fotografia</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Frases prontas, operadores de entrada e índice de consulta rápida para a véspera</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Referências bibliográficas completas de cada autor citado</li>
+          </ul>
+        </div>
+        <div class="offer__right">
+          <span class="offer__was">De <s>R$ 147,00</s></span>
+          <span class="offer__price">R$ 87<small>,00</small></span>
+          <span class="offer__cash">à vista · ou consulte o parcelamento no checkout</span>
+          <a class="btn btn--lg" href="#" target="_blank" rel="noopener">Quero o guia agora por R$ 87</a>
+          <!-- SUBSTITUIR o href acima pelo link de checkout da Hotmart -->
+          <div class="offer__badges">
+            <span><svg viewBox="0 0 20 20" fill="none"><path d="M10 2L16.5 5V9.5C16.5 13.5 13.7 16.9 10 18C6.3 16.9 3.5 13.5 3.5 9.5V5L10 2Z" stroke="currentColor" stroke-width="1.6"/></svg> Compra 100% segura</span>
+            <span><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.3" stroke="currentColor" stroke-width="1.6"/><path d="M10 6V10L12.6 11.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Acesso imediato</span>
+            <span><svg viewBox="0 0 20 20" fill="none"><rect x="3" y="6" width="14" height="10" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M3 9H17" stroke="currentColor" stroke-width="1.6"/></svg> Ambiente Hotmart</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq">
+    <div class="wrap">
+      <div class="faq__head">
+        <span class="kicker">Perguntas frequentes</span>
+        <h2>Antes de garantir o seu</h2>
+      </div>
+      <div class="faq__list">
+        <details>
+          <summary>Como eu recebo o material?</summary>
+          <p>O guia é digital, em PDF. O acesso é liberado imediatamente após a confirmação do pagamento, direto na plataforma da Hotmart.</p>
+        </details>
+        <details>
+          <summary>O guia serve só para o Enem?</summary>
+          <p>Serve para qualquer redação dissertativo-argumentativa que cobre repertório sociocultural — o Enem e vestibulares seriados, como o PISM da UFJF, seguem a mesma lógica de argumento.</p>
+        </details>
+        <details>
+          <summary>Preciso ter lido os livros dos autores citados?</summary>
+          <p>Não. O guia entrega o argumento pronto, a frase de citação e o operador de entrada — você aplica sem precisar ler a obra original antes.</p>
+        </details>
+        <details>
+          <summary>Já uso repertório, mas minha nota trava. Isso é para mim?</summary>
+          <p>Sim — é exatamente para isso. O capítulo sobre nomear o mecanismo antes do teórico foi feito para quem já cita autor, mas sente que o parágrafo não sustenta a nota.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="finalcta">
+    <div class="wrap">
+      <h2>Sua redação do Enem 2026 começa pelo repertório certo.</h2>
+      <p>De R$ 147,00 por R$ 87,00 à vista. Acesso imediato, direto na Hotmart.</p>
+      <a class="btn btn--lg" href="#oferta">Quero o meu guia agora</a>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="wrap">
+      <p>© Redação Valeska Salgado. Todos os direitos reservados.</p>
+      <p>Este produto não tem qualquer vínculo com o Inep ou com o Ministério da Educação.</p>
+    </div>
+  </footer>
+
+</div>
