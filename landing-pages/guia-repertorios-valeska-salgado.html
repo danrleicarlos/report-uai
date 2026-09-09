@@ -162,19 +162,49 @@
   .vps .trustbar__label{font-size:13.5px;color:var(--cream-ink);line-height:1.35;}
 
   .vps .hero__art{position:relative;}
-  .vps .hero__frame{
-    border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
-    border:1px solid rgba(247,242,232,.14);
-    aspect-ratio:4/5;
+
+  /* ---- video facade ---- */
+  .vps .hero__video{
+    position:relative;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
+    border:1px solid rgba(247,242,232,.14);aspect-ratio:16/9;background:var(--ink-2);
   }
-  .vps .hero__frame img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,.84,.44,1);}
-  .vps .hero__frame:hover img{transform:scale(1.05);}
+  .vps .hero__video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .vps .video-facade{
+    position:absolute;inset:0;cursor:pointer;border:0;padding:0;margin:0;width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    background:transparent;font-family:inherit;-webkit-appearance:none;appearance:none;
+  }
+  .vps .video-facade:focus-visible{outline:3px solid var(--ember);outline-offset:3px;}
+  .vps .video-facade__thumb{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    filter:brightness(.72);transition:filter .3s ease, transform .5s cubic-bezier(.16,.84,.44,1);
+  }
+  .vps .video-facade:hover .video-facade__thumb{filter:brightness(.6);transform:scale(1.03);}
+  .vps .video-facade__play{
+    position:relative;z-index:2;width:74px;height:74px;border-radius:50%;
+    background:var(--ember);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 16px 34px -10px rgba(238,125,31,.7);
+    transition:transform .25s cubic-bezier(.34,1.56,.64,1), background .2s ease;
+  }
+  .vps .video-facade__play::before{
+    content:"";position:absolute;inset:-10px;border-radius:50%;border:2px solid rgba(238,125,31,.55);
+    animation:pulseRing 2.2s ease-out infinite;
+  }
+  .vps .video-facade__play svg{width:26px;height:26px;margin-left:4px;}
+  .vps .video-facade:hover .video-facade__play{transform:scale(1.08);background:#ff9138;}
+  .vps .video-facade__caption{
+    position:absolute;left:18px;bottom:16px;z-index:2;
+    background:rgba(19,35,56,.72);backdrop-filter:blur(2px);color:var(--paper);
+    font-size:13px;font-weight:700;padding:9px 14px;border-radius:10px;
+    display:flex;align-items:center;gap:8px;
+  }
+
   .vps .hero__badge{
-    position:absolute;left:-18px;bottom:26px;
+    position:absolute;right:-16px;bottom:-16px;left:auto;
     background:var(--paper-2);color:var(--ink);
     border-radius:14px;padding:14px 18px;box-shadow:var(--shadow);
     max-width:220px;font-size:13px;font-weight:600;
-    display:flex;gap:10px;align-items:flex-start;
+    display:flex;gap:10px;align-items:flex-start;z-index:3;
     animation:floatBadge 4s ease-in-out infinite;
   }
   .vps .hero__badge b{display:block;font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--ember-deep);}
@@ -313,43 +343,79 @@
   .vps .who__frame img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,.84,.44,1);}
   .vps .who__frame:hover img{transform:scale(1.05);}
 
-  /* ============ OFFER ============ */
+  /* ============ OFFER / PLANS ============ */
   .vps .offer{padding:100px 0;background:var(--paper);}
   .vps .offer__head{margin-bottom:8px;}
-  .vps .offer__head h2{font-size:clamp(28px,3.6vw,42px);margin-top:18px;max-width:18ch;}
+  .vps .offer__head h2{font-size:clamp(28px,3.6vw,42px);margin-top:18px;max-width:20ch;}
   .vps .offer__head p{margin-top:14px;color:var(--ink-soft);font-size:17px;max-width:56ch;}
-  .vps .offer__card{
-    margin-top:44px;background:var(--ink);color:var(--paper);border-radius:24px;
-    display:grid;grid-template-columns:1.15fr .85fr;overflow:hidden;box-shadow:var(--shadow);
-    transition:transform .35s cubic-bezier(.16,.84,.44,1), box-shadow .35s ease;
+
+  .vps .plans{
+    margin-top:52px;display:grid;grid-template-columns:1fr 1fr;gap:28px 26px;align-items:start;
   }
-  .vps .offer__card:hover{transform:translateY(-4px);box-shadow:0 30px 60px -20px rgba(19,35,56,.5);}
-  .vps .offer__left{padding:44px 46px;border-right:1px solid rgba(247,242,232,.14);}
-  .vps .offer__left h3{font-family:'Manrope',sans-serif;font-weight:800;font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);margin-bottom:18px;}
-  .vps .offer__list{display:flex;flex-direction:column;gap:13px;}
-  .vps .offer__list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--cream-ink);list-style:none;}
-  .vps .offer__list svg{flex-shrink:0;margin-top:3px;width:17px;height:17px;color:var(--ember);}
-  .vps .offer__right{
-    padding:44px 40px;display:flex;flex-direction:column;justify-content:center;
-    background:rgba(238,125,31,.08);
+  .vps .plan{
+    position:relative;background:var(--paper-2);border:1px solid var(--line);border-radius:24px;
+    padding:38px 34px 34px;display:flex;flex-direction:column;height:100%;
+    transition:transform .3s cubic-bezier(.16,.84,.44,1), box-shadow .3s ease, border-color .3s ease;
   }
-  .vps .offer__was{font-size:15px;color:var(--cream-ink);opacity:.75;}
-  .vps .offer__was s{text-decoration:line-through;}
-  .vps .offer__price{
-    font-family:'Fraunces',serif;font-weight:700;font-size:52px;color:#fff;
-    line-height:1;margin:6px 0 4px;font-variant-numeric:tabular-nums;
-    text-shadow:0 0 0 rgba(238,125,31,0);
-    animation:priceGlow 2.6s ease-in-out infinite;
+  .vps .plan:hover{transform:translateY(-6px);box-shadow:0 26px 50px -26px rgba(19,35,56,.35);}
+  .vps .plan--featured{
+    background:var(--ink);color:var(--paper);border-color:var(--ember);
+    box-shadow:0 30px 60px -24px rgba(19,35,56,.5);
+    transform:scale(1.04);z-index:2;
   }
-  @keyframes priceGlow{
-    0%,100%{text-shadow:0 0 0 rgba(238,125,31,0);}
-    50%{text-shadow:0 0 26px rgba(238,125,31,.55);}
+  .vps .plan--featured:hover{transform:scale(1.04) translateY(-6px);}
+  .vps .plan__ribbon{
+    position:absolute;top:-15px;left:50%;transform:translateX(-50%);
+    background:var(--ember);color:var(--ink);white-space:nowrap;
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+    padding:8px 18px;border-radius:999px;box-shadow:0 10px 22px -8px rgba(238,125,31,.65);
+    animation:ribbonPulse 2.4s ease-in-out infinite;
   }
-  .vps .offer__price small{font-size:16px;font-weight:500;color:var(--cream-ink);}
-  .vps .offer__cash{font-size:13.5px;color:var(--ember);font-weight:700;margin-bottom:22px;}
-  .vps .offer__badges{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:18px;}
-  .vps .offer__badges span{font-size:12px;color:var(--cream-ink);opacity:.8;display:flex;align-items:center;gap:6px;}
-  .vps .offer__badges svg{width:13px;height:13px;color:var(--ember);}
+  @keyframes ribbonPulse{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.06);}}
+  .vps .plan__tag{
+    font-family:'Manrope',sans-serif;font-weight:800;font-size:12px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ember-deep);
+  }
+  .vps .plan--featured .plan__tag{color:var(--ember);}
+  .vps .plan__title{font-family:'Fraunces',serif;font-size:25px;font-weight:700;margin:10px 0 6px;}
+  .vps .plan__desc{font-size:14.5px;color:var(--ink-soft);margin-bottom:24px;}
+  .vps .plan--featured .plan__desc{color:var(--cream-ink);}
+  .vps .plan__was{display:block;font-size:14px;color:var(--ink-soft);}
+  .vps .plan--featured .plan__was{color:var(--cream-ink);opacity:.75;}
+  .vps .plan__was s{text-decoration:line-through;}
+  .vps .plan__price{
+    display:block;font-family:'Fraunces',serif;font-weight:700;font-size:40px;line-height:1;
+    margin:4px 0;color:var(--ink);font-variant-numeric:tabular-nums;
+  }
+  .vps .plan--featured .plan__price{color:#fff;}
+  .vps .plan__price small{font-size:15px;font-weight:500;}
+  .vps .plan__cash{display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:18px;}
+  .vps .plan--featured .plan__cash{color:var(--cream-ink);opacity:.8;}
+  .vps .plan__bump{
+    display:inline-flex;align-items:center;gap:8px;background:var(--ember-light);color:var(--ember-deep);
+    font-size:13px;font-weight:700;padding:9px 14px;border-radius:10px;margin-bottom:22px;
+  }
+  .vps .plan--featured .plan__bump{background:rgba(238,125,31,.18);color:var(--ember);}
+  .vps .plan__list{display:flex;flex-direction:column;gap:11px;margin-bottom:28px;flex:1;}
+  .vps .plan__list li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;color:var(--ink-soft);}
+  .vps .plan--featured .plan__list li{color:var(--cream-ink);}
+  .vps .plan__list li strong{color:var(--ink);font-weight:700;}
+  .vps .plan--featured .plan__list li strong{color:#fff;}
+  .vps .plan__list svg{flex-shrink:0;margin-top:2px;width:16px;height:16px;color:var(--ember);}
+  .vps .plan__list-note{
+    font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--ink-soft);margin:4px 0 -2px;
+  }
+  .vps .plan--featured .plan__list-note{color:var(--ember);}
+  .vps .plan .btn{width:100%;}
+
+  .vps .plans-badges{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-top:32px;
+  }
+  .vps .plans-badges span{
+    font-size:12.5px;color:var(--ink-soft);display:flex;align-items:center;gap:6px;font-weight:600;
+  }
+  .vps .plans-badges svg{width:14px;height:14px;color:var(--ember-deep);}
 
   /* ============ FAQ ============ */
   .vps .faq{padding:92px 0;background:var(--paper-2);border-top:1px solid var(--line);}
@@ -405,21 +471,22 @@
   }
   .vps .stickybar.is-visible{transform:translateY(0);}
   .vps .stickybar__price{display:flex;flex-direction:column;line-height:1.15;}
-  .vps .stickybar__price s{font-size:12px;color:var(--cream-ink);opacity:.7;}
+  .vps .stickybar__price small{font-size:12px;color:var(--cream-ink);opacity:.7;}
   .vps .stickybar__price b{font-family:'Fraunces',serif;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;}
   .vps .stickybar .btn{padding:12px 22px;font-size:14.5px;white-space:nowrap;}
 
   /* ============ RESPONSIVE ============ */
   @media (max-width:920px){
-    .vps .hero .wrap,.vps .author .wrap,.vps .who .wrap,.vps .offer__card{grid-template-columns:1fr;}
-    .vps .hero__art{order:-1;max-width:340px;margin:0 auto;}
-    .vps .hero__badge{left:12px;}
+    .vps .hero .wrap,.vps .author .wrap,.vps .who .wrap{grid-template-columns:1fr;}
+    .vps .hero__art{order:-1;max-width:480px;margin:0 auto;}
     .vps .pain__grid{grid-template-columns:1fr;}
     .vps .method__steps{grid-template-columns:repeat(2,1fr);}
     .vps .stack__grid{grid-template-columns:1fr;}
-    .vps .offer__left{border-right:none;border-bottom:1px solid rgba(247,242,232,.14);}
     .vps .who__frame{max-width:420px;margin:0 auto;}
     .vps .author__photos{max-width:420px;margin:0 auto;}
+    .vps .plans{grid-template-columns:1fr;max-width:440px;margin-left:auto;margin-right:auto;}
+    .vps .plan--featured{transform:none;order:-1;}
+    .vps .plan--featured:hover{transform:translateY(-6px);}
   }
   @media (max-width:640px){
     .vps .method__steps{grid-template-columns:1fr;}
@@ -435,8 +502,8 @@
   @media (prefers-reduced-motion:reduce){
     .vps *{animation-duration:.001ms !important;animation-iteration-count:1 !important;}
     .vps .btn,.vps .nav__cta,.vps .reveal,.vps .stickybar,
-    .vps .pain__card,.vps .step,.vps .stack__item,.vps .offer__card,
-    .vps .hero__frame img,.vps .author__photo img,.vps .who__frame img{transition:none;}
+    .vps .pain__card,.vps .step,.vps .stack__item,.vps .plan,
+    .vps .video-facade__thumb,.vps .author__photo img,.vps .who__frame img{transition:none;}
     .vps .reveal{opacity:1;transform:none;}
   }
 </style>
@@ -482,9 +549,17 @@
       </div>
 
       <div class="hero__art">
-        <div class="hero__frame">
-          <!-- SUBSTITUIR: foto 1 — Valeska sentada no banquinho, blazer branco, quadro branco ao fundo (VPS+) -->
-          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI3NjAiIGhlaWdodD0iOTUwIiB2aWV3Qm94PSIwIDAgNzYwIDk1MCI+CjxkZWZzPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTMyMzNhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzFkM2E1YyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+CjxyZWN0IHdpZHRoPSI3NjAiIGhlaWdodD0iOTUwIiBmaWxsPSJ1cmwoI2cpIi8+Cjxwb2x5Z29uIHBvaW50cz0iNzYwLDk1MCA0MTguMDAwMDAwMDAwMDAwMDYsOTUwIDc2MCw1ODkuMCIgZmlsbD0iI2VlN2QxZiIgb3BhY2l0eT0iMC45Ii8+Cjxwb2x5Z29uIHBvaW50cz0iMCwwIDI0My4yMDAwMDAwMDAwMDAwMiwwIDAsMjA5LjAiIGZpbGw9IiNmN2YyZTkiIG9wYWNpdHk9IjAuMDgiLz4KPGNpcmNsZSBjeD0iMzgwLjAiIGN5PSIzOTkuMCIgcj0iMTE0LjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y3ZjJlOSIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiIHN0cm9rZS13aWR0aD0iMi41Ii8+CjxwYXRoIGQ9Ik0gMzA0LjAgNTY2LjIgcSA3Ni4wIC0xMjEuNjAwMDAwMDAwMDAwMDEgMTUyLjAgMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjdmMmU5IiBzdHJva2Utb3BhY2l0eT0iMC41NSIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8dGV4dCB4PSIzODAuMCIgeT0iNjg0LjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyNC4zMiIgbGV0dGVyLXNwYWNpbmc9IjIiIGZpbGw9IiNlZTdkMWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSI3MDAiPkZPVE8gMTwvdGV4dD4KPHRleHQgeD0iMzgwLjAiIHk9IjcxOC4yIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTkuNzU5OTk5OTk5OTk5OTk4IiBsZXR0ZXItc3BhY2luZz0iMC41IiBmaWxsPSIjZjdmMmU5IiBmaWxsLW9wYWNpdHk9IjAuNzUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlJFVFJBVE8gwrcgU1VCU1RJVFVJUjwvdGV4dD4KPC9zdmc+" alt="Valeska Salgado, professora de redação" />
+        <div class="hero__video" id="heroVideo" data-video-id="b7kAvkNlzxQ">
+          <button type="button" class="video-facade" id="heroVideoFacade" aria-label="Assistir ao vídeo explicativo do método Destrava Nota Mil">
+            <img class="video-facade__thumb" src="https://img.youtube.com/vi/b7kAvkNlzxQ/maxresdefault.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='https://img.youtube.com/vi/b7kAvkNlzxQ/hqdefault.jpg';">
+            <span class="video-facade__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M7 5.5V18.5L19 12L7 5.5Z" fill="#132338"/></svg>
+            </span>
+            <span class="video-facade__caption">
+              <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7 5.5V14.5L14 10L7 5.5Z" fill="currentColor"/></svg>
+              Assista à explicação do método
+            </span>
+          </button>
         </div>
         <div class="hero__badge">
           <span><b>900+</b>na redação, saindo de escola pública sem intimidade com a escrita</span>
@@ -668,19 +743,26 @@
     </div>
   </section>
 
-  <!-- ============ OFFER ============ -->
+  <!-- ============ OFFER / PLANS ============ -->
   <section class="offer" id="oferta">
     <div class="wrap">
       <div class="offer__head measure reveal">
         <span class="kicker">Guia de Repertórios · Destrava Nota Mil</span>
-        <h2>Leve o argumento pronto para a redação do Enem 2026</h2>
-        <p>O Enem 2026 está mais perto do que parece. Quanto antes você estruturar seu repertório, mais redações você treina com o método certo, em vez de decorar frase que só funciona uma vez.</p>
+        <h2>Escolha como quer chegar ao Enem 2026</h2>
+        <p>Dois jeitos de usar o método: sozinho, no seu ritmo, com o guia completo. Ou com acompanhamento direto da Valeska, ao vivo, para tirar dúvida enquanto estuda.</p>
       </div>
 
-      <div class="offer__card reveal">
-        <div class="offer__left">
-          <h3>O que está incluso</h3>
-          <ul class="offer__list">
+      <div class="plans">
+        <div class="plan reveal">
+          <span class="plan__tag">Plano Guia</span>
+          <h3 class="plan__title">Guia de Repertórios</h3>
+          <p class="plan__desc">Para quem quer estudar no próprio ritmo, com o argumento pronto em mãos.</p>
+
+          <span class="plan__was">De <s>R$ 147,00</s></span>
+          <span class="plan__price">R$ 87<small>,00</small></span>
+          <span class="plan__cash">à vista · ou consulte o parcelamento no checkout</span>
+
+          <ul class="plan__list">
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Guia digital em PDF, com 94 páginas, acesso pelo computador ou celular</li>
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 8 falhas do Estado mapeadas, com autor, teste e "em quais temas cabe"</li>
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Repertórios da sociedade e da mídia, para montar o seu D2</li>
@@ -688,19 +770,41 @@
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Frases prontas, operadores de entrada e índice de consulta rápida para a véspera</li>
             <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Referências bibliográficas completas de cada autor citado</li>
           </ul>
+
+          <a class="btn" href="#" target="_blank" rel="noopener">Quero só o guia</a>
+          <!-- SUBSTITUIR o href acima pelo link de checkout da Hotmart (Oferta 1: Guia) -->
         </div>
-        <div class="offer__right">
-          <span class="offer__was">De <s>R$ 147,00</s></span>
-          <span class="offer__price">R$ 87<small>,00</small></span>
-          <span class="offer__cash">à vista · ou consulte o parcelamento no checkout</span>
-          <a class="btn btn--lg" href="#" target="_blank" rel="noopener">Quero o guia agora por R$ 87</a>
-          <!-- SUBSTITUIR o href acima pelo link de checkout da Hotmart -->
-          <div class="offer__badges">
-            <span><svg viewBox="0 0 20 20" fill="none"><path d="M10 2L16.5 5V9.5C16.5 13.5 13.7 16.9 10 18C6.3 16.9 3.5 13.5 3.5 9.5V5L10 2Z" stroke="currentColor" stroke-width="1.6"/></svg> Compra 100% segura</span>
-            <span><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.3" stroke="currentColor" stroke-width="1.6"/><path d="M10 6V10L12.6 11.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Acesso imediato</span>
-            <span><svg viewBox="0 0 20 20" fill="none"><rect x="3" y="6" width="14" height="10" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M3 9H17" stroke="currentColor" stroke-width="1.6"/></svg> Ambiente Hotmart</span>
-          </div>
+
+        <div class="plan plan--featured reveal">
+          <span class="plan__ribbon">Mais escolhido</span>
+          <span class="plan__tag">Plano Completo</span>
+          <h3 class="plan__title">Guia + Mentoria Ao Vivo</h3>
+          <p class="plan__desc">Para quem quer tirar dúvida direto com a Valeska, ao vivo, enquanto escreve.</p>
+
+          <span class="plan__was">De <s>R$ 497,00</s></span>
+          <span class="plan__price">R$ 147<small>,00</small></span>
+          <span class="plan__cash">à vista · ou consulte o parcelamento no checkout</span>
+
+          <span class="plan__bump">
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M10 4V16M4 10H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Por R$ 60,00 a mais que o guia sozinho
+          </span>
+
+          <ul class="plan__list">
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> <strong>Tudo do plano Guia</strong>, com as 94 páginas e os oito autores mapeados</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Acesso ao grupo exclusivo no WhatsApp com a Valeska</li>
+            <li><svg viewBox="0 0 20 20" fill="none"><path d="M4 10.5L8 14.5L16 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Aulas ao vivo com a professora, para tirar dúvida de repertório</li>
+          </ul>
+
+          <a class="btn" href="#" target="_blank" rel="noopener">Quero o completo</a>
+          <!-- SUBSTITUIR o href acima pelo link de checkout da Hotmart (Oferta 2: Guia + Mentoria) -->
         </div>
+      </div>
+
+      <div class="plans-badges">
+        <span><svg viewBox="0 0 20 20" fill="none"><path d="M10 2L16.5 5V9.5C16.5 13.5 13.7 16.9 10 18C6.3 16.9 3.5 13.5 3.5 9.5V5L10 2Z" stroke="currentColor" stroke-width="1.6"/></svg> Compra 100% segura</span>
+        <span><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.3" stroke="currentColor" stroke-width="1.6"/><path d="M10 6V10L12.6 11.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Acesso imediato ao guia</span>
+        <span><svg viewBox="0 0 20 20" fill="none"><rect x="3" y="6" width="14" height="10" rx="1.6" stroke="currentColor" stroke-width="1.6"/><path d="M3 9H17" stroke="currentColor" stroke-width="1.6"/></svg> Ambiente Hotmart</span>
       </div>
     </div>
   </section>
@@ -714,8 +818,12 @@
       </div>
       <div class="faq__list">
         <details class="reveal">
+          <summary>Qual a diferença entre os dois planos?</summary>
+          <p>O plano Guia entrega o material completo em PDF, para você estudar sozinho. O plano completo inclui o mesmo guia e soma o grupo exclusivo no WhatsApp e aulas ao vivo com a Valeska, para tirar dúvida de repertório enquanto você escreve.</p>
+        </details>
+        <details class="reveal">
           <summary>Como eu recebo o material?</summary>
-          <p>O guia é digital, em PDF. O acesso é liberado imediatamente após a confirmação do pagamento, direto na plataforma da Hotmart.</p>
+          <p>O guia é digital, em PDF. O acesso é liberado imediatamente após a confirmação do pagamento, direto na plataforma da Hotmart. No plano completo, o convite do grupo no WhatsApp e o calendário das aulas ao vivo chegam em seguida, por e-mail.</p>
         </details>
         <details class="reveal">
           <summary>O guia serve só para o Enem?</summary>
@@ -737,8 +845,8 @@
   <section class="finalcta">
     <div class="wrap reveal">
       <h2>Sua redação do Enem 2026 começa pelo repertório certo.</h2>
-      <p>De R$ 147,00 por R$ 87,00 à vista. Acesso imediato, direto na Hotmart.</p>
-      <a class="btn btn--lg" href="#oferta">Quero o meu guia agora</a>
+      <p>A partir de R$ 87,00 à vista. Escolha só o guia ou o acompanhamento ao vivo com a Valeska, direto na Hotmart.</p>
+      <a class="btn btn--lg" href="#oferta">Ver os planos</a>
     </div>
   </section>
 
@@ -752,8 +860,8 @@
 
   <!-- ============ STICKY OFFER BAR ============ -->
   <div class="stickybar" id="vpsStickybar">
-    <span class="stickybar__price"><s>R$ 147,00</s><b>R$ 87,00 à vista</b></span>
-    <a class="btn" href="#oferta">Quero o guia agora</a>
+    <span class="stickybar__price"><small>a partir de</small><b>R$ 87,00 à vista</b></span>
+    <a class="btn" href="#oferta">Ver os planos</a>
   </div>
 
 </div>
@@ -810,6 +918,22 @@
       });
     }, { threshold: 0.6 });
     counters.forEach(function(el){ cio.observe(el); });
+  }
+
+  /* ---- Hero video: click-to-play facade (keeps initial page load light) ---- */
+  var videoWrap = document.getElementById('heroVideo');
+  var facade = document.getElementById('heroVideoFacade');
+  if (videoWrap && facade) {
+    facade.addEventListener('click', function(){
+      var id = videoWrap.getAttribute('data-video-id');
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+      iframe.title = 'Vídeo explicativo';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      videoWrap.innerHTML = '';
+      videoWrap.appendChild(iframe);
+    });
   }
 
   /* ---- Sticky nav shadow + scroll progress + sticky offer bar ---- */
