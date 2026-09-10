@@ -13,22 +13,14 @@ Página de vendas em HTML/CSS/JS puro (sem dependências externas além de uma f
 
 Alternativa: se preferir uma página fora do Elementor, o arquivo também pode ser hospedado como uma página HTML avulsa (por exemplo, via um tema em branco ou um plugin de "raw HTML page").
 
-## Antes de publicar, troque 4 coisas
+## Antes de publicar, troque 2 coisas
 
 ### 1. O vídeo da Hero
 O vídeo já está configurado com o ID `b7kAvkNlzxQ` (de `https://youtu.be/b7kAvkNlzxQ`). A prévia mostra a miniatura do próprio YouTube com um botão de play; o vídeo só carrega de verdade quando alguém clica (isso deixa a página mais rápida). Se um dia precisar trocar o vídeo, procure por `id="heroVideo"` e troque o valor de `data-video-id` pelo novo ID (o trecho depois de `youtu.be/` ou de `v=` na URL do YouTube).
 
-### 2. As três fotos
-O arquivo vem com dois marcadores visuais de foto (fundo azul-marinho com "FOTO 2 / 3"), para você enxergar exatamente onde cada uma entra. Procure no arquivo por `SUBSTITUIR` — cada uma tem um comentário dizendo qual foto usar:
+As fotos 2 e 3 já estão preenchidas com as imagens reais hospedadas em `valeskasalgado.com.br`. A foto do retrato (banquinho, blazer branco) não é usada na Hero, o espaço dela agora é o vídeo.
 
-- **Foto 2** (seção "Quem ensina"): a foto da Valeska dando aula, com a sala cheia de alunos.
-- **Foto 3** (seção "Este guia foi escrito para você, se"): a foto com os três alunos segurando o tablet com o guia.
-
-A foto do retrato (banquinho, blazer branco) não é mais usada na Hero — o espaço dela agora é o vídeo. Se quiser reaproveitá-la, dá para colocar como uma foto extra na seção "Quem ensina".
-
-Para trocar: suba cada imagem na Biblioteca de Mídia do WordPress, copie a URL gerada e substitua o valor de `src="data:image/svg+xml..."` pela URL da foto (ex.: `src="https://seusite.com.br/wp-content/uploads/foto2.jpg"`). Se estiver usando o widget HTML do Elementor, é mais simples fazer essa troca antes de colar o código.
-
-### 3. Os dois links de checkout da Hotmart
+### 2. Os dois links de checkout da Hotmart
 A seção de oferta agora mostra **dois planos lado a lado**, e cada um precisa do seu próprio link de checkout (configure as duas ofertas separadamente dentro do produto na Hotmart). Procure no arquivo por `SUBSTITUIR o href`:
 
 - `<!-- SUBSTITUIR o href acima pelo link de checkout da Hotmart (Oferta 1: Guia) -->` → botão "Quero só o guia".
@@ -36,7 +28,7 @@ A seção de oferta agora mostra **dois planos lado a lado**, e cada um precisa 
 
 Os dois botões estão com `href="#"` até você trocar.
 
-### 4. Confira os preços
+### 3. Confira os preços
 Estão configurados assim:
 
 | Plano | De | Por | Inclui |
