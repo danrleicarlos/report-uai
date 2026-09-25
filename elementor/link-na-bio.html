@@ -1,719 +1,585 @@
-<!-- LINK NA BIO - DANRLEI CARLOS | Copie TUDO e cole em um widget HTML do Elementor Pro (nao precisa de DOCTYPE, html, head ou body: o WordPress ja gera). Para editar um botao, procure por BOTAO 01, BOTAO 02 etc. -->
+<!--
+═══════════════════════════════════════════════════════════════════════
+  DANRLEI CARLOS · LINK NA BIO — WIDGET HTML AUTOSSUFICIENTE
+  ─────────────────────────────────────────────────────────────────────
+  Cole TODO este arquivo dentro de UM widget "HTML" do Elementor.
+  Recomendado: template "Elementor Canvas" (sem header/footer do tema).
+  Recomendado: contêiner sem padding interno (Avançado → Padding 0).
+
+  Para editar um botão, procure por "BOTAO 01", "BOTAO 02" etc.
+  As UTMs já estão dentro de cada link.
+═══════════════════════════════════════════════════════════════════════
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&family=Permanent+Marker&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&display=swap">
+
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&family=Permanent+Marker&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&display=swap');
 
-  .dcbio {
-    --ink: #111111;
-    --ink-soft: #3a3a3a;
-    --paper: #efede8;
-    --paper-2: #e6e3dc;
-    --red: #b8121b;
-    --red-deep: #8e0d14;
-    --gray: #8b8b8b;
-    --line: rgba(17, 17, 17, .14);
-    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
-    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --hand: "Caveat", "Comic Sans MS", cursive;
-    --marker: "Permanent Marker", "Caveat", cursive;
-    --ease: cubic-bezier(.2, .8, .2, 1);
+  .dc-bio{
+    --dcb-ink:#111111;
+    --dcb-ink-soft:#3a3a3a;
+    --dcb-paper:#efede8;
+    --dcb-paper-2:#e6e3dc;
+    --dcb-red:#b8121b;
+    --dcb-gray:#8b8b8b;
+    --dcb-line:rgba(17,17,17,.14);
+    --dcb-serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --dcb-sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --dcb-hand:"Caveat","Comic Sans MS",cursive;
+    --dcb-marker:"Permanent Marker","Caveat",cursive;
+    --dcb-ease:cubic-bezier(.2,.8,.2,1);
+  }
+  .dc-bio *{box-sizing:border-box}
+  .dc-bio{
+    position:relative;
+    width:100%;
+    margin:0;padding:0 0 40px;
+    overflow:hidden;
+    background-color:#efede8;
+    background-image:radial-gradient(120% 70% at 50% 0%, #f7f6f2 0%, #efede8 55%, #e6e3dc 100%);
+    color:#111111;
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;line-height:1.5;text-align:left;
+    -webkit-font-smoothing:antialiased;
+  }
+  .dc-bio::selection{background:var(--dcb-red);color:#fff}
 
-    position: relative;
-    width: 100%;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    margin: 0;
-    padding: 0 0 40px;
-    overflow: hidden;
-    background:
-      radial-gradient(120% 70% at 50% 0%, #f7f6f2 0%, var(--paper) 55%, var(--paper-2) 100%);
-    color: var(--ink);
-    font-family: var(--sans);
-    font-size: 16px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    text-align: left;
+  /* ===========================================================
+     Atmosfera — grão de papel
+     =========================================================== */
+  .dc-bio .bio-grain{
+    position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.9;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMjAnIGhlaWdodD0nMjIwJz48ZmlsdGVyIGlkPSdhJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC44NScgbnVtT2N0YXZlcz0nMicgc3RpdGNoVGlsZXM9J3N0aXRjaCcvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0nMCAwIDAgMCAwICAwIDAgMCAwIDAgIDAgMCAwIDAgMCAgMCAwIDAgLjA5IDAnLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWx0ZXI9J3VybCgjYSknLz48L3N2Zz4=");
   }
-  /* grão de papel */
-  .dcbio::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    opacity: .22;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E");
-  }
-  .dcbio *, .dcbio *::before, .dcbio *::after { box-sizing: border-box; }
-  .dcbio a { color: inherit; text-decoration: none; }
-  .dcbio a:hover, .dcbio a:focus { color: inherit; text-decoration: none; }
-  .dcbio img { max-width: 100%; height: auto; border: 0; box-shadow: none; border-radius: 0; }
-  .dcbio p, .dcbio h1, .dcbio h2, .dcbio h3, .dcbio ul, .dcbio li, .dcbio figure { margin: 0; padding: 0; }
-  .dcbio ul { list-style: none; }
-  .dcbio :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+  .dc-bio .bio-wrap{position:relative;z-index:1;width:100%;max-width:480px;margin:0 auto;padding:0 20px}
 
-  .dcbio-wrap {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
+  /* ===========================================================
+     Resets locais (o tema não interfere)
+     =========================================================== */
+  .dc-bio a{color:inherit;text-decoration:none}
+  .dc-bio a:hover,.dc-bio a:focus{color:inherit;text-decoration:none}
+  .dc-bio img{max-width:100%;height:auto;border:0;box-shadow:none;border-radius:0}
+  .dc-bio h1,.dc-bio h2,.dc-bio p,.dc-bio ul,.dc-bio li{margin:0;padding:0}
+  .dc-bio ul{list-style:none}
+  .dc-bio button{font:inherit;color:inherit;background:none;border:0;border-radius:0;padding:0;margin:0}
+  .dc-bio :focus-visible{outline:2px solid var(--dcb-red);outline-offset:3px}
 
-  /* ---------- HERO ---------- */
-  .dcbio-hero { position: relative; padding-top: 34px; }
-  .dcbio-handle {
-    display: flex; align-items: center; justify-content: space-between;
-    font: 600 11px/1 var(--sans);
-    letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft);
-  }
-  .dcbio-handle span:last-child { color: var(--red); }
-  .dcbio .dcbio-h1 {
-    margin-top: 28px;
-    font: 700 clamp(52px, 15vw, 70px)/.92 var(--serif);
-    letter-spacing: -.025em;
-    color: var(--ink);
-  }
-  .dcbio-h1 .dcbio-red { display: inline-block; position: relative; color: var(--red); padding-bottom: 8px; }
-  .dcbio-h1 .dcbio-red::after {
-    content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 100%;
-    background: var(--red); transform-origin: left;
-    transition: transform 1.1s var(--ease) .5s;
-  }
-  .dcbio-h1 .dcbio-red::after { animation: dcbioLine 1.1s var(--ease) .5s backwards; }
-  @keyframes dcbioLine { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-  .dcbio .dcbio-slogan {
-    margin-top: 18px;
-    font: 500 clamp(22px, 6.2vw, 27px)/1.18 var(--serif);
-    color: var(--ink);
-  }
-  .dcbio-rule { display: flex; align-items: center; gap: 0; width: 120px; margin: 22px 0 18px; }
-  .dcbio-rule i { display: block; height: 2px; background: #b9b6b0; flex: 1; }
-  .dcbio-rule i:nth-child(2) { height: 4px; flex: .8; background: var(--red); }
-  .dcbio .dcbio-lead {
-    max-width: 330px;
-    font: 400 16.5px/1.45 var(--serif);
-    color: var(--ink-soft);
-  }
-  .dcbio-lead b { font-weight: 600; color: var(--red); }
+  /* ===========================================================
+     HERO
+     =========================================================== */
+  .dc-bio .bio-hero{position:relative;padding-top:34px}
+  .dc-bio .bio-handle{display:flex;align-items:center;justify-content:space-between;font:600 11px/1 var(--dcb-sans);letter-spacing:.18em;text-transform:uppercase;color:var(--dcb-ink-soft)}
+  .dc-bio .bio-handle span:last-child{color:var(--dcb-red)}
+  .dc-bio .bio-h1{margin-top:28px;font:700 clamp(52px,15vw,70px)/.92 var(--dcb-serif);letter-spacing:-.025em;color:var(--dcb-ink)}
+  .dc-bio .bio-h1 .red{display:inline-block;position:relative;color:var(--dcb-red);padding-bottom:8px}
+  .dc-bio .bio-h1 .red::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--dcb-red);transform-origin:left;animation:dcbLine 1.1s var(--dcb-ease) .5s backwards}
+  @keyframes dcbLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .dc-bio .bio-slogan{margin-top:18px;font:500 clamp(22px,6.2vw,27px)/1.18 var(--dcb-serif);color:var(--dcb-ink)}
+  .dc-bio .bio-rule{display:flex;align-items:center;width:120px;margin:22px 0 18px}
+  .dc-bio .bio-rule i{display:block;height:2px;background:#b9b6b0;flex:1}
+  .dc-bio .bio-rule i:nth-child(2){height:4px;flex:.8;background:var(--dcb-red)}
+  .dc-bio .bio-lead{max-width:330px;font:400 16.5px/1.45 var(--dcb-serif);color:var(--dcb-ink-soft)}
+  .dc-bio .bio-lead b{font-weight:600;color:var(--dcb-red)}
 
-  /* figura / foto */
-  .dcbio-figure { position: relative; height: 430px; margin-top: 8px; }
-  .dcbio-sun {
-    position: absolute; left: 4%; top: 150px; width: 190px; height: 190px;
-    border-radius: 50%; background: var(--red);
-    transition: transform 1.2s var(--ease) .3s, opacity .8s ease .3s;
-  }
-  .dcbio-sun { animation: dcbioPop 1.2s var(--ease) .2s backwards; }
-  @keyframes dcbioPop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .dcbio-photo {
-    position: absolute; right: -20px; bottom: 0; width: 82%; height: 100%;
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
-  }
-  .dcbio-photo img {
-    width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%;
-    filter: grayscale(1) contrast(1.12) brightness(1.02);
-    transition: filter .8s ease, transform 1.4s var(--ease);
-  }
-  .dcbio-figure:hover .dcbio-photo img,
-  .dcbio-figure.is-color .dcbio-photo img { filter: grayscale(0) contrast(1.02); transform: scale(1.02); }
-  .dcbio-crown {
-    position: absolute; right: 12%; top: -6px; width: 150px; transform: rotate(-9deg);
-    pointer-events: none;
-  }
-  .dcbio-crown path {
-    fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round;
-    stroke-dasharray: 1; stroke-dashoffset: 0;
-    transition: stroke-dashoffset 1.6s var(--ease) .9s;
-  }
-  .dcbio-crown .drip { stroke-width: 3; transition-delay: 2.2s; transition-duration: .8s; }
-  .dcbio-crown path { animation: dcbioDraw 1.6s var(--ease) .8s backwards; }
-  .dcbio-crown .drip { animation-duration: .8s; animation-delay: 2.1s; }
-  @keyframes dcbioDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-  .dcbio-scrib {
-    position: absolute; font: 500 17px/1.02 var(--hand); color: var(--ink); opacity: .85;
-    pointer-events: none;
-  }
-  .dcbio-scrib--bla { left: 0; top: 70px; transform: rotate(-4deg); }
-  .dcbio-scrib--latin { right: -4px; top: 150px; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; transform: rotate(6deg); text-align: right; }
-  .dcbio-stamp {
-    position: absolute; right: 2px; bottom: 26px; z-index: 2;
-    font: 400 19px/.95 var(--marker); color: var(--ink); text-align: center;
-    transform: rotate(-6deg); pointer-events: none;
-  }
-  .dcbio-stamp s { text-decoration: none; position: relative; }
-  .dcbio-tally { position: absolute; right: 22px; bottom: 112px; width: 46px; z-index: 2; }
-  .dcbio-tally path { stroke: var(--ink); stroke-width: 2.4; stroke-linecap: round; fill: none; }
-  .dcbio-hint {
-    position: absolute; left: 0; bottom: 44px; z-index: 2;
-    font: 700 19px/1 var(--hand); color: var(--red); transform: rotate(-5deg);
-    display: flex; align-items: center; gap: 6px;
-  }
-  .dcbio-hint svg { width: 46px; height: 26px; }
+  .dc-bio .bio-figure{position:relative;height:430px;margin-top:8px;cursor:pointer}
+  @media(min-width:560px){.dc-bio .bio-figure{height:470px}}
+  .dc-bio .bio-sun{position:absolute;left:4%;top:150px;width:190px;height:190px;border-radius:50%;background:var(--dcb-red);animation:dcbPop 1.2s var(--dcb-ease) .2s backwards}
+  @keyframes dcbPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+  .dc-bio .bio-photo{position:absolute;right:-20px;bottom:0;width:82%;height:100%;overflow:hidden;
+    -webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 72%,transparent 100%)}
+  .dc-bio .bio-photo img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 12%;filter:grayscale(1) contrast(1.12);transition:filter .8s ease,transform 1.4s var(--dcb-ease)}
+  .dc-bio .bio-figure:hover .bio-photo img,.dc-bio .bio-figure.is-color .bio-photo img{filter:grayscale(0) contrast(1.02);transform:scale(1.02)}
+  .dc-bio .bio-crown{position:absolute;right:12%;top:-6px;width:150px;transform:rotate(-9deg);pointer-events:none}
+  .dc-bio .bio-crown path{fill:none;stroke:var(--dcb-ink);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0;animation:dcbDraw 1.6s var(--dcb-ease) .8s backwards}
+  .dc-bio .bio-crown .drip{stroke-width:3;animation-duration:.8s;animation-delay:2.1s}
+  @keyframes dcbDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+  .dc-bio .bio-scrib{position:absolute;font:500 17px/1.02 var(--dcb-hand);color:var(--dcb-ink);opacity:.85;pointer-events:none}
+  .dc-bio .bio-scrib.bla{left:0;top:70px;transform:rotate(-4deg)}
+  .dc-bio .bio-scrib.latin{right:-4px;top:150px;font-size:14px;letter-spacing:.06em;text-transform:uppercase;transform:rotate(6deg);text-align:right}
+  .dc-bio .bio-stamp{position:absolute;right:2px;bottom:26px;z-index:2;font:400 19px/.95 var(--dcb-marker);color:var(--dcb-ink);text-align:center;transform:rotate(-6deg);pointer-events:none}
+  .dc-bio .bio-tally{position:absolute;right:22px;bottom:112px;width:46px;z-index:2}
+  .dc-bio .bio-tally path{stroke:var(--dcb-ink);stroke-width:2.4;stroke-linecap:round;fill:none}
+  .dc-bio .bio-hint{position:absolute;left:0;bottom:44px;z-index:2;display:flex;align-items:center;gap:6px;font:700 19px/1 var(--dcb-hand);color:var(--dcb-red);transform:rotate(-5deg)}
+  .dc-bio .bio-hint svg{width:46px;height:26px}
 
-  /* ---------- SEÇÕES ---------- */
-  .dcbio-section { position: relative; margin-top: 56px; }
-  .dcbio-kicker {
-    display: flex; align-items: center; gap: 10px;
-    font: 700 11px/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--red);
-  }
-  .dcbio-kicker::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-  .dcbio .dcbio-h2 {
-    margin: 12px 0 22px;
-    font: 700 clamp(32px, 9vw, 40px)/1 var(--serif); letter-spacing: -.02em; color: var(--ink);
-  }
-  .dcbio-h2 em { font-style: italic; font-weight: 500; color: var(--red); }
+  /* ===========================================================
+     Cabeçalhos de seção
+     =========================================================== */
+  .dc-bio .bio-section{position:relative;margin-top:56px}
+  .dc-bio .bio-kicker{display:flex;align-items:center;gap:10px;font:700 11px/1 var(--dcb-sans);letter-spacing:.2em;text-transform:uppercase;color:var(--dcb-red)}
+  .dc-bio .bio-kicker::after{content:"";flex:1;height:1px;background:var(--dcb-line)}
+  .dc-bio .bio-h2{margin:12px 0 22px;font:700 clamp(32px,9vw,40px)/1 var(--dcb-serif);letter-spacing:-.02em;color:var(--dcb-ink)}
+  .dc-bio .bio-h2 em{font-style:italic;font-weight:500;color:var(--dcb-red)}
 
-  /* ---------- LINKS ---------- */
-  .dcbio-links { display: grid; gap: 12px; }
-  .dcbio .dcbio-link {
-    --mx: 50%; --my: 50%;
-    position: relative; isolation: isolate; overflow: hidden;
-    display: grid; grid-template-columns: 30px 1fr 34px; align-items: center; gap: 12px;
-    min-height: 76px; padding: 14px 14px 14px 16px;
-    background: #fbfaf7;
-    border: 1.5px solid var(--ink);
-    box-shadow: 4px 4px 0 var(--ink);
-    color: var(--ink);
-    transition: transform .25s var(--ease), box-shadow .25s var(--ease), color .35s ease;
-    -webkit-tap-highlight-color: transparent;
+  /* ===========================================================
+     BOTÕES
+     =========================================================== */
+  .dc-bio .bio-links{display:grid;gap:12px}
+  .dc-bio .bio-link{
+    --mx:50%;--my:50%;
+    position:relative;isolation:isolate;overflow:hidden;
+    display:grid;grid-template-columns:30px 1fr 34px;align-items:center;gap:12px;
+    min-height:76px;padding:14px 14px 14px 16px;
+    background:#fbfaf7;border:1.5px solid var(--dcb-ink);box-shadow:4px 4px 0 var(--dcb-ink);color:var(--dcb-ink);
+    transition:transform .25s var(--dcb-ease),box-shadow .25s var(--dcb-ease),color .35s ease;
+    -webkit-tap-highlight-color:transparent;
   }
-  .dcbio-link::before {
-    content: ""; position: absolute; inset: 0; z-index: -1;
-    background: var(--ink); transform: scaleX(0); transform-origin: left;
-    transition: transform .45s var(--ease);
-  }
-  .dcbio-link::after {
-    content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0;
-    background: radial-gradient(160px circle at var(--mx) var(--my), rgba(184, 18, 27, .55), transparent 70%);
-    transition: opacity .3s ease;
-  }
-  .dcbio .dcbio-link:hover, .dcbio .dcbio-link:focus-visible { color: #fff; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--red); }
-  .dcbio-link:hover::before, .dcbio-link:focus-visible::before { transform: scaleX(1); }
-  .dcbio-link:hover::after { opacity: 1; }
-  .dcbio .dcbio-link:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
-  .dcbio-link__num { font: 600 13px/1 var(--serif); color: var(--red); align-self: start; padding-top: 3px; transition: color .3s; }
-  .dcbio-link:hover .dcbio-link__num { color: #ff5a62; }
-  .dcbio-link__txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-  .dcbio-link__tag {
-    align-self: flex-start;
-    font: 700 9.5px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase;
-    color: var(--red); transition: color .3s;
-  }
-  .dcbio-link:hover .dcbio-link__tag { color: #ff8a90; }
-  .dcbio-link__title { font: 700 16px/1.22 var(--sans); letter-spacing: -.01em; }
-  .dcbio-link__sub { font: 400 13px/1.3 var(--sans); opacity: .7; }
-  .dcbio-link__arrow {
-    width: 34px; height: 34px; border-radius: 50%;
-    display: grid; place-items: center;
-    border: 1.5px solid currentColor;
-    transition: transform .4s var(--ease), background .3s, border-color .3s;
-  }
-  .dcbio-link__arrow svg { width: 15px; height: 15px; transition: transform .4s var(--ease); }
-  .dcbio-link:hover .dcbio-link__arrow { background: var(--red); border-color: var(--red); transform: rotate(-45deg); }
+  .dc-bio .bio-link::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--dcb-ink);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--dcb-ease)}
+  .dc-bio .bio-link::after{content:"";position:absolute;inset:0;z-index:-1;opacity:0;background:radial-gradient(160px circle at var(--mx) var(--my),rgba(184,18,27,.55),transparent 70%);transition:opacity .3s ease}
+  .dc-bio .bio-link:hover,.dc-bio .bio-link:focus-visible{color:#fff;transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--dcb-red)}
+  .dc-bio .bio-link:hover::before,.dc-bio .bio-link:focus-visible::before{transform:scaleX(1)}
+  .dc-bio .bio-link:hover::after{opacity:1}
+  .dc-bio .bio-link:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--dcb-ink)}
+  .dc-bio .bio-link .num{align-self:start;padding-top:3px;font:600 13px/1 var(--dcb-serif);color:var(--dcb-red);transition:color .3s}
+  .dc-bio .bio-link:hover .num{color:#ff5a62}
+  .dc-bio .bio-link .txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .dc-bio .bio-link .tag{align-self:flex-start;font:700 9.5px/1 var(--dcb-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--dcb-red);transition:color .3s}
+  .dc-bio .bio-link:hover .tag{color:#ff8a90}
+  .dc-bio .bio-link .title{font:700 16px/1.22 var(--dcb-sans);letter-spacing:-.01em}
+  .dc-bio .bio-link .sub{font:400 13px/1.3 var(--dcb-sans);opacity:.7}
+  .dc-bio .bio-link .arrow{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1.5px solid currentColor;transition:transform .4s var(--dcb-ease),background .3s,border-color .3s}
+  .dc-bio .bio-link .arrow svg{width:15px;height:15px}
+  .dc-bio .bio-link:hover .arrow{background:var(--dcb-red);border-color:var(--dcb-red);transform:rotate(-45deg)}
 
-  .dcbio .dcbio-link.is-primary { background: var(--red); color: #fff; box-shadow: 4px 4px 0 var(--ink); border-color: var(--ink); }
-  .dcbio-link.is-primary::before { background: var(--ink); }
-  .dcbio-link.is-primary .dcbio-link__num,
-  .dcbio-link.is-primary .dcbio-link__tag { color: #ffd2d4; }
-  .dcbio-link.is-primary .dcbio-link__sub { opacity: .88; }
-  .dcbio-link.is-primary:hover .dcbio-link__arrow { background: #25d366; border-color: #25d366; transform: none; }
-  .dcbio-link.is-primary .dcbio-link__arrow svg { width: 18px; height: 18px; }
-  .dcbio-link.is-primary .dcbio-pulse {
-    position: absolute; right: 14px; top: 50%; width: 34px; height: 34px; margin-top: -17px;
-    border-radius: 50%; border: 2px solid #fff; opacity: 0; z-index: -1;
-    animation: dcbioPulse 2.2s ease-out infinite;
-  }
-  @keyframes dcbioPulse { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.9); opacity: 0; } }
+  .dc-bio .bio-link.primary{background:var(--dcb-red);color:#fff}
+  .dc-bio .bio-link.primary .num,.dc-bio .bio-link.primary .tag{color:#ffd2d4}
+  .dc-bio .bio-link.primary .sub{opacity:.88}
+  .dc-bio .bio-link.primary .arrow svg{width:18px;height:18px}
+  .dc-bio .bio-link.primary:hover .arrow{background:#25d366;border-color:#25d366;transform:none}
+  .dc-bio .bio-link .pulse{position:absolute;right:14px;top:50%;width:34px;height:34px;margin-top:-17px;border-radius:50%;border:2px solid #fff;opacity:0;z-index:-1;animation:dcbPulse 2.2s ease-out infinite}
+  @keyframes dcbPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.9);opacity:0}}
 
-  .dcbio-noscript a { display: block; padding: 14px; margin-bottom: 10px; border: 1.5px solid #111; font-weight: 600; }
+  /* ===========================================================
+     RESPIRO CRIATIVO
+     =========================================================== */
+  .dc-bio .bio-breath{position:relative;margin-top:64px}
+  .dc-bio .bio-marquee{position:relative;z-index:3;width:120%;margin-left:-10%;background:var(--dcb-ink);color:var(--dcb-paper);transform:rotate(-3deg);overflow:hidden;white-space:nowrap;border-top:3px solid var(--dcb-red);border-bottom:3px solid var(--dcb-red)}
+  .dc-bio .bio-marquee .track{display:inline-flex;padding:11px 0;font:400 17px/1 var(--dcb-marker);letter-spacing:.04em;text-transform:uppercase;animation:dcbMarquee 26s linear infinite}
+  .dc-bio .bio-marquee .track span{padding:0 14px}
+  .dc-bio .bio-marquee .track span.x{color:var(--dcb-red);padding:0 2px}
+  @keyframes dcbMarquee{to{transform:translateX(-50%)}}
+  .dc-bio .bio-poster-wrap{position:relative;padding:0 6px}
+  .dc-bio .bio-poster{position:relative;display:block;width:100%;margin:-8px auto 0;padding:12px 12px 16px;background:#fff;cursor:zoom-in;text-align:left;box-shadow:0 1px 0 rgba(0,0,0,.05),0 22px 40px -18px rgba(0,0,0,.45);transform:rotate(1.6deg);transition:transform .6s var(--dcb-ease)}
+  .dc-bio .bio-poster:hover{transform:rotate(0) scale(1.01)}
+  .dc-bio .bio-poster img{display:block;width:100%;height:auto}
+  .dc-bio .bio-poster .cap{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px}
+  .dc-bio .bio-poster .cap b{font:700 24px/1 var(--dcb-hand);color:var(--dcb-ink)}
+  .dc-bio .bio-poster .cap small{font:600 10px/1 var(--dcb-sans);letter-spacing:.16em;text-transform:uppercase;color:var(--dcb-gray)}
+  .dc-bio .bio-tape{position:absolute;z-index:2;width:96px;height:28px;background:rgba(232,226,210,.82);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .dc-bio .bio-tape.l{left:-18px;bottom:34px;transform:rotate(-38deg)}
+  .dc-bio .bio-tape.r{right:-22px;top:40px;transform:rotate(40deg)}
+  .dc-bio .bio-splat{position:absolute;z-index:0;pointer-events:none}
+  .dc-bio .bio-splat.a{left:-40px;top:60px;width:150px}
+  .dc-bio .bio-splat.b{right:-30px;bottom:-30px;width:120px}
 
-  /* ---------- RESPIRO CRIATIVO ---------- */
-  .dcbio-breath { position: relative; margin-top: 64px; }
-  .dcbio-marquee {
-    position: relative; z-index: 3;
-    width: 120%; margin-left: -10%;
-    background: var(--ink); color: var(--paper);
-    transform: rotate(-3deg);
-    overflow: hidden; white-space: nowrap;
-    border-top: 3px solid var(--red); border-bottom: 3px solid var(--red);
-  }
-  .dcbio-marquee__track {
-    display: inline-flex; gap: 0; padding: 11px 0;
-    font: 400 17px/1 var(--marker); letter-spacing: .04em; text-transform: uppercase;
-    animation: dcbioMarquee 26s linear infinite;
-  }
-  .dcbio-marquee__track span { padding: 0 14px; }
-  .dcbio-marquee__track span.x { color: var(--red); padding: 0 2px; }
-  @keyframes dcbioMarquee { to { transform: translateX(-50%); } }
+  /* ===========================================================
+     QUEM SOU EU
+     =========================================================== */
+  .dc-bio .bio-text{font:400 17px/1.55 var(--dcb-serif);color:var(--dcb-ink-soft)}
+  .dc-bio .bio-text + .bio-text{margin-top:12px}
+  .dc-bio .bio-text b{color:var(--dcb-ink);font-weight:600}
+  .dc-bio .bio-strike{position:relative;white-space:nowrap}
+  .dc-bio .bio-strike svg{position:absolute;left:-6%;top:50%;width:112%;height:20px;margin-top:-9px;overflow:visible}
+  .dc-bio .bio-strike path{fill:none;stroke:var(--dcb-red);stroke-width:4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+  .dc-bio .reveal.in .bio-strike path{animation:dcbDraw .7s var(--dcb-ease) .4s backwards}
+  .dc-bio .reveal.in .bio-strike path + path{animation-delay:.7s}
 
-  .dcbio-poster {
-    position: relative; display: block; width: 100%;
-    margin: -8px auto 0; padding: 12px 12px 16px;
-    background: #fff; border: 0; cursor: zoom-in;
-    box-shadow: 0 1px 0 rgba(0,0,0,.05), 0 22px 40px -18px rgba(0,0,0,.45);
-    transform: rotate(1.6deg);
-    transition: transform .6s var(--ease);
-    font: inherit; color: inherit; text-align: left;
-  }
-  .dcbio-poster:hover { transform: rotate(0deg) scale(1.01); }
-  .dcbio-poster img { display: block; width: 100%; height: auto; }
-  .dcbio-poster__cap { display: flex; justify-content: space-between; align-items: baseline; margin-top: 12px; }
-  .dcbio-poster__cap b { font: 700 24px/1 var(--hand); color: var(--ink); }
-  .dcbio-poster__cap small { font: 600 10px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--gray); }
-  .dcbio-tape {
-    position: absolute; width: 96px; height: 28px; z-index: 2;
-    background: rgba(232, 226, 210, .82);
-    box-shadow: 0 1px 2px rgba(0,0,0,.12);
-  }
-  .dcbio-tape--l { left: -18px; bottom: 34px; transform: rotate(-38deg); }
-  .dcbio-tape--r { right: -22px; top: 40px; transform: rotate(40deg); }
-  .dcbio-splat { position: absolute; z-index: 0; pointer-events: none; }
-  .dcbio-splat--a { left: -40px; top: 60px; width: 150px; opacity: .9; }
-  .dcbio-splat--b { right: -30px; bottom: -30px; width: 120px; }
+  .dc-bio .bio-stat{position:relative;margin:28px 0 8px;padding:22px 20px 20px;background:var(--dcb-ink);color:var(--dcb-paper);box-shadow:6px 6px 0 var(--dcb-red)}
+  .dc-bio .bio-stat .n{display:block;font:700 clamp(40px,12vw,52px)/1 var(--dcb-serif);letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums}
+  .dc-bio .bio-stat .n i{font-style:normal;color:var(--dcb-red)}
+  .dc-bio .bio-stat .l{display:block;margin-top:8px;font:500 14px/1.35 var(--dcb-sans);color:#cfccc5}
+  .dc-bio .bio-stat .hand{position:absolute;right:14px;top:-16px;padding:2px 8px;background:var(--dcb-paper);font:700 21px/1 var(--dcb-hand);color:var(--dcb-red);transform:rotate(6deg)}
 
-  /* ---------- SOBRE ---------- */
-  .dcbio-about p.dcbio-bio { font: 400 17px/1.55 var(--serif); color: var(--ink-soft); }
-  .dcbio-about p.dcbio-bio + p.dcbio-bio { margin-top: 12px; }
-  .dcbio-bio b { color: var(--ink); font-weight: 600; }
-  .dcbio-strike { position: relative; white-space: nowrap; }
-  .dcbio-strike svg {
-    position: absolute; left: -6%; top: 50%; width: 112%; height: 20px; margin-top: -9px; overflow: visible;
-  }
-  .dcbio-strike path {
-    fill: none; stroke: var(--red); stroke-width: 4; stroke-linecap: round;
-    stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s var(--ease) .4s;
-  }
-  .dcbio-strike path + path { transition-delay: .8s; }
-  .dcbio-strike path { animation: dcbioDraw .7s var(--ease) 1s backwards; }
-  .dcbio-strike path + path { animation-delay: 1.3s; }
+  .dc-bio .bio-facts{margin-top:26px;border-top:1.5px solid var(--dcb-ink)}
+  .dc-bio .bio-fact{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--dcb-line);transition:padding-left .35s var(--dcb-ease)}
+  .dc-bio .bio-fact:hover{padding-left:8px}
+  .dc-bio .bio-fact span{font:600 13px/1 var(--dcb-serif);color:var(--dcb-red)}
+  .dc-bio .bio-fact p{font:500 15px/1.4 var(--dcb-sans);color:var(--dcb-ink)}
+  .dc-bio .bio-fact p small{display:block;margin-top:2px;font:400 13px/1.35 var(--dcb-sans);color:var(--dcb-gray)}
 
-  .dcbio-stat {
-    position: relative; margin: 28px 0 8px; padding: 22px 20px 20px;
-    background: var(--ink); color: var(--paper);
-    box-shadow: 6px 6px 0 var(--red);
-  }
-  .dcbio-stat__n {
-    display: block; font: 700 clamp(40px, 12vw, 52px)/1 var(--serif); letter-spacing: -.02em; color: #fff;
-    font-variant-numeric: tabular-nums;
-  }
-  .dcbio-stat__n i { font-style: normal; color: var(--red); }
-  .dcbio-stat__l { display: block; margin-top: 8px; font: 500 14px/1.35 var(--sans); color: #cfccc5; }
-  .dcbio-stat__hand {
-    position: absolute; right: 14px; top: -16px;
-    font: 700 21px/1 var(--hand); color: var(--red); transform: rotate(6deg);
-    background: var(--paper); padding: 2px 8px;
+  /* ===========================================================
+     INSTAGRAM
+     =========================================================== */
+  .dc-bio .bio-ig{position:relative;padding:10px;background:#fff;border:1.5px solid var(--dcb-ink);box-shadow:5px 5px 0 var(--dcb-ink)}
+  .dc-bio .bio-ig .instagram-media{margin:0 auto !important;min-width:0 !important;width:100% !important;max-width:100% !important;border:0 !important;box-shadow:none !important}
+  .dc-bio .bio-ig-fallback{display:flex;align-items:center;justify-content:center;min-height:120px;font:600 14px/1.3 var(--dcb-sans);color:var(--dcb-ink)}
+  .dc-bio .bio-ig-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding-bottom:4px;border-bottom:2px solid var(--dcb-red);font:600 13px/1 var(--dcb-sans);letter-spacing:.08em;text-transform:uppercase}
+  .dc-bio .bio-ig-link svg{width:14px;height:14px}
+
+  /* ===========================================================
+     CTA FINAL
+     =========================================================== */
+  .dc-bio .bio-cta{position:relative;margin-top:64px;padding:34px 24px 28px;background:var(--dcb-ink);color:var(--dcb-paper);overflow:hidden}
+  .dc-bio .bio-cta::before{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:var(--dcb-red)}
+  .dc-bio .bio-cta h2{position:relative;font:700 clamp(34px,10vw,44px)/1 var(--dcb-serif);letter-spacing:-.02em;color:#fff}
+  .dc-bio .bio-cta h2 em{font-style:italic;font-weight:500}
+  .dc-bio .bio-cta p{position:relative;margin-top:12px;max-width:300px;font:400 15px/1.45 var(--dcb-sans);color:#cfccc5}
+  .dc-bio .bio-cta-btn{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:22px;padding:17px 20px;background:var(--dcb-red);border:1.5px solid var(--dcb-red);color:#fff;font:700 15px/1 var(--dcb-sans);letter-spacing:.02em;transition:background .3s,color .3s,transform .25s var(--dcb-ease)}
+  .dc-bio .bio-cta-btn svg{width:20px;height:20px}
+  .dc-bio .bio-cta-btn:hover{background:#fff;color:var(--dcb-ink);transform:translateY(-2px)}
+  .dc-bio .bio-cup{position:absolute;right:18px;top:22px;z-index:1;width:54px}
+  .dc-bio .bio-cup path{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .dc-bio .bio-cup .steam{animation:dcbSteam 2.6s ease-in-out infinite}
+  .dc-bio .bio-cup .steam + .steam{animation-delay:.6s}
+  @keyframes dcbSteam{0%,100%{opacity:.2;transform:translateY(2px)}50%{opacity:1;transform:translateY(-3px)}}
+  .dc-bio .bio-foot{margin-top:28px;text-align:center;font:500 11px/1.6 var(--dcb-sans);letter-spacing:.12em;text-transform:uppercase;color:var(--dcb-gray)}
+  .dc-bio .bio-foot b{color:var(--dcb-red);font-weight:700}
+
+  /* ===========================================================
+     WhatsApp flutuante + lightbox
+     =========================================================== */
+  .dc-bio .bio-float{position:fixed;left:50%;bottom:16px;z-index:9999;display:inline-flex;align-items:center;gap:8px;padding:12px 18px 12px 14px;border-radius:999px;background:var(--dcb-ink);border:1.5px solid var(--dcb-ink);box-shadow:3px 3px 0 var(--dcb-red);color:#fff;font:700 13px/1 var(--dcb-sans);transform:translate(-50%,160%);opacity:0;transition:transform .5s var(--dcb-ease),opacity .4s ease}
+  .dc-bio .bio-float:hover,.dc-bio .bio-float:focus{color:#fff}
+  .dc-bio .bio-float svg{width:18px;height:18px;color:#25d366}
+  .dc-bio .bio-float.on{transform:translate(-50%,0);opacity:1}
+  .dc-bio .bio-lb{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;padding:20px;background:rgba(10,10,10,.92);opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;cursor:zoom-out}
+  .dc-bio .bio-lb.open{opacity:1;visibility:visible}
+  .dc-bio .bio-lb img{max-height:88vh;width:auto;max-width:100%}
+  .dc-bio .bio-lb-x{position:absolute;right:16px;top:14px;width:42px;height:42px;border-radius:50%;background:var(--dcb-red);color:#fff;font:700 22px/1 var(--dcb-sans);cursor:pointer}
+
+  /* ===========================================================
+     Reveal (só esconde se o script rodar: classe .js-on)
+     =========================================================== */
+  .dc-bio.js-on .reveal{opacity:0;transform:translateY(26px);transition:opacity 1s var(--dcb-ease),transform 1s var(--dcb-ease)}
+  .dc-bio.js-on .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .dc-bio *{animation:none !important;transition:none !important}
+    .dc-bio.js-on .reveal{opacity:1;transform:none}
   }
 
-  .dcbio-facts { margin-top: 26px; border-top: 1.5px solid var(--ink); }
-  .dcbio-fact {
-    display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: baseline;
-    padding: 14px 0; border-bottom: 1px solid var(--line);
-    transition: padding-left .35s var(--ease), background .35s;
-  }
-  .dcbio-fact:hover { padding-left: 8px; }
-  .dcbio-fact span { font: 600 13px/1 var(--serif); color: var(--red); }
-  .dcbio-fact p { font: 500 15px/1.4 var(--sans); color: var(--ink); }
-  .dcbio-fact p small { display: block; margin-top: 2px; font: 400 13px/1.35 var(--sans); color: var(--gray); }
 
-  /* ---------- INSTAGRAM ---------- */
-  .dcbio-ig {
-    position: relative; padding: 10px; background: #fff;
-    border: 1.5px solid var(--ink); box-shadow: 5px 5px 0 var(--ink);
-  }
-  .dcbio-ig .instagram-media { margin: 0 auto !important; min-width: 0 !important; width: 100% !important; max-width: 100% !important; border: 0 !important; box-shadow: none !important; }
-  .dcbio-ig-fallback {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    min-height: 120px; font: 600 14px/1.3 var(--sans); color: var(--ink);
-  }
-  .dcbio-ig-link {
-    display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
-    font: 600 13px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase;
-    border-bottom: 2px solid var(--red); padding-bottom: 4px;
-  }
-  .dcbio-ig-link svg { width: 14px; height: 14px; }
+/* ═══════════════════════════════════════════════════════════════════════
+   SEÇÃO FINAL — RESETS E AJUSTES PARA WORDPRESS / ELEMENTOR
+   ───────────────────────────────────────────────────────────────────── */
 
-  /* ---------- CTA FINAL ---------- */
-  .dcbio-cta {
-    position: relative; margin-top: 64px; padding: 34px 24px 28px;
-    background: var(--ink); color: var(--paper); overflow: hidden;
-  }
-  .dcbio-cta::before {
-    content: ""; position: absolute; right: -60px; top: -60px; width: 180px; height: 180px;
-    border-radius: 50%; background: var(--red);
-  }
-  .dcbio .dcbio-cta h2 { position: relative; font: 700 clamp(34px, 10vw, 44px)/1 var(--serif); letter-spacing: -.02em; color: #fff; }
-  .dcbio-cta h2 em { font-style: italic; font-weight: 500; }
-  .dcbio-cta p { position: relative; margin-top: 12px; font: 400 15px/1.45 var(--sans); color: #cfccc5; max-width: 300px; }
-  .dcbio .dcbio-cta__btn {
-    position: relative; display: flex; align-items: center; justify-content: center; gap: 10px;
-    margin-top: 22px; padding: 17px 20px;
-    background: var(--red); color: #fff; font: 700 15px/1 var(--sans); letter-spacing: .02em;
-    border: 1.5px solid var(--red);
-    transition: background .3s, color .3s, transform .25s var(--ease);
-  }
-  .dcbio-cta__btn svg { width: 20px; height: 20px; }
-  .dcbio .dcbio-cta__btn:hover { background: #fff; color: var(--ink); transform: translateY(-2px); }
-  .dcbio-cup { position: absolute; right: 18px; top: 22px; width: 54px; z-index: 1; }
-  .dcbio-cup path { fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-  .dcbio-cup .steam { animation: dcbioSteam 2.6s ease-in-out infinite; }
-  .dcbio-cup .steam + .steam { animation-delay: .6s; }
-  @keyframes dcbioSteam { 0%,100% { opacity: .2; transform: translateY(2px); } 50% { opacity: 1; transform: translateY(-3px); } }
+/* Garante box-sizing dentro do wrapper, sem afetar o resto do site */
+.dc-bio,
+.dc-bio *,
+.dc-bio *::before,
+.dc-bio *::after { box-sizing: border-box; }
 
-  .dcbio-foot {
-    margin-top: 28px; text-align: center;
-    font: 500 11px/1.6 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gray);
-  }
-  .dcbio-foot b { color: var(--red); font-weight: 700; }
+/* Reseta margens que o tema costuma forçar em <section>/<header>/<footer> */
+.dc-bio section,
+.dc-bio header,
+.dc-bio footer { margin-left: 0; margin-right: 0; }
 
-  /* ---------- CTA FLUTUANTE ---------- */
-  .dcbio-float {
-    position: fixed; left: 50%; bottom: 16px; z-index: 9999;
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 12px 18px 12px 14px;
-    background: var(--ink); color: #fff !important;
-    border: 1.5px solid var(--ink); box-shadow: 3px 3px 0 var(--red);
-    border-radius: 999px;
-    font: 700 13px/1 var(--sans); letter-spacing: .02em;
-    transform: translate(-50%, 140%); opacity: 0;
-    transition: transform .5s var(--ease), opacity .4s ease;
-  }
-  .dcbio-float svg { width: 18px; height: 18px; color: #25d366; }
-  .dcbio-float.is-on { transform: translate(-50%, 0); opacity: 1; }
+/* Wrapper ocupa a largura toda sem barra horizontal */
+.dc-bio { position: relative; width: 100%; overflow-x: hidden; }
 
-  /* ---------- LIGHTBOX ---------- */
-  .dcbio-lb {
-    position: fixed; inset: 0; z-index: 10000;
-    display: grid; place-items: center; padding: 20px;
-    background: rgba(10, 10, 10, .92);
-    opacity: 0; visibility: hidden; transition: opacity .35s, visibility .35s;
-    cursor: zoom-out;
-  }
-  .dcbio-lb.is-open { opacity: 1; visibility: visible; }
-  .dcbio-lb img { max-height: 88vh; width: auto; max-width: 100%; transform: scale(.94); transition: transform .45s var(--ease); }
-  .dcbio-lb.is-open img { transform: scale(1); }
-  .dcbio-lb__x {
-    position: absolute; right: 16px; top: 14px; width: 42px; height: 42px;
-    border: 0; background: var(--red); color: #fff; font: 700 22px/1 var(--sans); cursor: pointer; border-radius: 50%;
-  }
+/* Se o contêiner do Elementor tiver animação de entrada, o widget continua visível */
+.elementor-widget-html:has(.dc-bio) { width: 100%; max-width: 100%; }
+.elementor-invisible:has(.dc-bio) { visibility: visible !important; }
 
-  /* ---------- REVEAL ---------- */
-  /* botoes entram em cascata so com CSS (se a animacao nao rodar, continuam visiveis) */
-  .dcbio-links > .dcbio-link { animation: dcbioUp .75s var(--ease) backwards; }
-  .dcbio-links > .dcbio-link:nth-child(1) { animation-delay: .35s; }
-  .dcbio-links > .dcbio-link:nth-child(2) { animation-delay: .45s; }
-  .dcbio-links > .dcbio-link:nth-child(3) { animation-delay: .55s; }
-  .dcbio-links > .dcbio-link:nth-child(4) { animation-delay: .65s; }
-  .dcbio-links > .dcbio-link:nth-child(n+5) { animation-delay: .75s; }
-  @keyframes dcbioUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+/* Anti-overflow de palavras longas */
+.dc-bio p,
+.dc-bio li,
+.dc-bio a,
+.dc-bio strong { overflow-wrap: break-word; word-wrap: break-word; }
 
-  /* protecao contra o Elementor esconder o widget (animacao de entrada / JS atrasado) */
-  .elementor-widget-html:has(#dcbio),
-  .elementor-invisible:has(#dcbio),
-  .elementor-element:has(#dcbio) { visibility: visible !important; opacity: 1 !important; }
-  .elementor-widget-html:has(#dcbio) { width: 100% !important; max-width: 100% !important; }
-  .e-con:has(#dcbio) { --padding-top: 0px; --padding-right: 0px; --padding-bottom: 0px; --padding-left: 0px; }
-
-  @media (min-width: 560px) {
-    .dcbio-figure { height: 470px; }
-    .dcbio-wrap { padding: 0 24px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .dcbio *, .dcbio *::before, .dcbio *::after { animation: none !important; transition: none !important; }
-    .dcbio-crown path, .dcbio-strike path { stroke-dashoffset: 0; }
-  }
 </style>
 
-<div class="dcbio" id="dcbio">
-  <div class="dcbio-wrap">
+<div class="dc-bio">
 
-    <!-- ================= HERO ================= -->
-    <header class="dcbio-hero">
-      <div class="dcbio-handle"><span>@danrleicarlos</span><span>Link na bio</span></div>
+<div class="bio-grain" aria-hidden="true"></div>
 
-      <h1 class="dcbio-h1">Danrlei<br><span class="dcbio-red">Carlos.</span></h1>
-      <p class="dcbio-slogan">Falo de Marketing como quem pede um Café.</p>
-      <div class="dcbio-rule" aria-hidden="true"><i></i><i></i><i></i></div>
-      <p class="dcbio-lead">
-        Você convence pela <b>lógica</b>, emociona pelo <b>sentimento</b>
-        e conquista pela <b>credibilidade</b>. Aqui embaixo tem os três, em forma de link.
-      </p>
+<div class="bio-wrap">
 
-      <div class="dcbio-figure" id="dcbio-figure">
-        <div class="dcbio-sun" aria-hidden="true"></div>
-        <div class="dcbio-photo">
-          <img src="https://danrleicarlos.com.br/wp-content/uploads/2026/09/@arthhurcesarfotografiia-10-scaled.jpg"
-               alt="Foto de Danrlei Carlos" width="600" height="750" fetchpriority="high">
-        </div>
+<!-- ============== HERO ============== -->
+<header class="bio-hero">
+  <div class="bio-handle"><span>@danrleicarlos</span><span>Link na bio</span></div>
 
-        <svg class="dcbio-crown" viewBox="0 0 160 110" aria-hidden="true">
-          <path pathLength="1" d="M18 78 L10 22 L46 56 L78 8 L106 54 L148 18 L138 80 C104 72 56 72 18 78 Z"/>
-          <path pathLength="1" d="M22 90 C60 82 104 82 136 92"/>
-          <path class="drip" pathLength="1" d="M40 80 L41 100"/>
-          <path class="drip" pathLength="1" d="M92 79 L92 106"/>
-          <path class="drip" pathLength="1" d="M122 82 L121 96"/>
-        </svg>
+  <h1 class="bio-h1">Danrlei<br><span class="red">Carlos.</span></h1>
+  <p class="bio-slogan">Falo de Marketing como quem pede um Café.</p>
+  <div class="bio-rule" aria-hidden="true"><i></i><i></i><i></i></div>
+  <p class="bio-lead">
+    Você convence pela <b>lógica</b>, emociona pelo <b>sentimento</b>
+    e conquista pela <b>credibilidade</b>. Aqui embaixo tem os três, em forma de link.
+  </p>
 
-        <div class="dcbio-scrib dcbio-scrib--bla" aria-hidden="true">bla bla.<br>bla bla<br>bla bla bla<br>bla blá</div>
-        <div class="dcbio-scrib dcbio-scrib--latin" aria-hidden="true">in medio<br>virtus est</div>
+  <div class="bio-figure" id="bio-figure">
+    <div class="bio-sun" aria-hidden="true"></div>
+    <div class="bio-photo">
+      <img decoding="async" src="https://danrleicarlos.com.br/wp-content/uploads/2026/09/@arthhurcesarfotografiia-10-scaled.jpg" alt="Foto de Danrlei Carlos" width="600" height="750">
+    </div>
+    <svg class="bio-crown" viewBox="0 0 160 110" aria-hidden="true">
+      <path pathLength="1" d="M18 78 L10 22 L46 56 L78 8 L106 54 L148 18 L138 80 C104 72 56 72 18 78 Z"></path>
+      <path pathLength="1" d="M22 90 C60 82 104 82 136 92"></path>
+      <path class="drip" pathLength="1" d="M40 80 L41 100"></path>
+      <path class="drip" pathLength="1" d="M92 79 L92 106"></path>
+      <path class="drip" pathLength="1" d="M122 82 L121 96"></path>
+    </svg>
+    <div class="bio-scrib bla" aria-hidden="true">bla bla.<br>bla bla<br>bla bla bla<br>bla blá</div>
+    <div class="bio-scrib latin" aria-hidden="true">in medio<br>virtus est</div>
+    <svg class="bio-tally" viewBox="0 0 50 30" aria-hidden="true"><path d="M6 3 V27 M14 3 V27 M22 3 V27 M30 3 V27 M2 22 L36 6"></path></svg>
+    <div class="bio-stamp" aria-hidden="true">PENSO<br>LOGO<br>VENDO</div>
+    <div class="bio-hint" aria-hidden="true">os links
+      <svg viewBox="0 0 46 26"><path d="M2 4 C14 22 28 22 40 14 M33 10 L41 14 L36 22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    </div>
+  </div>
+</header>
 
-        <svg class="dcbio-tally" viewBox="0 0 50 30" aria-hidden="true">
-          <path d="M6 3 V27 M14 3 V27 M22 3 V27 M30 3 V27 M2 22 L36 6"/>
-        </svg>
-        <div class="dcbio-stamp" aria-hidden="true">PENSO<br>LOGO<br>VENDO</div>
+<!-- ============== LINKS ============== -->
+<section class="bio-section" id="bio-links">
+  <div class="bio-kicker reveal">Por onde começar</div>
+  <h2 class="bio-h2 reveal">Escolha seu <em>café.</em></h2>
 
-        <div class="dcbio-hint" aria-hidden="true">
-          os links
-          <svg viewBox="0 0 46 26"><path d="M2 4 C14 22 28 22 40 14 M33 10 L41 14 L36 22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-    </header>
+  <nav class="bio-links reveal" aria-label="Links principais">
 
-    <!-- ================= LINKS ================= -->
-    <section class="dcbio-section" aria-labelledby="dcbio-links-t">
-      <div class="dcbio-kicker dcbio-r">Por onde começar</div>
-      <h2 class="dcbio-h2 dcbio-r" id="dcbio-links-t">Escolha seu <em>café.</em></h2>
-      <nav class="dcbio-links" id="dcbio-links">
-        <!-- BOTAO 01 -->
-        <a class="dcbio-link" href="https://uaisomarketing.com.br/lp/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Conheça a Uai Sô! Marketing com porquê">
-          <span class="dcbio-link__num">01</span>
-          <span class="dcbio-link__txt">
-            <span class="dcbio-link__tag">A agência</span>
-            <span class="dcbio-link__title">Conheça a Uai Sô! Marketing com porquê</span>
-            <span class="dcbio-link__sub">Agência com foco em geração de receita.</span>
-          </span>
-          <span class="dcbio-link__arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-        </a>
-        <!-- BOTAO 02 -->
-        <a class="dcbio-link" href="https://uaisomarketing.com.br/fazer-marketing-ficou-facil-output-outcome/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Com IA ficou mais fácil fazer Marketing?">
-          <span class="dcbio-link__num">02</span>
-          <span class="dcbio-link__txt">
-            <span class="dcbio-link__tag">Artigo</span>
-            <span class="dcbio-link__title">Com IA ficou mais fácil fazer Marketing?</span>
-            <span class="dcbio-link__sub">Output não é outcome. Entenda a diferença.</span>
-          </span>
-          <span class="dcbio-link__arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-        </a>
-        <!-- BOTAO 03 -->
-        <a class="dcbio-link" href="https://uaisomarketing.com.br/acessos-no-site-com-ia/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Descubra quantos acessos seu site tem de recomendações de IA">
-          <span class="dcbio-link__num">03</span>
-          <span class="dcbio-link__txt">
-            <span class="dcbio-link__tag">IA na prática</span>
-            <span class="dcbio-link__title">Descubra quantos acessos seu site tem de recomendações de IA</span>
-            <span class="dcbio-link__sub">ChatGPT, Gemini, Perplexity… quem te indica?</span>
-          </span>
-          <span class="dcbio-link__arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-        </a>
-        <!-- BOTAO 04 -->
-        <a class="dcbio-link" href="https://danrleicarlos.com.br/metodo-5r/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Gere Receita na sua Base de WhatsApp">
-          <span class="dcbio-link__num">04</span>
-          <span class="dcbio-link__txt">
-            <span class="dcbio-link__tag">Método 5R</span>
-            <span class="dcbio-link__title">Gere Receita na sua Base de WhatsApp</span>
-            <span class="dcbio-link__sub">Sua base parada é receita esperando.</span>
-          </span>
-          <span class="dcbio-link__arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span>
-        </a>
-        <!-- BOTAO 05 -->
-        <a class="dcbio-link is-primary" href="https://api.whatsapp.com/send?phone=5532991394238&amp;text=Ol%C3%A1!%20Vim%20pelo%20link%20do%20instagram%20e%20gostaria%20de%20falar%20com%20voc%C3%AA" target="_blank" rel="noopener" data-label="Fale comigo no WhatsApp">
-          <span class="dcbio-link__num">05</span>
-          <span class="dcbio-link__txt">
-            <span class="dcbio-link__tag">Conversa direta</span>
-            <span class="dcbio-link__title">Fale comigo no WhatsApp</span>
-            <span class="dcbio-link__sub">Bora tomar esse café?</span>
-          </span>
-          <span class="dcbio-link__arrow"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.6c1.8 1 3.8 1.5 5.7 1.5 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg></span>
-          <span class="dcbio-pulse" aria-hidden="true"></span>
-        </a>
-      </nav>
-    </section>
+    <!-- BOTAO 01 -->
+    <a class="bio-link" href="https://uaisomarketing.com.br/lp/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Conheça a Uai Sô!">
+      <span class="num">01</span>
+      <span class="txt">
+        <span class="tag">A agência</span>
+        <span class="title">Conheça a Uai Sô! Marketing com porquê</span>
+        <span class="sub">Agência com foco em geração de receita.</span>
+      </span>
+      <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></span>
+    </a>
 
-    <!-- ================= RESPIRO CRIATIVO ================= -->
-    <section class="dcbio-breath" aria-label="Pausa para pensar">
-      <div class="dcbio-marquee" aria-hidden="true">
-        <div class="dcbio-marquee__track"><span>Marketing com porquê</span><span class="x">✕</span><span>Sem achismo</span><span class="x">✕</span><span>Dado &gt; opinião</span><span class="x">✕</span><span>Receita &gt; vaidade</span><span class="x">✕</span><span>Penso, logo vendo</span><span class="x">✕</span><span>Marketing com porquê</span><span class="x">✕</span><span>Sem achismo</span><span class="x">✕</span><span>Dado &gt; opinião</span><span class="x">✕</span><span>Receita &gt; vaidade</span><span class="x">✕</span><span>Penso, logo vendo</span><span class="x">✕</span><span>Marketing com porquê</span><span class="x">✕</span><span>Sem achismo</span><span class="x">✕</span><span>Dado &gt; opinião</span><span class="x">✕</span><span>Receita &gt; vaidade</span><span class="x">✕</span><span>Penso, logo vendo</span><span class="x">✕</span><span>Marketing com porquê</span><span class="x">✕</span><span>Sem achismo</span><span class="x">✕</span><span>Dado &gt; opinião</span><span class="x">✕</span><span>Receita &gt; vaidade</span><span class="x">✕</span><span>Penso, logo vendo</span><span class="x">✕</span></div>
-      </div>
+    <!-- BOTAO 02 -->
+    <a class="bio-link" href="https://uaisomarketing.com.br/fazer-marketing-ficou-facil-output-outcome/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Com IA ficou mais fácil fazer Marketing?">
+      <span class="num">02</span>
+      <span class="txt">
+        <span class="tag">Artigo</span>
+        <span class="title">Com IA ficou mais fácil fazer Marketing?</span>
+        <span class="sub">Output não é outcome. Entenda a diferença.</span>
+      </span>
+      <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></span>
+    </a>
 
-      <svg class="dcbio-splat dcbio-splat--a" viewBox="0 0 150 150" aria-hidden="true">
-        <path fill="#111" d="M62 30c14-6 30 4 34 18 5-4 14-3 15 4 1 6-6 9-10 8 6 10 4 24-6 30-3 10-16 16-27 12-12 3-25-5-27-17-10-4-14-17-7-26-4-10 4-22 15-22 3-4 8-7 13-7zM118 30a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM30 110a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM128 96a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM72 108c2 0 3 10 3 22 0 4-5 4-5 0 0-12 0-22 2-22zM52 102c2 0 2 6 2 12 0 3-4 3-4 0 0-6 0-12 2-12z"/>
-      </svg>
-      <svg class="dcbio-splat dcbio-splat--b" viewBox="0 0 120 120" aria-hidden="true">
-        <path fill="#b8121b" d="M20 60l28-28 12 12 28-28 12 12-28 28 28 28-12 12-28-28-28 28-12-12 28-28-12-12z" opacity=".92"/>
-      </svg>
+    <!-- BOTAO 03 -->
+    <a class="bio-link" href="https://uaisomarketing.com.br/acessos-no-site-com-ia/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Acessos no site vindos de IA">
+      <span class="num">03</span>
+      <span class="txt">
+        <span class="tag">IA na prática</span>
+        <span class="title">Descubra quantos acessos seu site tem de recomendações de IA</span>
+        <span class="sub">ChatGPT, Gemini, Perplexity… quem te indica?</span>
+      </span>
+      <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></span>
+    </a>
 
-      <div class="dcbio-wrap-inner dcbio-r" style="position:relative;padding:0 6px;">
-        <span class="dcbio-tape dcbio-tape--r" aria-hidden="true"></span>
-        <span class="dcbio-tape dcbio-tape--l" aria-hidden="true"></span>
-        <button type="button" class="dcbio-poster" id="dcbio-poster" aria-label="Ampliar imagem">
-          <img src="https://danrleicarlos.com.br/wp-content/uploads/2026/09/image.png"
-               alt="Imagem provocativa sobre marketing" loading="lazy" decoding="async">
-          <span class="dcbio-poster__cap"><b>respira. e repensa.</b><small>toque p/ ampliar</small></span>
-        </button>
-      </div>
-    </section>
+    <!-- BOTAO 04 -->
+    <a class="bio-link" href="https://danrleicarlos.com.br/metodo-5r/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Método 5R">
+      <span class="num">04</span>
+      <span class="txt">
+        <span class="tag">Método 5R</span>
+        <span class="title">Gere Receita na sua Base de WhatsApp</span>
+        <span class="sub">Sua base parada é receita esperando.</span>
+      </span>
+      <span class="arrow"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"></path></svg></span>
+    </a>
 
-    <!-- ================= QUEM SOU EU ================= -->
-    <section class="dcbio-section dcbio-about" aria-labelledby="dcbio-about-t">
-      <div class="dcbio-kicker dcbio-r">Quem sou eu</div>
-      <h2 class="dcbio-h2 dcbio-r" id="dcbio-about-t">Prazer, <em>uai.</em></h2>
+    <!-- BOTAO 05 (WhatsApp, destaque vermelho) -->
+    <a class="bio-link primary" href="https://api.whatsapp.com/send?phone=5532991394238&amp;text=Ol%C3%A1!%20Vim%20pelo%20link%20do%20instagram%20e%20gostaria%20de%20falar%20com%20voc%C3%AA" target="_blank" rel="noopener" data-label="WhatsApp">
+      <span class="num">05</span>
+      <span class="txt">
+        <span class="tag">Conversa direta</span>
+        <span class="title">Fale comigo no WhatsApp</span>
+        <span class="sub">Bora tomar esse café?</span>
+      </span>
+      <span class="arrow"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.6c1.8 1 3.8 1.5 5.7 1.5 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"></path></svg></span>
+      <span class="pulse" aria-hidden="true"></span>
+    </a>
 
-      <div class="dcbio-r">
-        <p class="dcbio-bio">
-          Sou <b>Danrlei Carlos</b>, mineiro, publicitário e sócio-diretor da
-          <b>Uai Sô! Marketing com porquê</b>, agência com foco em uma coisa só: <b>gerar receita</b>.
-        </p>
-        <p class="dcbio-bio">
-          Marketing aqui é dado, estratégia e decisão, sem
-          <span class="dcbio-strike">achismo<svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 12 C30 6 64 14 98 7"/><path pathLength="1" d="M4 15 C36 10 70 16 96 12"/></svg></span>.
-          E explicado do jeito mineiro: sem complicar, como quem pede um café.
-        </p>
-      </div>
+  </nav>
+</section>
 
-      <div class="dcbio-stat dcbio-r" id="dcbio-stat">
-        <span class="dcbio-stat__hand" aria-hidden="true">todo mês!</span>
-        <span class="dcbio-stat__n"><span id="dcbio-count" data-to="150000">R$ 150.000</span><i>+</i></span>
-        <span class="dcbio-stat__l">gerenciados por mês em anúncios online</span>
-      </div>
-
-      <ul class="dcbio-facts dcbio-r">
-        <li class="dcbio-fact"><span>01</span><p>Mineiro<small>Café passado e conversa franca.</small></p></li>
-        <li class="dcbio-fact"><span>02</span><p>Publicidade e Propaganda<small>Graduação</small></p></li>
-        <li class="dcbio-fact"><span>03</span><p>MBA em Marketing Digital, Business Intelligence e Estratégias Data-driven</p></li>
-        <li class="dcbio-fact"><span>04</span><p>Sócio-diretor da Uai Sô!<small>Marketing com porquê: foco em geração de receita.</small></p></li>
-      </ul>
-    </section>
-
-    <!-- ================= INSTAGRAM ================= -->
-    <section class="dcbio-section" aria-labelledby="dcbio-ig-t" id="dcbio-ig-section">
-      <div class="dcbio-kicker dcbio-r">No feed</div>
-      <h2 class="dcbio-h2 dcbio-r" id="dcbio-ig-t">Mais de mim, <em>em um post.</em></h2>
-      <div class="dcbio-ig dcbio-r">
-        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C9iIPvWofGB/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
-          <a class="dcbio-ig-fallback" href="https://www.instagram.com/p/C9iIPvWofGB/" target="_blank" rel="noopener">
-            Carregando o post do Instagram…
-          </a>
-        </blockquote>
-      </div>
-      <script async src="https://www.instagram.com/embed.js"></script>
-      <a class="dcbio-ig-link" href="https://www.instagram.com/p/C9iIPvWofGB/" target="_blank" rel="noopener">
-        Abrir no Instagram
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"/></svg>
-      </a>
-    </section>
-
-    <!-- ================= CTA FINAL ================= -->
-    <section class="dcbio-cta dcbio-r" id="dcbio-cta">
-      <svg class="dcbio-cup" viewBox="0 0 60 60" aria-hidden="true">
-        <path class="steam" d="M22 6 C18 12 26 14 22 20"/>
-        <path class="steam" d="M32 4 C28 10 36 12 32 18"/>
-        <path d="M10 26 H44 V40 C44 48 38 54 30 54 H24 C16 54 10 48 10 40 Z"/>
-        <path d="M44 30 H48 C53 30 54 40 48 42 H44"/>
-      </svg>
-      <h2>Bora tomar<br><em>um café?</em></h2>
-      <p>Me conta o desafio do seu negócio. A conversa começa no WhatsApp.</p>
-      <a class="dcbio-cta__btn" href="https://api.whatsapp.com/send?phone=5532991394238&amp;text=Ol%C3%A1!%20Vim%20pelo%20link%20do%20instagram%20e%20gostaria%20de%20falar%20com%20voc%C3%AA" target="_blank" rel="noopener" data-label="CTA final WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.6c1.8 1 3.8 1.5 5.7 1.5 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg><span>Chamar no WhatsApp</span></a>
-    </section>
-
-    <footer class="dcbio-foot">
-      © 2026 Danrlei Carlos<br>
-      <b>Uai Sô!</b> Marketing com porquê
-    </footer>
+<!-- ============== RESPIRO CRIATIVO ============== -->
+<section class="bio-breath" aria-label="Pausa para pensar">
+  <div class="bio-marquee" aria-hidden="true">
+    <div class="track"><span>Marketing com porquê</span><span class="x">✕</span><span>Sem achismo</span><span class="x">✕</span><span>Dado &gt; opinião</span><span class="x">✕</span><span>Receita &gt; vaidade</span><span class="x">✕</span><span>Penso, logo vendo</span><span class="x">✕</span><span>Marketing com porquê</span><span class="x">✕</span><span>Sem achismo</span><span class="x">✕</span><span>Dado &gt; opinião</span><span class="x">✕</span><span>Receita &gt; vaidade</span><span class="x">✕</span><span>Penso, logo vendo</span><span class="x">✕</span></div>
   </div>
 
-  <a class="dcbio-float" id="dcbio-float" href="https://api.whatsapp.com/send?phone=5532991394238&amp;text=Ol%C3%A1!%20Vim%20pelo%20link%20do%20instagram%20e%20gostaria%20de%20falar%20com%20voc%C3%AA" target="_blank" rel="noopener" data-label="Botão flutuante WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.6c1.8 1 3.8 1.5 5.7 1.5 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg><span>Bora de café?</span></a>
+  <svg class="bio-splat a" viewBox="0 0 150 150" aria-hidden="true"><path fill="#111" d="M62 30c14-6 30 4 34 18 5-4 14-3 15 4 1 6-6 9-10 8 6 10 4 24-6 30-3 10-16 16-27 12-12 3-25-5-27-17-10-4-14-17-7-26-4-10 4-22 15-22 3-4 8-7 13-7zM118 30a5 5 0 1 1 0 10 5 5 0 0 1 0-10zM30 110a4 4 0 1 1 0 8 4 4 0 0 1 0-8zM128 96a3 3 0 1 1 0 6 3 3 0 0 1 0-6zM72 108c2 0 3 10 3 22 0 4-5 4-5 0 0-12 0-22 2-22zM52 102c2 0 2 6 2 12 0 3-4 3-4 0 0-6 0-12 2-12z"></path></svg>
+  <svg class="bio-splat b" viewBox="0 0 120 120" aria-hidden="true"><path fill="#b8121b" d="M20 60l28-28 12 12 28-28 12 12-28 28 28 28-12 12-28-28-28 28-12-12 28-28-12-12z"></path></svg>
 
-  <div class="dcbio-lb" id="dcbio-lb" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
-    <button type="button" class="dcbio-lb__x" aria-label="Fechar">×</button>
-    <img src="https://danrleicarlos.com.br/wp-content/uploads/2026/09/image.png" alt="Imagem provocativa sobre marketing" loading="lazy">
+  <div class="bio-poster-wrap reveal">
+    <span class="bio-tape r" aria-hidden="true"></span>
+    <span class="bio-tape l" aria-hidden="true"></span>
+    <button type="button" class="bio-poster" id="bio-poster" aria-label="Ampliar imagem">
+      <img decoding="async" loading="lazy" src="https://danrleicarlos.com.br/wp-content/uploads/2026/09/image.png" alt="Imagem provocativa sobre marketing">
+      <span class="cap"><b>respira. e repensa.</b><small>toque p/ ampliar</small></span>
+    </button>
   </div>
+</section>
+
+<!-- ============== QUEM SOU EU ============== -->
+<section class="bio-section" id="bio-sobre">
+  <div class="bio-kicker reveal">Quem sou eu</div>
+  <h2 class="bio-h2 reveal">Prazer, <em>uai.</em></h2>
+
+  <div class="reveal">
+    <p class="bio-text">Sou <b>Danrlei Carlos</b>, mineiro, publicitário e sócio-diretor da <b>Uai Sô! Marketing com porquê</b>, agência com foco em uma coisa só: <b>gerar receita</b>.</p>
+    <p class="bio-text">Marketing aqui é dado, estratégia e decisão, sem <span class="bio-strike">achismo<svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M2 12 C30 6 64 14 98 7"></path><path pathLength="1" d="M4 15 C36 10 70 16 96 12"></path></svg></span>. E explicado do jeito mineiro: sem complicar, como quem pede um café.</p>
+  </div>
+
+  <div class="bio-stat reveal" id="bio-stat">
+    <span class="hand" aria-hidden="true">todo mês!</span>
+    <span class="n"><span id="bio-count" data-to="150000">R$ 150.000</span><i>+</i></span>
+    <span class="l">gerenciados por mês em anúncios online</span>
+  </div>
+
+  <ul class="bio-facts reveal">
+    <li class="bio-fact"><span>01</span><p>Mineiro<small>Café passado e conversa franca.</small></p></li>
+    <li class="bio-fact"><span>02</span><p>Publicidade e Propaganda<small>Graduação</small></p></li>
+    <li class="bio-fact"><span>03</span><p>MBA em Marketing Digital, Business Intelligence e Estratégias Data-driven</p></li>
+    <li class="bio-fact"><span>04</span><p>Sócio-diretor da Uai Sô!<small>Marketing com porquê: foco em geração de receita.</small></p></li>
+  </ul>
+</section>
+
+<!-- ============== INSTAGRAM ============== -->
+<section class="bio-section" id="bio-ig">
+  <div class="bio-kicker reveal">No feed</div>
+  <h2 class="bio-h2 reveal">Mais de mim, <em>em um post.</em></h2>
+  <div class="bio-ig reveal">
+    <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/C9iIPvWofGB/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14">
+      <a class="bio-ig-fallback" href="https://www.instagram.com/p/C9iIPvWofGB/" target="_blank" rel="noopener">Carregando o post do Instagram…</a>
+    </blockquote>
+  </div>
+  <a class="bio-ig-link" href="https://www.instagram.com/p/C9iIPvWofGB/" target="_blank" rel="noopener" data-label="Abrir post no Instagram">Abrir no Instagram
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12 12 4M6 4h6v6"></path></svg>
+  </a>
+</section>
+
+<!-- ============== CTA FINAL ============== -->
+<section class="bio-cta reveal" id="bio-cta">
+  <svg class="bio-cup" viewBox="0 0 60 60" aria-hidden="true">
+    <path class="steam" d="M22 6 C18 12 26 14 22 20"></path>
+    <path class="steam" d="M32 4 C28 10 36 12 32 18"></path>
+    <path d="M10 26 H44 V40 C44 48 38 54 30 54 H24 C16 54 10 48 10 40 Z"></path>
+    <path d="M44 30 H48 C53 30 54 40 48 42 H44"></path>
+  </svg>
+  <h2>Bora tomar<br><em>um café?</em></h2>
+  <p>Me conta o desafio do seu negócio. A conversa começa no WhatsApp.</p>
+  <a class="bio-cta-btn" href="https://api.whatsapp.com/send?phone=5532991394238&amp;text=Ol%C3%A1!%20Vim%20pelo%20link%20do%20instagram%20e%20gostaria%20de%20falar%20com%20voc%C3%AA" target="_blank" rel="noopener" data-label="CTA final WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.6c1.8 1 3.8 1.5 5.7 1.5 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"></path></svg>
+    <span>Chamar no WhatsApp</span>
+  </a>
+</section>
+
+<footer class="bio-foot">
+  © 2026 Danrlei Carlos<br>
+  <b>Uai Sô!</b> Marketing com porquê
+</footer>
+
 </div>
 
+<a class="bio-float" id="bio-float" href="https://api.whatsapp.com/send?phone=5532991394238&amp;text=Ol%C3%A1!%20Vim%20pelo%20link%20do%20instagram%20e%20gostaria%20de%20falar%20com%20voc%C3%AA" target="_blank" rel="noopener" data-label="Botão flutuante WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.6 4.2 1.6 6L0 24l6.3-1.6c1.8 1 3.8 1.5 5.7 1.5 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"></path></svg>
+  <span>Bora de café?</span>
+</a>
+
+<div class="bio-lb" id="bio-lb" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+  <button type="button" class="bio-lb-x" aria-label="Fechar">×</button>
+  <img decoding="async" loading="lazy" src="https://danrleicarlos.com.br/wp-content/uploads/2026/09/image.png" alt="Imagem provocativa sobre marketing">
+</div>
+
+</div>
+
+
 <script>
-(function () {
-  /* Tudo aqui e apenas efeito extra: a pagina funciona mesmo sem este script. */
+(function() {
+  /* Aguarda o DOM ficar pronto (no Elementor o widget às vezes carrega depois) */
   function init() {
-    var root = document.getElementById('dcbio');
-    if (!root || root.getAttribute('data-init')) return;
-    root.setAttribute('data-init', '1');
+    var wrapper = document.querySelector('.dc-bio');
+    if (!wrapper || wrapper.getAttribute('data-ready')) return;
+    wrapper.setAttribute('data-ready', '1');
 
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var hasIO = 'IntersectionObserver' in window;
+    var elements = wrapper.querySelectorAll('.reveal');
 
-    /* tracking de cliques no GTM (evento bio_click) */
-    root.addEventListener('click', function (e) {
-      var a = e.target.closest && e.target.closest('a[data-label]');
-      if (!a) return;
-      try {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: 'bio_click', link_label: a.getAttribute('data-label'), link_url: a.href });
-      } catch (err) {}
-    });
-
-    /* holofote que segue o cursor nos botoes */
-    var nav = document.getElementById('dcbio-links');
-    if (nav) nav.addEventListener('pointermove', function (e) {
-      var a = e.target.closest && e.target.closest('.dcbio-link');
-      if (!a) return;
-      var r = a.getBoundingClientRect();
-      a.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-      a.style.setProperty('--my', (e.clientY - r.top) + 'px');
-    });
-
-    /* foto: toque para colorir */
-    var fig = document.getElementById('dcbio-figure');
-    if (fig) fig.addEventListener('click', function () { fig.classList.toggle('is-color'); });
-
-    /* lightbox da imagem */
-    var lb = document.getElementById('dcbio-lb');
-    var poster = document.getElementById('dcbio-poster');
-    if (lb && poster) {
-      poster.addEventListener('click', function () { lb.classList.add('is-open'); });
-      lb.addEventListener('click', function () { lb.classList.remove('is-open'); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') lb.classList.remove('is-open'); });
+    /* Fallback: se o navegador não suporta IntersectionObserver, mostra tudo */
+    if (!('IntersectionObserver' in window)) {
+      for (var i = 0; i < elements.length; i++) { elements[i].classList.add('in'); }
+      return;
     }
 
-    /* contador R$ 150.000 */
-    var counter = document.getElementById('dcbio-count');
+    /* Só agora o CSS passa a esconder os blocos para a animação */
+    wrapper.classList.add('js-on');
+
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          if (e.target.id === 'bio-stat') { runCounter(); }
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    for (var j = 0; j < elements.length; j++) { io.observe(elements[j]); }
+
+    /* Segurança: se algo não disparar, mostra tudo em 3s */
+    setTimeout(function() {
+      for (var k = 0; k < elements.length; k++) { elements[k].classList.add('in'); }
+    }, 3000);
+
+    /* Contador R$ 150.000 */
+    var counter = document.getElementById('bio-count');
     var counted = false;
     function runCounter() {
-      if (!counter || counted || reduce) return;
+      if (!counter || counted) return;
       counted = true;
-      var to = +counter.getAttribute('data-to') || 0, t0 = null, dur = 1800;
+      var to = parseInt(counter.getAttribute('data-to'), 10) || 0;
+      var t0 = null;
       requestAnimationFrame(function step(ts) {
         if (t0 === null) t0 = ts;
-        var p = Math.min((ts - t0) / dur, 1);
+        var p = Math.min((ts - t0) / 1800, 1);
         counter.textContent = 'R$ ' + Math.round(to * (1 - Math.pow(1 - p, 3))).toLocaleString('pt-BR');
         if (p < 1) requestAnimationFrame(step);
       });
     }
 
-    /* botao flutuante do WhatsApp */
-    var fl = document.getElementById('dcbio-float');
-    var hero = root.querySelector('.dcbio-hero');
-    var cta = document.getElementById('dcbio-cta');
-    var heroOut = false, ctaIn = false;
-    function syncFloat() { if (fl) fl.classList.toggle('is-on', heroOut && !ctaIn); }
+    /* Foto: toque para colorir */
+    var fig = document.getElementById('bio-figure');
+    if (fig) fig.addEventListener('click', function() { fig.classList.toggle('is-color'); });
 
-    /* instagram: reprocessa o embed (necessario no editor do Elementor) */
-    if (window.instgrm && window.instgrm.Embeds) { try { window.instgrm.Embeds.process(); } catch (err) {} }
-
-    if (hasIO) {
-      if (hero) new IntersectionObserver(function (en) { heroOut = !en[0].isIntersecting; syncFloat(); }).observe(hero);
-      if (cta) new IntersectionObserver(function (en) { ctaIn = en[0].isIntersecting; syncFloat(); }).observe(cta);
-      var stat = document.getElementById('dcbio-stat');
-      if (stat) {
-        var so = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { runCounter(); so.disconnect(); } }, { threshold: 0.3 });
-        so.observe(stat);
-      }
+    /* Lightbox da imagem */
+    var lb = document.getElementById('bio-lb');
+    var poster = document.getElementById('bio-poster');
+    if (lb && poster) {
+      poster.addEventListener('click', function() { lb.classList.add('open'); });
+      lb.addEventListener('click', function() { lb.classList.remove('open'); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') lb.classList.remove('open'); });
     }
+
+    /* Holofote que segue o cursor nos botões */
+    var links = wrapper.querySelectorAll('.bio-link');
+    for (var m = 0; m < links.length; m++) {
+      links[m].addEventListener('pointermove', function(e) {
+        var r = this.getBoundingClientRect();
+        this.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        this.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    }
+
+    /* WhatsApp flutuante: aparece depois do topo, some no CTA final */
+    var fl = document.getElementById('bio-float');
+    var hero = wrapper.querySelector('.bio-hero');
+    var cta = document.getElementById('bio-cta');
+    var heroOut = false, ctaIn = false;
+    function syncFloat() { if (fl) fl.classList.toggle('on', heroOut && !ctaIn); }
+    if (hero) new IntersectionObserver(function(en) { heroOut = !en[0].isIntersecting; syncFloat(); }).observe(hero);
+    if (cta) new IntersectionObserver(function(en) { ctaIn = en[0].isIntersecting; syncFloat(); }).observe(cta);
+
+    /* Tracking de cliques (GTM): evento bio_click */
+    wrapper.addEventListener('click', function(e) {
+      var a = e.target.closest ? e.target.closest('a[data-label]') : null;
+      if (!a) return;
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'bio_click', link_label: a.getAttribute('data-label'), link_url: a.href });
+    });
+
+    /* Instagram: reprocessa o embed se o script já estiver carregado */
+    if (window.instgrm && window.instgrm.Embeds) { window.instgrm.Embeds.process(); }
   }
 
-  function safeInit() { try { init(); } catch (err) { if (window.console) console.warn('dcbio', err); } }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', safeInit);
-  else safeInit();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 </script>
+
+<script async src="https://www.instagram.com/embed.js"></script>
