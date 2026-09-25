@@ -1,23 +1,5 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<title>Danrlei Carlos | Link na bio</title>
-	<meta name="description" content="Falo de Marketing como quem pede um Café. Links da Uai Sô! Marketing com porquê, conteúdos sobre IA e Marketing e contato no WhatsApp.">
-	<meta name="theme-color" content="#efede8">
-	<meta property="og:type" content="website">
-	<meta property="og:locale" content="pt_BR">
-	<meta property="og:title" content="Danrlei Carlos | Link na bio">
-	<meta property="og:description" content="Falo de Marketing como quem pede um Café.">
-	<meta property="og:image" content="https://danrleicarlos.com.br/wp-content/uploads/2026/09/@arthhurcesarfotografiia-10-scaled.jpg">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link rel="preload" as="image" href="https://danrleicarlos.com.br/wp-content/uploads/2026/09/@arthhurcesarfotografiia-10-scaled.jpg">
-	<style>
-		html, body { margin: 0; padding: 0; background: #efede8; }
-	</style>
-	<style>
+<!-- LINK NA BIO - DANRLEI CARLOS | Copie TUDO e cole em um widget HTML do Elementor Pro (nao precisa de DOCTYPE, html, head ou body: o WordPress ja gera). Para editar um botao, procure por BOTAO 01, BOTAO 02 etc. -->
+<style>
   @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600;700&family=Permanent+Marker&family=Source+Serif+4:ital,opsz,wght@0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&display=swap');
 
   .dcbio {
@@ -37,7 +19,9 @@
 
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     margin: 0;
     padding: 0 0 40px;
     overflow: hidden;
@@ -98,7 +82,8 @@
     background: var(--red); transform-origin: left;
     transition: transform 1.1s var(--ease) .5s;
   }
-  .dcbio.has-js:not(.is-ready) .dcbio-h1 .dcbio-red::after { transform: scaleX(0); }
+  .dcbio-h1 .dcbio-red::after { animation: dcbioLine 1.1s var(--ease) .5s backwards; }
+  @keyframes dcbioLine { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   .dcbio .dcbio-slogan {
     margin-top: 18px;
     font: 500 clamp(22px, 6.2vw, 27px)/1.18 var(--serif);
@@ -121,7 +106,8 @@
     border-radius: 50%; background: var(--red);
     transition: transform 1.2s var(--ease) .3s, opacity .8s ease .3s;
   }
-  .dcbio.has-js:not(.is-ready) .dcbio-sun { transform: scale(.6); opacity: 0; }
+  .dcbio-sun { animation: dcbioPop 1.2s var(--ease) .2s backwards; }
+  @keyframes dcbioPop { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .dcbio-photo {
     position: absolute; right: -20px; bottom: 0; width: 82%; height: 100%;
     overflow: hidden;
@@ -145,7 +131,9 @@
     transition: stroke-dashoffset 1.6s var(--ease) .9s;
   }
   .dcbio-crown .drip { stroke-width: 3; transition-delay: 2.2s; transition-duration: .8s; }
-  .dcbio.has-js:not(.is-ready) .dcbio-crown path { stroke-dashoffset: 1; }
+  .dcbio-crown path { animation: dcbioDraw 1.6s var(--ease) .8s backwards; }
+  .dcbio-crown .drip { animation-duration: .8s; animation-delay: 2.1s; }
+  @keyframes dcbioDraw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
   .dcbio-scrib {
     position: absolute; font: 500 17px/1.02 var(--hand); color: var(--ink); opacity: .85;
     pointer-events: none;
@@ -301,7 +289,8 @@
     stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset .6s var(--ease) .4s;
   }
   .dcbio-strike path + path { transition-delay: .8s; }
-  .dcbio.has-js .dcbio-r:not(.is-in) .dcbio-strike path { stroke-dashoffset: 1; }
+  .dcbio-strike path { animation: dcbioDraw .7s var(--ease) 1s backwards; }
+  .dcbio-strike path + path { animation-delay: 1.3s; }
 
   .dcbio-stat {
     position: relative; margin: 28px 0 8px; padding: 22px 20px 20px;
@@ -413,18 +402,21 @@
   }
 
   /* ---------- REVEAL ---------- */
-  .dcbio.has-js .dcbio-r { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .9s var(--ease); }
-  .dcbio.has-js .dcbio-r.is-in { opacity: 1; transform: none; }
-  /* botões entram em cascata (animation com fill "backwards" para não travar o hover) */
-  .dcbio.has-js .dcbio-stagger:not(.is-in) > * { opacity: 0; }
-  .dcbio.has-js .dcbio-stagger.is-in > * { animation: dcbioUp .75s var(--ease) backwards; }
-  .dcbio-stagger > :nth-child(2) { animation-delay: .08s !important; }
-  .dcbio-stagger > :nth-child(3) { animation-delay: .16s !important; }
-  .dcbio-stagger > :nth-child(4) { animation-delay: .24s !important; }
-  .dcbio-stagger > :nth-child(5) { animation-delay: .32s !important; }
-  .dcbio-stagger > :nth-child(6) { animation-delay: .40s !important; }
-  .dcbio-stagger > :nth-child(n+7) { animation-delay: .48s !important; }
+  /* botoes entram em cascata so com CSS (se a animacao nao rodar, continuam visiveis) */
+  .dcbio-links > .dcbio-link { animation: dcbioUp .75s var(--ease) backwards; }
+  .dcbio-links > .dcbio-link:nth-child(1) { animation-delay: .35s; }
+  .dcbio-links > .dcbio-link:nth-child(2) { animation-delay: .45s; }
+  .dcbio-links > .dcbio-link:nth-child(3) { animation-delay: .55s; }
+  .dcbio-links > .dcbio-link:nth-child(4) { animation-delay: .65s; }
+  .dcbio-links > .dcbio-link:nth-child(n+5) { animation-delay: .75s; }
   @keyframes dcbioUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+  /* protecao contra o Elementor esconder o widget (animacao de entrada / JS atrasado) */
+  .elementor-widget-html:has(#dcbio),
+  .elementor-invisible:has(#dcbio),
+  .elementor-element:has(#dcbio) { visibility: visible !important; opacity: 1 !important; }
+  .elementor-widget-html:has(#dcbio) { width: 100% !important; max-width: 100% !important; }
+  .e-con:has(#dcbio) { --padding-top: 0px; --padding-right: 0px; --padding-bottom: 0px; --padding-left: 0px; }
 
   @media (min-width: 560px) {
     .dcbio-figure { height: 470px; }
@@ -432,12 +424,10 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .dcbio *, .dcbio *::before, .dcbio *::after { animation: none !important; transition: none !important; }
-    .dcbio.has-js .dcbio-r, .dcbio.has-js .dcbio-stagger > * { opacity: 1 !important; transform: none; }
     .dcbio-crown path, .dcbio-strike path { stroke-dashoffset: 0; }
   }
 </style>
-</head>
-<body>
+
 <div class="dcbio" id="dcbio">
   <div class="dcbio-wrap">
 
@@ -487,7 +477,7 @@
     <section class="dcbio-section" aria-labelledby="dcbio-links-t">
       <div class="dcbio-kicker dcbio-r">Por onde começar</div>
       <h2 class="dcbio-h2 dcbio-r" id="dcbio-links-t">Escolha seu <em>café.</em></h2>
-      <nav class="dcbio-links dcbio-stagger" id="dcbio-links">
+      <nav class="dcbio-links" id="dcbio-links">
         <!-- BOTAO 01 -->
         <a class="dcbio-link" href="https://uaisomarketing.com.br/lp/?utm_source=instagram&amp;utm_medium=bio&amp;utm_campaign=link_na_bio" data-label="Conheça a Uai Sô! Marketing com porquê">
           <span class="dcbio-link__num">01</span>
@@ -711,32 +701,19 @@
     /* instagram: reprocessa o embed (necessario no editor do Elementor) */
     if (window.instgrm && window.instgrm.Embeds) { try { window.instgrm.Embeds.process(); } catch (err) {} }
 
-    var reveals = root.querySelectorAll('.dcbio-r, .dcbio-stagger');
-    if (hasIO && !reduce) {
-      root.classList.add('has-js');
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          en.target.classList.add('is-in');
-          if (en.target.id === 'dcbio-stat') runCounter();
-          io.unobserve(en.target);
-        });
-      }, { threshold: 0.12 });
-      for (var i = 0; i < reveals.length; i++) io.observe(reveals[i]);
+    if (hasIO) {
       if (hero) new IntersectionObserver(function (en) { heroOut = !en[0].isIntersecting; syncFloat(); }).observe(hero);
       if (cta) new IntersectionObserver(function (en) { ctaIn = en[0].isIntersecting; syncFloat(); }).observe(cta);
-      /* seguranca: se algo nao disparar, mostra tudo em 4s */
-      setTimeout(function () { for (var j = 0; j < reveals.length; j++) reveals[j].classList.add('is-in'); runCounter(); }, 4000);
-    } else {
-      for (var k = 0; k < reveals.length; k++) reveals[k].classList.add('is-in');
+      var stat = document.getElementById('dcbio-stat');
+      if (stat) {
+        var so = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { runCounter(); so.disconnect(); } }, { threshold: 0.3 });
+        so.observe(stat);
+      }
     }
-
-    setTimeout(function () { root.classList.add('is-ready'); }, 60);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  function safeInit() { try { init(); } catch (err) { if (window.console) console.warn('dcbio', err); } }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', safeInit);
+  else safeInit();
 })();
 </script>
-</body>
-</html>
