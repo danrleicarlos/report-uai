@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora WhatsApp Business | Uai Sô! Marketing com porquê</title>
+<meta name="description" content="Simule o custo mensal do WhatsApp da sua empresa com a nova cobrança da Meta por mensagem, já descontando as 1.000 mensagens de serviço grátis por mês.">
+<meta property="og:title" content="Calculadora WhatsApp Business | Uai Sô!">
+<meta property="og:description" content="Simule o custo mensal do WhatsApp da sua empresa com a nova cobrança da Meta, já com as 1.000 mensagens de serviço grátis no mês.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* ——— Identidade Uai Sô! ———————————————————————————————————————
+   Ajuste as cores da marca aqui: todo o layout usa estes tokens. */
+:root{
+  --font-sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Poppins","Inter",system-ui,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+
+  --brand:#f5a300;          /* cor principal da marca */
+  --brand-strong:#d98a00;   /* hover / destaque */
+  --brand-soft:#fff1d1;     /* fundo suave da marca */
+  --ink:#16120e;            /* texto e seções escuras */
+  --ink-2:#2a241e;
+  --paper:#fbf7f0;          /* fundo da página */
+  --paper-2:#f3ece0;
+  --white:#ffffff;
+
+  --gray-200:#e4ddd2; --gray-300:#d2c9bb; --gray-400:#a89e90;
+  --gray-500:#7f766a; --gray-600:#574f45; --gray-700:#3b352e;
+
+  --wa:#25d366; --wa-dark:#128c4b;
+  --c-servico:#1f5f9e; --c-utilidade:#0b6d5b; --c-autenticacao:#8a5a00; --c-marketing:#a3206f;
+  --ok:#2f7a3a; --red-100:#f8d6d8; --red-600:#ac1e21;
+
+  --radius-full:9999px; --radius-2xl:1.5rem;
+  --shadow-xs:0 1px 2px rgba(16,24,40,.05);
+  --shadow-05:8px 8px 24px rgba(35,25,10,.06);
+  --shadow-1:0 10px 30px rgba(35,25,10,.12);
+  --shadow-2:0 14px 36px rgba(35,25,10,.2);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);font-family:var(--font-sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+.page{overflow-x:clip}
+.page p,.page h1,.page h2,.page h3{margin:0}
+.page a{color:var(--ink);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.page button{font-family:var(--font-sans)}
+.wrap{max-width:1120px;margin:0 auto;padding-left:clamp(16px,5vw,48px);padding-right:clamp(16px,5vw,48px)}
+
+.logo{display:inline-flex;align-items:baseline;gap:8px;text-decoration:none!important;color:var(--ink)!important;line-height:1}
+.logo-mark{font-family:var(--font-display);font-weight:800;font-size:30px;letter-spacing:-.04em}
+.logo-mark b{color:var(--brand);font-weight:800}
+.logo-tag{font-family:var(--font-display);font-size:12.5px;font-weight:500;color:var(--gray-500);letter-spacing:.01em}
+.dark .logo{color:var(--paper)!important}
+.dark .logo-tag{color:var(--gray-400)}
+
+.kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.eyebrow{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase}
+.h-display{font-family:var(--font-display);font-weight:700;letter-spacing:-.03em;line-height:1.08}
+.num{font-family:var(--font-display);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+.hl{background:linear-gradient(transparent 62%,var(--brand) 62%,var(--brand) 92%,transparent 92%);padding:0 .06em}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 24px;background:var(--ink);color:var(--paper)!important;border:none;border-radius:var(--radius-full);font-size:15px;font-weight:600;text-decoration:none!important;white-space:nowrap;cursor:pointer;transition:box-shadow 150ms var(--ease),transform 150ms var(--ease)}
+.btn:hover{box-shadow:var(--shadow-2);transform:translateY(-1px)}
+.btn-wa{background:var(--wa);color:#08361c!important}
+.btn-wa:hover{background:#2fe072}
+.btn-brand{background:var(--brand);color:var(--ink)!important}
+.btn-brand:hover{background:var(--brand-strong)}
+.btn svg{width:18px;height:18px;flex:none}
+.link-quiet{font-size:15px;font-weight:500;color:var(--gray-700)!important;text-decoration:none!important;border-bottom:1px solid var(--gray-300);padding-bottom:2px;white-space:nowrap}
+.link-quiet:hover{border-color:var(--ink)}
+.rule{border-top:1px solid var(--gray-300)}
+
+.tab{padding:4px 0;background:transparent;border:none;border-bottom:3px solid transparent;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;color:var(--gray-500);transition:color 150ms var(--ease),border-color 150ms var(--ease)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
+.chip{padding:8px 14px;background:var(--brand-soft);color:var(--ink);border:none;border-radius:var(--radius-full);font-size:12.5px;font-weight:600;white-space:nowrap;cursor:pointer;transition:background 150ms var(--ease)}
+.chip:hover{background:#ffe3a3}
+.chip-ghost{background:transparent;color:var(--gray-600);font-weight:500}
+.chip-ghost:hover{background:var(--paper-2)}
+
+.conv-side{flex:0 1 240px;min-width:0;max-width:100%;position:sticky;top:0;z-index:2;background:var(--paper);padding:16px 0 20px}
+@media (max-width:900px){.conv-side{position:static}}
+.msg-row{display:grid;grid-template-columns:minmax(0,1fr) clamp(76px,18vw,100px);gap:12px;align-items:center;animation:rise 480ms var(--ease) both}
+.msg-side{display:flex;align-items:center;gap:8px;min-width:0}
+.bubble{padding:10px 15px;font-size:14.5px;line-height:1.45;max-width:100%;min-width:0;box-shadow:var(--shadow-05)}
+.bubble-emp{border-radius:18px 18px 5px 18px;background:var(--ink);color:var(--paper)}
+.bubble-cli{border-radius:18px 18px 18px 5px;background:var(--white);color:var(--gray-700)}
+.msg-tag{text-align:right;animation:tag 400ms var(--ease) 200ms both}
+.msg-price{display:block;font-family:var(--font-mono);font-size:12px;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+.msg-cat{display:block;font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--gray-400);white-space:nowrap;margin-top:2px}
+.msg-free{font-family:var(--font-mono);font-size:11.5px;color:var(--gray-400);white-space:nowrap}
+.del{flex:none;width:20px;height:20px;border-radius:var(--radius-full);border:none;background:transparent;color:var(--gray-400);font-size:14px;line-height:1;cursor:pointer}
+.del:hover{color:var(--red-600);background:var(--red-100)}
+
+input[type="range"]{width:100%;height:20px;cursor:pointer;accent-color:var(--brand-strong)}
+.proj-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--gray-200)}
+.proj-row .lbl{font-size:14px;color:var(--gray-600);text-wrap:pretty}
+.proj-row.good .num{color:var(--ok)}
+.bar-track{height:3px;background:var(--ink-2);border-radius:3px}
+.bar-fill{height:100%;width:0;border-radius:3px;transition:width 400ms var(--ease)}
+.matriz-row{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 24px;padding:18px 0;border-bottom:1px solid var(--gray-200)}
+.matriz-row .desc{flex:1 1 280px;min-width:0;font-size:15.5px;text-wrap:pretty}
+.matriz-row .tipo{flex:0 0 auto;font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.matriz-row .preco{flex:0 0 116px;font-family:var(--font-mono);font-size:13.5px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.step{display:flex;gap:18px}
+.faq-item{border-bottom:1px solid var(--gray-200)}
+.faq-q{width:100%;display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:18px 0;background:transparent;border:none;cursor:pointer;text-align:left;font-size:16px;font-weight:500;color:var(--ink)}
+.faq-sign{font-family:var(--font-mono);font-size:15px;color:var(--brand-strong);flex:none}
+.faq-a{display:none;font-size:15px;line-height:1.6;color:var(--gray-600);padding:0 0 20px;max-width:62ch}
+.faq-item.open .faq-a{display:block;animation:rise 320ms var(--ease) both}
+.dark{background:var(--ink);color:var(--paper)}
+.dark-row{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:16px 0;border-top:1px solid var(--gray-700)}
+.card{background:var(--white);border-radius:var(--radius-2xl);box-shadow:var(--shadow-1);padding:clamp(22px,3vw,34px)}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:var(--radius-full);background:var(--brand-soft);font-size:12.5px;font-weight:600;color:var(--ink)}
+.wa-float{position:fixed;right:18px;bottom:18px;z-index:20;width:58px;height:58px;border-radius:50%;background:var(--wa);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-2);transition:transform 150ms var(--ease)}
+.wa-float:hover{transform:scale(1.06)}
+.wa-float svg{width:30px;height:30px}
+
+[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity 700ms var(--ease),transform 700ms var(--ease)}
+[data-reveal].in{opacity:1;transform:none}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes tag{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0ms!important;transition-duration:.001ms!important}
+  [data-reveal]{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="wrap" style="padding-top:24px;padding-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+    <a class="logo" href="https://uaisomarketing.com.br" target="_blank" rel="noopener" aria-label="Uai Sô! Marketing com porquê">
+      <span class="logo-mark">uai sô<b>!</b></span><span class="logo-tag">marketing com porquê</span>
+    </a>
+    <a class="wa-link" data-wa="header" href="#" target="_blank" rel="noopener" style="font-size:13.5px;font-weight:600;color:var(--ink);text-decoration:none;white-space:nowrap">Falar no WhatsApp →</a>
+  </header>
+
+  <section class="wrap" style="padding-top:clamp(28px,6vw,88px);padding-bottom:clamp(56px,9vw,120px)">
+    <p class="kicker" style="color:var(--brand-strong);margin-bottom:clamp(20px,3vw,32px)">Nova cobrança da Meta · a partir de 1º de outubro de 2026</p>
+    <h1 class="h-display" style="font-size:clamp(40px,8.2vw,92px);line-height:.98;letter-spacing:-.04em;max-width:16ch;text-wrap:balance">Uma conversa parece pequena, <span class="hl">sô.</span></h1>
+    <h1 class="h-display" style="font-size:clamp(40px,8.2vw,92px);line-height:.98;letter-spacing:-.04em;max-width:16ch;color:var(--gray-400);text-wrap:balance">Até acontecer 20 mil vezes.</h1>
+
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,72px);align-items:flex-end;margin-top:clamp(36px,5vw,64px)">
+      <div style="flex:1 1 320px;min-width:0">
+        <p style="font-size:clamp(16px,1.7vw,19px);line-height:1.55;color:var(--gray-600);max-width:44ch">A partir de outubro, as respostas da sua empresa no WhatsApp passam a ser cobradas pela Meta. Cada número tem <strong style="color:var(--ink)">1.000 mensagens de serviço grátis por mês</strong> — depois disso, toda resposta entra na conta. Simule e veja o impacto na sua operação.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;margin-top:30px">
+          <a class="btn" href="#conversa">Simular uma conversa</a>
+          <a class="link-quiet" href="#mudanca">Entender o que mudou</a>
+        </div>
+      </div>
+
+      <div data-arm="hero" style="flex:0 1 420px;min-width:0">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;align-items:center;gap:12px;animation:rise 700ms var(--ease) 120ms both">
+            <div class="bubble bubble-cli" style="border-radius:16px 16px 16px 5px;font-size:14px">meu pedido chega hoje?</div>
+            <span style="font-family:var(--font-mono);font-size:11px;color:var(--gray-400)">grátis</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;justify-content:flex-end;animation:rise 700ms var(--ease) 420ms both">
+            <span style="font-family:var(--font-mono);font-size:11.5px;color:var(--gray-500);white-space:nowrap">+ R$&nbsp;0,035</span>
+            <div class="bubble bubble-emp" style="border-radius:16px 16px 5px 16px;font-size:14px;box-shadow:none">Sai para entrega hoje até as 18h.</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;justify-content:flex-end;animation:rise 700ms var(--ease) 720ms both">
+            <span style="font-family:var(--font-mono);font-size:11.5px;color:var(--gray-500);white-space:nowrap">+ R$&nbsp;0,035</span>
+            <div class="bubble bubble-emp" style="border-radius:16px 16px 5px 16px;font-size:14px;box-shadow:none">Quer que eu avise quando o motoboy sair?</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:26px;padding-top:14px;border-top:1px solid var(--gray-300)">
+          <span style="font-size:13px;color:var(--gray-600);line-height:1.4">20.000 conversas assim no mês<br><span style="color:var(--gray-400)">já descontadas as 1.000 grátis</span></span>
+          <span class="num" id="hero-vinte" style="font-size:clamp(28px,4.6vw,40px);line-height:1">R$&nbsp;0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="conversa" class="wrap" style="scroll-margin-top:24px">
+    <div data-reveal class="rule" style="padding-top:clamp(28px,4vw,44px)">
+      <h2 class="h-display" style="font-size:clamp(24px,3.4vw,36px)">Escolha uma conversa</h2>
+      <div id="tabs" role="tablist" aria-label="Tipo de conversa" style="display:flex;flex-wrap:wrap;gap:6px 26px;margin-top:22px"></div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(20px,3.5vw,52px);padding:clamp(24px,3.5vw,42px) 0 clamp(28px,4.5vw,54px);align-items:flex-start">
+      <div class="conv-side" data-arm="conv">
+        <p class="eyebrow" style="color:var(--gray-500);margin-bottom:10px"><span id="cenario-label">Atendimento</span> · tarifa cheia</p>
+        <p class="num" id="acumulado" style="font-size:clamp(32px,4.8vw,48px);line-height:.95;letter-spacing:-.035em">R$&nbsp;0,000</p>
+        <p id="contagem" style="font-size:13px;line-height:1.5;color:var(--gray-500);margin-top:12px;max-width:28ch"></p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:18px">
+          <button type="button" class="chip" id="add-msg">+ resposta</button>
+          <button type="button" class="chip chip-ghost" id="repetir">repetir</button>
+        </div>
+      </div>
+      <div id="lista-msgs" aria-live="polite" style="flex:1 1 400px;min-width:0;display:flex;flex-direction:column;gap:11px;min-height:250px"></div>
+    </div>
+  </section>
+
+  <section id="calculadora" class="wrap" style="padding-bottom:clamp(56px,9vw,120px);scroll-margin-top:24px">
+    <div data-reveal data-arm="mensal" class="rule" style="padding-top:clamp(28px,4vw,44px)">
+      <p style="font-size:clamp(16px,1.8vw,20px);color:var(--gray-600)">Esta conversa custa, na tarifa cheia,</p>
+      <p class="num" id="custo-conversa" style="font-size:clamp(64px,15vw,180px);line-height:.86;letter-spacing:-.05em;margin-top:14px">R$&nbsp;0,000</p>
+      <p id="nota-tarifa" style="font-size:13.5px;line-height:1.55;color:var(--gray-500);margin-top:20px;max-width:58ch"></p>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,64px);margin-top:clamp(40px,6vw,72px)">
+      <div data-reveal style="flex:1 1 300px;min-width:0">
+        <p class="eyebrow" style="color:var(--gray-500);margin-bottom:18px">Ajuste para a sua operação</p>
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px">
+              <label for="sl-conversas" style="font-size:14px;color:var(--gray-700)">Conversas por mês</label>
+              <span id="val-conversas" style="font-family:var(--font-mono);font-size:15px;font-weight:500;font-variant-numeric:tabular-nums">5.000</span>
+            </div>
+            <input type="range" id="sl-conversas" min="100" max="50000" step="100" value="5000">
+          </div>
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px">
+              <label for="sl-msgs" style="font-size:14px;color:var(--gray-700)">Respostas de serviço por conversa</label>
+              <span id="val-msgs" style="font-family:var(--font-mono);font-size:15px;font-weight:500;font-variant-numeric:tabular-nums">3</span>
+            </div>
+            <input type="range" id="sl-msgs" min="0" max="30" step="1" value="3">
+          </div>
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin-bottom:6px">
+              <label for="sl-numeros" style="font-size:14px;color:var(--gray-700)">Números de WhatsApp</label>
+              <span id="val-numeros" style="font-family:var(--font-mono);font-size:15px;font-weight:500;font-variant-numeric:tabular-nums">1</span>
+            </div>
+            <input type="range" id="sl-numeros" min="1" max="30" step="1" value="1">
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center;padding-top:4px">
+            <span class="badge" id="badge-franquia">1.000 mensagens de serviço grátis/mês</span>
+            <button type="button" role="switch" id="sw-impostos" aria-checked="false" style="display:flex;align-items:center;gap:9px;padding:0;background:transparent;border:none;font-size:13px;font-weight:500;color:var(--gray-700);cursor:pointer;white-space:nowrap">
+              <span id="sw-track" style="width:32px;height:19px;border-radius:var(--radius-full);flex:none;display:flex;align-items:center;padding:2px;transition:background 150ms var(--ease);background:var(--gray-300);justify-content:flex-start">
+                <span style="width:15px;height:15px;border-radius:var(--radius-full);background:var(--white);box-shadow:var(--shadow-xs);display:block"></span>
+              </span>
+              <span id="sw-label">sem impostos</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal style="flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:2px">
+        <div class="proj-row">
+          <span class="lbl">Por mês</span>
+          <span class="num" id="proj-mes" style="font-size:clamp(26px,4vw,38px);white-space:nowrap">R$&nbsp;0,00</span>
+        </div>
+        <div class="proj-row">
+          <span class="lbl">Por ano</span>
+          <span class="num" id="proj-ano" style="font-size:clamp(30px,5vw,48px);white-space:nowrap">R$&nbsp;0,00</span>
+        </div>
+        <div class="proj-row">
+          <span class="lbl">Custo médio por atendimento</span>
+          <span class="num" id="proj-atend" style="font-size:clamp(18px,2.4vw,22px);white-space:nowrap">R$&nbsp;0,000</span>
+        </div>
+        <div class="proj-row">
+          <span class="lbl">Mensagens cobradas no mês</span>
+          <span class="num" id="proj-cob" style="font-size:clamp(18px,2.4vw,22px);white-space:nowrap">0</span>
+        </div>
+        <div class="proj-row good">
+          <span class="lbl">Mensagens grátis usadas (franquia)</span>
+          <span class="num" id="proj-free" style="font-size:clamp(18px,2.4vw,22px);white-space:nowrap">0</span>
+        </div>
+        <div class="proj-row good">
+          <span class="lbl">Economia da franquia no mês</span>
+          <span class="num" id="proj-eco" style="font-size:clamp(18px,2.4vw,22px);white-space:nowrap">R$&nbsp;0,00</span>
+        </div>
+      </div>
+    </div>
+
+    <div data-reveal class="card" style="margin-top:clamp(40px,6vw,64px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 32px;background:var(--brand-soft);box-shadow:none">
+      <div style="flex:1 1 320px;min-width:0">
+        <p class="h-display" style="font-size:clamp(20px,2.6vw,26px);max-width:30ch">Quer que esse número caia? A gente te mostra o porquê de cada mensagem.</p>
+        <p style="font-size:14.5px;line-height:1.55;color:var(--gray-600);margin-top:8px;max-width:52ch">Fluxos de atendimento enxutos, automação que resolve na primeira resposta e CRM que não deixa lead esfriar.</p>
+      </div>
+      <a class="btn btn-wa" data-wa="calculadora" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.8 3 15.9c0 2.3.6 4.5 1.7 6.4L3 29l6.9-1.8c1.9 1 4 1.6 6.1 1.6 7.2 0 13-5.8 13-12.9S23.2 3 16 3zm0 23.6c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4c-1.1-1.7-1.6-3.6-1.6-5.6C5.3 10.1 10.1 5.3 16 5.3s10.7 4.8 10.7 10.6S21.9 26.6 16 26.6zm5.9-8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>Conversar no WhatsApp</a>
+    </div>
+  </section>
+
+  <section class="dark">
+    <div data-reveal data-arm="escala" class="wrap" style="padding-top:clamp(48px,8vw,104px);padding-bottom:clamp(48px,8vw,104px)">
+      <h2 class="h-display" style="font-size:clamp(24px,3.4vw,36px);margin-bottom:10px;color:var(--paper);max-width:24ch">A mesma conversa, em escala</h2>
+      <p id="esc-sub" style="font-size:14px;color:var(--gray-400);margin-bottom:clamp(32px,5vw,56px);max-width:56ch"></p>
+      <div style="display:flex;flex-direction:column;gap:clamp(24px,3.5vw,40px)">
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:12px">
+            <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:.06em;color:var(--gray-400);white-space:nowrap">100 conversas/mês</span>
+            <span class="num" id="esc-1" style="font-size:clamp(20px,2.6vw,26px);white-space:nowrap;color:var(--gray-400)">R$&nbsp;0,00</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="bar-1" style="background:var(--gray-400)"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:12px">
+            <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:.06em;color:var(--gray-400);white-space:nowrap">1.000 conversas/mês</span>
+            <span class="num" id="esc-2" style="font-size:clamp(28px,4.4vw,44px);white-space:nowrap;color:var(--brand-soft)">R$&nbsp;0,00</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="bar-2" style="background:var(--brand-soft)"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:12px">
+            <span style="font-family:var(--font-mono);font-size:12.5px;letter-spacing:.06em;color:var(--gray-400);white-space:nowrap">20.000 conversas/mês</span>
+            <span class="num" id="esc-3" style="font-size:clamp(38px,7vw,76px);white-space:nowrap;color:var(--brand)">R$&nbsp;0</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" id="bar-3" style="background:var(--brand)"></div></div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--gray-400);margin-top:clamp(28px,4vw,40px);max-width:60ch">Valores mensais já descontando a franquia de 1.000 mensagens de serviço grátis por número. A franquia vale só para mensagens de serviço, renova todo mês e não acumula.</p>
+    </div>
+  </section>
+
+  <section id="mudanca" class="wrap" style="padding-top:clamp(48px,8vw,104px);padding-bottom:clamp(40px,6vw,72px)">
+    <div data-reveal style="display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,72px)">
+      <h2 class="h-display" style="font-size:clamp(24px,3.4vw,36px);flex:1 1 240px;max-width:14ch">O que muda</h2>
+      <div style="flex:2 1 420px;min-width:0;display:flex;flex-wrap:wrap;gap:24px 48px">
+        <p style="flex:1 1 260px;font-size:16px;line-height:1.6;color:var(--gray-700)">A Meta passa a cobrar pelas respostas livres que a empresa envia dentro da janela de atendimento de 24h — as chamadas mensagens de serviço, que antes eram gratuitas. Elas passam a custar o mesmo que utilidade e autenticação, sem desconto por volume.</p>
+        <p style="flex:1 1 260px;font-size:16px;line-height:1.6;color:var(--gray-700)">Cada número de WhatsApp tem 1.000 mensagens de serviço grátis por mês; a cobrança começa na 1.001ª. As mensagens do cliente continuam sem custo, e a mudança vale para a API oficial, não para o app WhatsApp Business.</p>
+      </div>
+    </div>
+
+    <div data-reveal style="margin-top:clamp(32px,5vw,56px)">
+      <div class="matriz-row"><span class="desc">Mensagem enviada pelo cliente</span><span class="tipo" style="color:var(--ok)">sem custo</span><span class="preco" style="color:var(--ok)">grátis</span></div>
+      <div class="matriz-row"><span class="desc">Primeiras 1.000 mensagens de serviço do mês, por número</span><span class="tipo" style="color:var(--c-servico)">franquia</span><span class="preco" style="color:var(--ok)">grátis</span></div>
+      <div class="matriz-row"><span class="desc">Resposta em texto da empresa na janela de atendimento (a partir da 1.001ª)</span><span class="tipo" style="color:var(--c-servico)">serviço</span><span class="preco" data-preco="servico">R$&nbsp;0,035</span></div>
+      <div class="matriz-row"><span class="desc">Aviso transacional (confirmação, rastreio, cobrança)</span><span class="tipo" style="color:var(--c-utilidade)">utilidade</span><span class="preco" data-preco="utilidade">R$&nbsp;0,035</span></div>
+      <div class="matriz-row"><span class="desc">Código de verificação</span><span class="tipo" style="color:var(--c-autenticacao)">autenticação</span><span class="preco" data-preco="autenticacao">R$&nbsp;0,035</span></div>
+      <div class="matriz-row"><span class="desc">Disparo promocional</span><span class="tipo" style="color:var(--c-marketing)">marketing</span><span class="preco" data-preco="marketing">R$&nbsp;0,394</span></div>
+    </div>
+  </section>
+
+  <section id="uaiso" class="wrap" style="padding-top:clamp(32px,5vw,64px);padding-bottom:clamp(48px,8vw,104px)">
+    <div data-reveal class="rule" style="padding-top:clamp(32px,5vw,56px)">
+      <div style="max-width:760px">
+        <p class="eyebrow" style="color:var(--brand-strong);margin-bottom:16px">Marketing com porquê</p>
+        <h2 class="h-display" style="font-size:clamp(30px,5vw,56px);line-height:1.02;letter-spacing:-.035em;max-width:18ch">Mensagem cara é mensagem sem porquê</h2>
+        <p style="font-size:16.5px;line-height:1.6;color:var(--gray-600);max-width:50ch;margin-top:22px">A tarifa é da Meta — isso a gente não muda. O que dá pra mudar é quantas mensagens sua operação precisa pra resolver um atendimento e quanto cada conversa vira receita. Não vendemos fórmula. Entregamos estratégia.</p>
+      </div>
+    </div>
+
+    <div data-reveal style="display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,72px);align-items:stretch;margin-top:clamp(44px,7vw,88px)">
+      <div style="flex:1.2 1 320px;min-width:0;display:flex;flex-direction:column;gap:clamp(22px,3vw,30px)">
+        <div class="step">
+          <span style="flex:none;font-family:var(--font-mono);font-size:11px;color:var(--brand-strong);padding-top:3px">01</span>
+          <div style="min-width:0">
+            <p style="font-size:15.5px;font-weight:600">Diagnóstico do seu atendimento</p>
+            <p style="font-size:14px;line-height:1.55;color:var(--gray-600);margin-top:5px;max-width:46ch">Lemos seus fluxos, categorias de mensagem e volume por número para mostrar onde está o custo — e onde está o desperdício.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span style="flex:none;font-family:var(--font-mono);font-size:11px;color:var(--brand-strong);padding-top:3px">02</span>
+          <div style="min-width:0">
+            <p style="font-size:15.5px;font-weight:600">Automação e fluxos que resolvem na primeira</p>
+            <p style="font-size:14px;line-height:1.55;color:var(--gray-600);margin-top:5px;max-width:46ch">Menos idas e vindas, respostas mais completas e disparos de marketing só para quem tem motivo de receber.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span style="flex:none;font-family:var(--font-mono);font-size:11px;color:var(--brand-strong);padding-top:3px">03</span>
+          <div style="min-width:0">
+            <p style="font-size:15.5px;font-weight:600">WhatsApp conectado ao CRM e às vendas</p>
+            <p style="font-size:14px;line-height:1.55;color:var(--gray-600);margin-top:5px;max-width:46ch">Marketing, vendas e atendimento no mesmo fluxo, com dados para saber quanto cada conversa gera de receita.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column">
+        <p class="h-display" style="font-size:clamp(22px,2.8vw,28px);max-width:18ch">Bora colocar essa conta no papel?</p>
+        <p style="font-size:14.5px;line-height:1.55;color:var(--gray-600);margin-top:12px">Manda um oi no WhatsApp com o número que a calculadora te mostrou. A gente responde com o porquê — e com o que dá pra fazer.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin:20px 0 24px">
+          <p style="font-size:14px;color:var(--gray-700)">✓ Parceiros oficiais Meta, Google e RD Station</p>
+          <p style="font-size:14px;color:var(--gray-700)">✓ Desde 2019 gerando receita para clientes</p>
+          <p style="font-size:14px;color:var(--gray-700)">✓ Atendimento de segunda a sexta, 9h às 18h</p>
+        </div>
+        <a class="btn btn-wa" data-wa="card" href="#" target="_blank" rel="noopener" style="width:100%;margin-top:auto"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.8 3 15.9c0 2.3.6 4.5 1.7 6.4L3 29l6.9-1.8c1.9 1 4 1.6 6.1 1.6 7.2 0 13-5.8 13-12.9S23.2 3 16 3zm0 23.6c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4c-1.1-1.7-1.6-3.6-1.6-5.6C5.3 10.1 10.1 5.3 16 5.3s10.7 4.8 10.7 10.6S21.9 26.6 16 26.6zm5.9-8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>Chamar a Uai Sô no WhatsApp</a>
+        <p style="font-size:12px;line-height:1.5;color:var(--gray-500);margin-top:14px;text-align:center">(32) 9 8416-5986</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="wrap" style="padding-bottom:clamp(40px,6vw,72px)">
+    <div data-reveal class="rule" style="display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,72px);padding-top:clamp(28px,4vw,44px)">
+      <h2 class="h-display" style="font-size:clamp(24px,3.4vw,36px);flex:1 1 200px;max-width:12ch">Perguntas</h2>
+      <div id="faq-list" style="flex:2.2 1 420px;min-width:0"></div>
+    </div>
+  </section>
+
+  <section class="dark">
+    <div data-reveal class="wrap" style="padding-top:clamp(48px,8vw,104px);padding-bottom:clamp(48px,8vw,104px);display:flex;flex-wrap:wrap;gap:clamp(28px,5vw,80px);align-items:flex-start">
+      <div style="flex:1.3 1 320px;min-width:0">
+        <p class="eyebrow" style="color:var(--brand);margin-bottom:18px">Sobre a Uai Sô!</p>
+        <h2 class="h-display" style="font-size:clamp(26px,4vw,44px);line-height:1.08;color:var(--paper);max-width:22ch">Marketing, vendas e atendimento falando a mesma língua: a da receita</h2>
+        <p style="font-size:16px;line-height:1.6;color:var(--gray-300);margin-top:22px;max-width:50ch">Desde 2019 a Uai Sô! integra marketing, CRM, automação e operação comercial, com aquele jeitin mineiro de fazer bem feito. Antes de apertar o botão, a gente entende qual problema o botão precisa resolver.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:clamp(28px,4vw,38px)">
+          <a class="btn btn-brand" data-wa="sobre" href="#" target="_blank" rel="noopener">Falar com a Uai Sô!</a>
+          <a href="https://uaisomarketing.com.br" target="_blank" rel="noopener" style="font-size:15px;font-weight:500;color:var(--brand-soft);text-decoration:none;border-bottom:1px solid var(--gray-600);padding-bottom:2px">uaisomarketing.com.br</a>
+        </div>
+      </div>
+      <div style="flex:1 1 260px;min-width:0;display:flex;flex-direction:column">
+        <div class="dark-row"><span style="font-size:14.5px;color:var(--gray-300)">Performance e mídia paga</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--brand)">Meta · Google</span></div>
+        <div class="dark-row"><span style="font-size:14.5px;color:var(--gray-300)">CRM e automação</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--brand)">RD Station</span></div>
+        <div class="dark-row"><span style="font-size:14.5px;color:var(--gray-300)">Atendimento e SDR no WhatsApp</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--brand)">fluxos</span></div>
+        <div class="dark-row" style="border-bottom:1px solid var(--gray-700)"><span style="font-size:14.5px;color:var(--gray-300)">Instagram</span><a href="https://instagram.com/uaisomarketing" target="_blank" rel="noopener" style="font-family:var(--font-mono);font-size:12px;color:var(--brand);text-decoration:none">@uaisomarketing</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="wrap" style="padding-top:clamp(40px,6vw,72px);padding-bottom:96px">
+    <div class="rule" style="padding-top:28px">
+      <p style="font-size:13px;line-height:1.65;color:var(--gray-600);max-width:76ch">Estimativa baseada nas <a href="https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing?lloc=wa_service_monet_pricing_details#service-rates-effective-october-1-2026" target="_blank" rel="noopener">tarifas e regras públicas da Meta</a> para mensagens de serviço a partir de 1º de outubro de 2026, considerando 1.000 mensagens de serviço grátis por número por mês. O valor final pode variar conforme categoria, câmbio, impostos, provedor e condições da conta.</p>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;justify-content:space-between;margin-top:36px">
+      <a class="logo" href="https://uaisomarketing.com.br" target="_blank" rel="noopener" aria-label="Uai Sô! Marketing com porquê"><span class="logo-mark" style="font-size:36px">uai sô<b>!</b></span><span class="logo-tag">marketing com porquê</span></a>
+      <span style="font-size:12.5px;color:var(--gray-500)">© <span id="ano"></span> Uai Sô! Marketing com porquê</span>
+    </div>
+  </footer>
+</div>
+
+<a class="wa-float" data-wa="flutuante" href="#" target="_blank" rel="noopener" aria-label="Falar com a Uai Sô! no WhatsApp"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" d="M16 3C8.8 3 3 8.8 3 15.9c0 2.3.6 4.5 1.7 6.4L3 29l6.9-1.8c1.9 1 4 1.6 6.1 1.6 7.2 0 13-5.8 13-12.9S23.2 3 16 3zm0 23.6c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.1 1.1 1.1-4-.3-.4c-1.1-1.7-1.6-3.6-1.6-5.6C5.3 10.1 10.1 5.3 16 5.3s10.7 4.8 10.7 10.6S21.9 26.6 16 26.6zm5.9-8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.7 5 .8.3 1.4.5 1.9.7.8.3 1.5.2 2.1.1.6-.1 1.9-.8 2.2-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg></a>
+
+<script>
+(function(){
+  // ——— Configuração ————————————————————————————————————————————————
+  var WHATSAPP = '5532984165986';
+  // Tarifas por mensagem (R$) e franquia de serviço grátis por número/mês.
+  var CFG = { servico:0.035, utilidade:0.035, autenticacao:0.035, marketing:0.394, franquia:1000, imposto:0.23 };
+
+  var CATS = {
+    servico:{ label:'serviço', fg:'var(--c-servico)' },
+    utilidade:{ label:'utilidade', fg:'var(--c-utilidade)' },
+    autenticacao:{ label:'autenticação', fg:'var(--c-autenticacao)' },
+    marketing:{ label:'marketing', fg:'var(--c-marketing)' }
+  };
+  var CENARIOS = [
+    { id:'atendimento', label:'Atendimento', msgs:[
+      { de:'cliente', txt:'oi, consigo mudar o vencimento da minha fatura?' },
+      { de:'empresa', cat:'servico', txt:'Oi, Marina! Consegue sim: hoje está no dia 10 e posso mudar para 5, 15 ou 25.' },
+      { de:'cliente', txt:'dia 25' },
+      { de:'empresa', cat:'servico', txt:'Prontinho, alterado. A próxima fatura já sai com a nova data.' },
+      { de:'empresa', cat:'servico', txt:'Precisa de mais alguma coisa?' }
+    ] },
+    { id:'vendas', label:'Vendas / SDR', msgs:[
+      { de:'cliente', txt:'vi o anúncio, queria saber o valor' },
+      { de:'empresa', cat:'servico', txt:'Oi, Rafael! Pra te passar certinho: é para uso pessoal ou para empresa?' },
+      { de:'cliente', txt:'empresa, somos 12 pessoas' },
+      { de:'empresa', cat:'servico', txt:'Pra esse tamanho o plano ideal é o Equipe. Te mando a proposta por aqui?' },
+      { de:'cliente', txt:'pode mandar' },
+      { de:'empresa', cat:'servico', txt:'Enviada! Consigo te ligar amanhã às 10h pra tirar as dúvidas?' }
+    ] },
+    { id:'cobranca', label:'Cobrança', msgs:[
+      { de:'empresa', cat:'utilidade', txt:'Sua fatura de setembro venceu ontem. Valor: R$ 248,90.' },
+      { de:'cliente', txt:'não recebi o boleto' },
+      { de:'empresa', cat:'servico', txt:'Reenviei agora para o e-mail cadastrado. Prefere pagar por Pix?' },
+      { de:'cliente', txt:'pix' },
+      { de:'empresa', cat:'servico', txt:'A baixa é automática em até 1 hora.' },
+      { de:'empresa', cat:'utilidade', txt:'Pagamento confirmado. Sua fatura está quitada.' }
+    ] },
+    { id:'pedido', label:'Status de pedido', msgs:[
+      { de:'empresa', cat:'utilidade', txt:'Seu pedido 8842 foi enviado. Previsão de entrega: quinta-feira.' },
+      { de:'cliente', txt:'consigo mudar o endereço?' },
+      { de:'empresa', cat:'servico', txt:'Ainda dá: o pacote está no centro de distribuição de Contagem.' },
+      { de:'cliente', txt:'quero receber no trabalho' },
+      { de:'empresa', cat:'servico', txt:'Endereço atualizado. Confere: Av. Afonso Pena, 1000, sala 42.' },
+      { de:'empresa', cat:'utilidade', txt:'Pedido 8842 saiu para entrega.' }
+    ] },
+    { id:'autenticacao', label:'Autenticação', msgs:[
+      { de:'cliente', txt:'esqueci minha senha' },
+      { de:'empresa', cat:'servico', txt:'Posso enviar um código de verificação para este número?' },
+      { de:'cliente', txt:'sim' },
+      { de:'empresa', cat:'autenticacao', txt:'Seu código é 418302. Não compartilhe com ninguém.' },
+      { de:'empresa', cat:'servico', txt:'Recebeu o código?' },
+      { de:'cliente', txt:'recebi, já entrei' }
+    ] },
+    { id:'campanha', label:'Campanha', msgs:[
+      { de:'empresa', cat:'marketing', txt:'Marina, a coleção de primavera chegou. 20% off até domingo com o cupom PRIMAVERA20.' },
+      { de:'cliente', txt:'tem na cor verde?' },
+      { de:'empresa', cat:'servico', txt:'Tem sim, em P, M e G. Quer que eu separe uma peça?' },
+      { de:'cliente', txt:'separa uma M' },
+      { de:'empresa', cat:'servico', txt:'Separei! O link do carrinho fica válido por 2 horas.' },
+      { de:'empresa', cat:'utilidade', txt:'Pedido confirmado. O rastreio chega em até 24h.' }
+    ] }
+  ];
+  var EXTRAS = [
+    'Só um instante, vou confirmar aqui.',
+    'Alguma outra dúvida que eu possa resolver agora?',
+    'Registrei o atendimento. Obrigado pela paciência!',
+    'Quer que eu envie o comprovante por aqui?'
+  ];
+  var FAQ = [
+    { q:'Toda mensagem do WhatsApp será cobrada?', a:'Não. A cobrança vale para mensagens enviadas pela empresa pela API oficial da Meta (WhatsApp Business Platform), inclusive via provedores. O app WhatsApp Business do celular e contas pessoais não são afetados.' },
+    { q:'As mensagens do cliente também são cobradas?', a:'Não. Só o que sai da empresa entra na conta.' },
+    { q:'Como funcionam as 1.000 mensagens grátis?', a:'Cada número de WhatsApp tem 1.000 mensagens de serviço grátis por mês. A cobrança começa na 1.001ª. A franquia renova todo mês, não acumula e vale apenas para mensagens de serviço — utilidade, autenticação e marketing são cobradas desde a primeira.' },
+    { q:'O que diferencia serviço, utilidade, autenticação e marketing?', a:'Serviço é a resposta em texto livre dentro da janela de 24h de atendimento. Utilidade é o aviso transacional aprovado, como confirmação de pedido. Autenticação é o código de verificação. Marketing é o envio promocional, com a tarifa mais alta.' },
+    { q:'Qual valor deve ser usado no cálculo?', a:'A tarifa-base da Meta por mensagem e por categoria para o Brasil. Mensagens de serviço passam a custar o mesmo que utilidade e autenticação, sem desconto por volume. Impostos entram só como estimativa adicional, quando você liga a opção no simulador.' },
+    { q:'A Uai Sô! cobra essa tarifa?', a:'Não. A tarifa por mensagem é da Meta. O trabalho da Uai Sô! é deixar sua operação mais eficiente: fluxos que resolvem com menos mensagens, automação e CRM integrados para cada conversa virar resultado.' },
+    { q:'Como reduzir esse custo sem piorar o atendimento?', a:'Respostas mais completas, menos idas e vindas, automações que resolvem na primeira mensagem e disparos de marketing segmentados. Chama a gente no WhatsApp que a gente olha sua operação com você.' }
+  ];
+
+  var st = { cenario:'atendimento', visiveis:0, removidas:[], extras:0, conversas:5000, numeros:1, servOverride:null, impostos:false, faq:null };
+  var GRUPO = { heroVinte:'hero', acum:'conv', conv:'mensal', mensal:'mensal', atend:'mensal', cobradas:'mensal', anual:'mensal', free:'mensal', eco:'mensal', e1:'escala', e2:'escala', e3:'escala' };
+  var tw = { heroVinte:0, acum:0, conv:0, mensal:0, atend:0, cobradas:0, anual:0, free:0, eco:0, e1:0, e2:0, e3:0 };
+  var armado = { hero:false, conv:false, mensal:false, escala:false };
+  var reduzido = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var passo = null, raf = null, t0 = 0;
+
+  function el(id){ return document.getElementById(id); }
+  function moeda(v, casas){
+    var d = casas != null ? casas : (v >= 1000 ? 0 : v >= 1 ? 2 : 3);
+    return v.toLocaleString('pt-BR', { style:'currency', currency:'BRL', minimumFractionDigits:d, maximumFractionDigits:d });
+  }
+  function nb(s){ return s.replace(/ |\s/, '&nbsp;'); }
+  function inteiro(v){ return Math.round(v).toLocaleString('pt-BR'); }
+  function cenarioAtual(){
+    for (var i = 0; i < CENARIOS.length; i++) if (CENARIOS[i].id === st.cenario) return CENARIOS[i];
+    return CENARIOS[0];
+  }
+  function lista(){
+    var base = cenarioAtual().msgs.map(function(m, i){ return { de:m.de, cat:m.cat, txt:m.txt, id:i }; });
+    for (var j = 0; j < st.extras; j++) base.push({ de:'empresa', cat:'servico', txt:EXTRAS[j % EXTRAS.length], id:1000 + j });
+    return base.filter(function(m){ return st.removidas.indexOf(m.id) === -1; });
+  }
+  function tarifa(cat){
+    var base = CFG[cat] != null ? CFG[cat] : CFG.servico;
+    return st.impostos ? base * (1 + CFG.imposto) : base;
+  }
+
+  // Custo mensal de N conversas, descontando a franquia de serviço de todos os números.
+  function mensalPara(conversas, servPorConv, outrasPorConv, custoOutras, numeros){
+    var servTotal = conversas * servPorConv;
+    var gratis = Math.min(servTotal, CFG.franquia * numeros);
+    var servCobradas = servTotal - gratis;
+    var mensal = servCobradas * tarifa('servico') + conversas * custoOutras;
+    return { mensal:mensal, gratis:gratis, cobradas:servCobradas + conversas * outrasPorConv, economia:gratis * tarifa('servico') };
+  }
+  function calcular(){
+    var msgs = lista();
+    var daEmpresa = msgs.filter(function(m){ return m.de === 'empresa'; });
+    var serv = daEmpresa.filter(function(m){ return m.cat === 'servico'; });
+    var outras = daEmpresa.filter(function(m){ return m.cat !== 'servico'; });
+    var custoOutras = outras.reduce(function(s, m){ return s + tarifa(m.cat); }, 0);
+    var servPorConv = st.servOverride != null ? st.servOverride : serv.length;
+    var custoConversa = servPorConv * tarifa('servico') + custoOutras;
+    var r = mensalPara(st.conversas, servPorConv, outras.length, custoOutras, st.numeros);
+    var esc = function(n){ return mensalPara(n, servPorConv, outras.length, custoOutras, st.numeros).mensal; };
+    return { msgs:msgs, daEmpresa:daEmpresa, servPorConv:servPorConv, outras:outras.length, custoConversa:custoConversa,
+      mensal:r.mensal, anual:r.mensal * 12, cobradas:r.cobradas, gratis:r.gratis, economia:r.economia,
+      atend:st.conversas > 0 ? r.mensal / st.conversas : 0, e1:esc(100), e2:esc(1000), e3:esc(20000) };
+  }
+  function alvos(c){
+    var vis = lista().slice(0, st.visiveis).filter(function(m){ return m.de === 'empresa'; });
+    return {
+      heroVinte: Math.max(0, 2 * 20000 - CFG.franquia) * tarifa('servico'),
+      acum: vis.reduce(function(s, m){ return s + tarifa(m.cat); }, 0),
+      conv: c.custoConversa, mensal: c.mensal, atend: c.atend, cobradas: c.cobradas, anual: c.anual,
+      free: c.gratis, eco: c.economia, e1: c.e1, e2: c.e2, e3: c.e3
+    };
+  }
+
+  function pintarNumeros(){
+    var c = calcular();
+    el('hero-vinte').innerHTML = nb(moeda(tw.heroVinte, 0));
+    el('acumulado').innerHTML = nb(moeda(tw.acum, 3));
+    el('custo-conversa').innerHTML = nb(moeda(tw.conv, 3));
+    el('proj-mes').innerHTML = nb(moeda(tw.mensal, 2));
+    el('proj-ano').innerHTML = nb(moeda(tw.anual, 2));
+    el('proj-atend').innerHTML = nb(moeda(tw.atend, 3));
+    el('proj-cob').textContent = inteiro(tw.cobradas);
+    el('proj-free').textContent = inteiro(tw.free);
+    el('proj-eco').innerHTML = nb(moeda(tw.eco, 2));
+    el('esc-1').innerHTML = nb(moeda(tw.e1, 2));
+    el('esc-2').innerHTML = nb(moeda(tw.e2, 2));
+    el('esc-3').innerHTML = nb(moeda(tw.e3, 0));
+    var max = Math.max(tw.e3, 0.0001);
+    var bar = function(v){ return Math.max(1.5, 100 * Math.pow(Math.max(v, 0) / max, 0.35)) + '%'; };
+    el('bar-1').style.width = bar(tw.e1);
+    el('bar-2').style.width = bar(tw.e2);
+    el('bar-3').style.width = bar(tw.e3);
+    var franquiaTotal = CFG.franquia * st.numeros;
+    el('contagem').textContent = c.daEmpresa.length + ' de ' + c.msgs.length + ' mensagens entram na cobrança. As do cliente são gratuitas.';
+    el('nota-tarifa').textContent = (st.impostos
+      ? 'Tarifa-base da Meta somada a uma estimativa de impostos de ' + Math.round(CFG.imposto * 100) + '%.'
+      : 'Tarifa-base da Meta, sem impostos.') +
+      ' Na projeção mensal, as primeiras ' + inteiro(franquiaTotal) + ' mensagens de serviço (' + inteiro(CFG.franquia) + ' por número) são grátis; utilidade, autenticação e marketing são cobradas desde a primeira.';
+    el('badge-franquia').textContent = inteiro(franquiaTotal) + ' mensagens de serviço grátis/mês';
+    el('esc-sub').textContent = 'Custo por mês com ' + (st.numeros === 1 ? '1 número' : st.numeros + ' números') + ' de WhatsApp e ' + inteiro(franquiaTotal) + ' mensagens de serviço grátis.';
+    el('val-conversas').textContent = inteiro(st.conversas);
+    el('val-msgs').textContent = inteiro(c.servPorConv);
+    el('val-numeros').textContent = inteiro(st.numeros);
+    el('sl-msgs').value = c.servPorConv;
+    atualizarWhats(c);
+  }
+
+  function linkWhats(c){
+    var txt = 'Oi, Uai Sô! Usei a calculadora de WhatsApp Business.';
+    if (c && armado.mensal) txt += ' Deu ' + moeda(c.mensal, 2) + '/mês para ' + inteiro(st.conversas) + ' conversas e ' + inteiro(st.numeros) + (st.numeros === 1 ? ' número' : ' números') + '. Quero entender como reduzir esse custo.';
+    else txt += ' Quero entender o impacto da nova cobrança da Meta na minha operação.';
+    return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(txt);
+  }
+  var ultimoLink = '';
+  function atualizarWhats(c){
+    var href = linkWhats(c);
+    if (href === ultimoLink) return;
+    ultimoLink = href;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-wa]'), function(a){ a.href = href; });
+  }
+
+  function quadro(){
+    var alvo = alvos(calcular());
+    var fim = Date.now() - t0 > 2200;
+    var movendo = false;
+    for (var k in alvo){
+      var destino = armado[GRUPO[k]] ? alvo[k] : 0;
+      var d = destino - tw[k];
+      var tol = Math.max(0.0004, Math.abs(destino) * 0.0008);
+      if (fim || Math.abs(d) <= tol) tw[k] = destino;
+      else { tw[k] += d * 0.14; movendo = true; }
+    }
+    pintarNumeros();
+    if (movendo && !fim) raf = requestAnimationFrame(quadro);
+    else raf = null;
+  }
+  function animar(){
+    if (reduzido){ var a = alvos(calcular()); for (var k in a) tw[k] = armado[GRUPO[k]] ? a[k] : 0; pintarNumeros(); return; }
+    t0 = Date.now();
+    if (!raf) raf = requestAnimationFrame(quadro);
+  }
+
+  function chave(m){ return st.cenario + '-' + m.id; }
+  function linha(m){
+    var emp = m.de === 'empresa';
+    var cat = emp ? (CATS[m.cat] || CATS.servico) : null;
+    var row = document.createElement('div');
+    row.className = 'msg-row';
+    row.setAttribute('data-k', chave(m));
+    var side = document.createElement('div');
+    side.className = 'msg-side';
+    side.style.justifyContent = emp ? 'flex-end' : 'flex-start';
+    if (emp){
+      var del = document.createElement('button');
+      del.type = 'button'; del.className = 'del';
+      del.setAttribute('aria-label', 'Remover esta mensagem');
+      del.title = 'Remover esta mensagem';
+      del.innerHTML = '&times;';
+      del.addEventListener('click', function(){ remover(m.id); });
+      side.appendChild(del);
+    }
+    var bolha = document.createElement('div');
+    bolha.className = 'bubble ' + (emp ? 'bubble-emp' : 'bubble-cli');
+    if (emp) bolha.style.boxShadow = 'none';
+    bolha.textContent = m.txt;
+    side.appendChild(bolha);
+    var tag = document.createElement('div');
+    tag.className = 'msg-tag';
+    tag.innerHTML = emp
+      ? '<span class="msg-price" style="color:' + cat.fg + '">+ ' + moeda(tarifa(m.cat), 3) + '</span><span class="msg-cat">' + cat.label + '</span>'
+      : '<span class="msg-free">grátis</span>';
+    row.appendChild(side);
+    row.appendChild(tag);
+    return row;
+  }
+  function sincronizar(){
+    var cont = el('lista-msgs');
+    var msgs = lista().slice(0, st.visiveis);
+    var querido = msgs.map(chave);
+    Array.prototype.slice.call(cont.children).forEach(function(n){
+      if (querido.indexOf(n.getAttribute('data-k')) === -1) n.remove();
+    });
+    msgs.forEach(function(m){
+      if (!cont.querySelector('[data-k="' + chave(m) + '"]')) cont.appendChild(linha(m));
+    });
+    el('cenario-label').textContent = cenarioAtual().label;
+  }
+  function repintarPrecos(){
+    var cont = el('lista-msgs');
+    lista().slice(0, st.visiveis).forEach(function(m){
+      if (m.de !== 'empresa') return;
+      var n = cont.querySelector('[data-k="' + chave(m) + '"] .msg-price');
+      if (n) n.textContent = '+ ' + moeda(tarifa(m.cat), 3);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-preco]'), function(n){
+      n.innerHTML = nb(moeda(tarifa(n.getAttribute('data-preco')), 3));
+    });
+  }
+
+  function tocar(){
+    clearTimeout(passo);
+    var total = lista().length;
+    if (reduzido){ st.visiveis = total; sincronizar(); animar(); return; }
+    var avanca = function(){
+      st.visiveis = Math.min(st.visiveis + 1, total);
+      sincronizar();
+      animar();
+      if (st.visiveis < total) passo = setTimeout(avanca, 640);
+    };
+    passo = setTimeout(avanca, 200);
+  }
+  function reiniciar(){
+    clearTimeout(passo);
+    st.visiveis = 0; st.removidas = []; st.extras = 0; st.servOverride = null;
+    el('lista-msgs').innerHTML = '';
+    tocar();
+  }
+  function escolherCenario(id){
+    if (id === st.cenario) return;
+    st.cenario = id;
+    Array.prototype.slice.call(el('tabs').children).forEach(function(b){
+      b.setAttribute('aria-selected', b.getAttribute('data-id') === id ? 'true' : 'false');
+    });
+    reiniciar();
+  }
+  function adicionar(){
+    var n = lista().length;
+    st.extras += 1; st.visiveis = n + 1; st.servOverride = null;
+    sincronizar(); animar();
+  }
+  function remover(id){
+    st.removidas.push(id);
+    st.visiveis = Math.max(0, st.visiveis - 1);
+    st.servOverride = null;
+    sincronizar(); animar();
+  }
+
+  CENARIOS.forEach(function(x){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'tab'; b.setAttribute('role', 'tab');
+    b.setAttribute('data-id', x.id);
+    b.setAttribute('aria-selected', x.id === st.cenario ? 'true' : 'false');
+    b.textContent = x.label;
+    b.addEventListener('click', function(){ escolherCenario(x.id); });
+    el('tabs').appendChild(b);
+  });
+
+  FAQ.forEach(function(f, i){
+    var item = document.createElement('div');
+    item.className = 'faq-item';
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'faq-q';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<span>' + f.q + '</span><span class="faq-sign">+</span>';
+    var resp = document.createElement('p');
+    resp.className = 'faq-a';
+    resp.textContent = f.a;
+    btn.addEventListener('click', function(){
+      st.faq = st.faq !== i ? i : null;
+      Array.prototype.slice.call(el('faq-list').children).forEach(function(n, j){
+        var on = st.faq === j;
+        n.classList.toggle('open', on);
+        n.querySelector('.faq-q').setAttribute('aria-expanded', on ? 'true' : 'false');
+        n.querySelector('.faq-sign').textContent = on ? '−' : '+';
+      });
+    });
+    item.appendChild(btn); item.appendChild(resp);
+    el('faq-list').appendChild(item);
+  });
+
+  el('add-msg').addEventListener('click', adicionar);
+  el('repetir').addEventListener('click', reiniciar);
+  ['input', 'change'].forEach(function(ev){
+    el('sl-conversas').addEventListener(ev, function(e){ st.conversas = +e.target.value; animar(); });
+    el('sl-msgs').addEventListener(ev, function(e){ st.servOverride = +e.target.value; animar(); });
+    el('sl-numeros').addEventListener(ev, function(e){ st.numeros = +e.target.value; animar(); });
+  });
+  el('sw-impostos').addEventListener('click', function(){
+    st.impostos = !st.impostos;
+    this.setAttribute('aria-checked', st.impostos ? 'true' : 'false');
+    el('sw-track').style.background = st.impostos ? 'var(--ink)' : 'var(--gray-300)';
+    el('sw-track').style.justifyContent = st.impostos ? 'flex-end' : 'flex-start';
+    el('sw-label').textContent = st.impostos ? 'com impostos' : 'sem impostos';
+    repintarPrecos();
+    animar();
+  });
+  el('ano').textContent = new Date().getFullYear();
+
+  var alvosAnim = document.querySelectorAll('[data-reveal],[data-arm]');
+  function mostrar(node){
+    if (node.hasAttribute('data-reveal')) node.classList.add('in');
+    var arm = node.getAttribute('data-arm');
+    if (arm && !armado[arm]){ armado[arm] = true; animar(); }
+  }
+  if ('IntersectionObserver' in window && !reduzido){
+    var io = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if (!e.isIntersecting) return;
+        mostrar(e.target);
+        if (e.target.hasAttribute('data-reveal')) io.unobserve(e.target);
+      });
+    }, { threshold:0.15, rootMargin:'0px 0px -8% 0px' });
+    Array.prototype.forEach.call(alvosAnim, function(n){ io.observe(n); });
+    setTimeout(function(){
+      Array.prototype.forEach.call(alvosAnim, function(n){
+        var r = n.getBoundingClientRect();
+        if (r.top < (window.innerHeight || 800) * 0.92 && r.bottom > 0) mostrar(n);
+      });
+    }, 300);
+  } else {
+    Array.prototype.forEach.call(alvosAnim, function(n){ mostrar(n); });
+  }
+
+  pintarNumeros();
+  tocar();
+})();
+</script>
+</body>
+</html>
