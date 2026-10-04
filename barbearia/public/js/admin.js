@@ -152,6 +152,7 @@
   async function loadServicos() { state.servicos = (await api('GET', '/api/servicos')).servicos; }
   async function loadUsuarios() { state.usuarios = (await api('GET', '/api/admin/usuarios')).usuarios; }
   function barbeiros() { return state.usuarios.filter((u) => u.papel === 'barbeiro' || state.data.some((a) => a.barbeiroId === u.id)); }
+  function moneyInt(v) { return (Number(v) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }); }
   function comissaoDe(id) { const u = state.usuarios.find((x) => x.id === id); return u ? Number(u.comissao) || 0 : 0; }
 
   function rangeOf(f) {
@@ -349,8 +350,8 @@
         <div class="kpi"><div class="l">Tempo médio / atendimento</div><div class="v mono">${tempos.length ? durHuman(tempos.reduce((s, x) => s + x, 0) / tempos.length) : '—'}</div><div class="s">do 1º início ao último fim</div></div>
         <div class="kpi"><div class="l">POP cumprido</div><div class="v mono" style="color:${totalItens ? (feitos / totalItens >= .9 ? 'var(--ok)' : feitos / totalItens >= .7 ? 'var(--warn)' : 'var(--bad)') : 'inherit'}">${totalItens ? Math.round((feitos / totalItens) * 100) + '%' : '—'}</div><div class="s">${feitos}/${totalItens} itens marcados</div></div>
         <div class="kpi"><div class="l">Checklists pulados</div><div class="v mono" style="color:${pulados ? 'var(--warn)' : 'inherit'}">${pulados}</div><div class="s">ainda não preenchidos</div></div>
-        <div class="kpi"><div class="l">Faturamento estimado</div><div class="v mono">${money(valor)}</div><div class="s">pela tabela de preços</div></div>
-        <div class="kpi"><div class="l">Comissões</div><div class="v mono">${money(comissao)}</div><div class="s">conforme % de cada barbeiro</div></div>
+        <div class="kpi"><div class="l">Faturamento estimado</div><div class="v mono">${moneyInt(valor)}</div><div class="s">pela tabela de preços</div></div>
+        <div class="kpi"><div class="l">Comissões</div><div class="v mono">${moneyInt(comissao)}</div><div class="s">conforme % de cada barbeiro</div></div>
       </div>
 
       <div class="card" style="margin-bottom:14px">
