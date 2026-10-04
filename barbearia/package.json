@@ -1,0 +1,14 @@
+{
+  "name": "barber-pop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MVP de registro de atendimentos, POP (checklists) e comissões para barbearia",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/smoke.js"
+  },
+  "engines": {
+    "node": ">=18.15"
+  }
+}
