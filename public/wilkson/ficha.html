@@ -175,6 +175,7 @@ h2{font-size:clamp(25px,6.2vw,34px)}
 .card-foot .code{font-family:var(--display);font-weight:700;letter-spacing:.18em;font-size:13px;color:var(--muted)}
 .badges{display:flex;flex-wrap:wrap;gap:6px}
 .note{font-size:14px;color:var(--muted);margin:0}
+.mailst{color:var(--sun);font-weight:500}
 .footer{padding-block:20px 28px;display:flex;justify-content:center}
 .footer img{height:34px;width:auto;opacity:.5}
 
@@ -228,8 +229,12 @@ h2{font-size:clamp(25px,6.2vw,34px)}
    whatsapp: número do Wilkson com DDI+DDD, só dígitos (ex.: "5534999999999").
              Vazio = o WhatsApp abre e a pessoa escolhe o contato.
    webhook:  URL que recebe a ficha em JSON (n8n, Make, Google Apps Script...).
-             Vazio = nada é enviado automaticamente. */
-const CONFIG = { whatsapp: "", webhook: "" };
+             Vazio = nada é enviado automaticamente.
+   email:    destino da ficha completa por e-mail (via FormSubmit.co).
+             No 1º envio o FormSubmit manda um e-mail de ativação pra esse endereço:
+             é preciso clicar em "Activate" uma única vez. Depois dá pra trocar o
+             e-mail aqui pelo código aleatório que o FormSubmit fornece (esconde o endereço). */
+const CONFIG = { whatsapp: "", webhook: "", email: "wilksondiasalvim@gmail.com" };
 /* ======================================================== */
 
 const PHASES = [
@@ -334,7 +339,7 @@ const STORE_KEY = "wd-ficha-v1";
 const GENERIC_R = ["Anotado.", "Boa.", "Registrado.", "Isso ajuda muito."];
 
 /* ---------- estado ---------- */
-let S = { screen: "intro", qi: 0, answers: {}, cleared: [], finished: false, sent: false, code: null };
+let S = { screen: "intro", qi: 0, answers: {}, cleared: [], finished: false, sent: false, mailed: false, code: null };
 let shownXP = 0, lock = false;
 const $ = s => document.querySelector(s);
 const stage = $("#stage");
@@ -459,7 +464,7 @@ function renderIntro() {
       ${canResume ? '<button class="btn btn-ghost" id="resume" type="button">Continuar de onde parei</button>' : ""}
     </div>
   </section>`;
-  $("#start").onclick = () => { clearSave(); S = { screen: "question", qi: 0, answers: {}, cleared: [], finished: false, sent: false, code: null }; shownXP = 0; $("#xp").textContent = "0"; go("question"); };
+  $("#start").onclick = () => { clearSave(); S = { screen: "question", qi: 0, answers: {}, cleared: [], finished: false, sent: false, mailed: false, code: null }; shownXP = 0; $("#xp").textContent = "0"; go("question"); };
   if (canResume) $("#resume").onclick = () => { S = saved; shownXP = 0; render(); animateXP(); };
 }
 function maxXP() {
@@ -679,6 +684,49 @@ function sendWebhook(payload) {
   } catch (e) { S.sent = false; save(); }
 }
 
+function sendEmail(score, t, prof, xp) {
+  const st = $("#mailst");
+  if (!CONFIG.email) { if (st) st.hidden = true; return; }
+  const setSt = (txt, retry) => {
+    if (!st) return;
+    st.innerHTML = esc(txt) + (retry ? ' <button class="link" id="mailretry" type="button">Tentar de novo</button>' : "");
+    const r = $("#mailretry"); if (r) r.onclick = () => sendEmail(score, t, prof, xp);
+  };
+  if (S.mailed) return setSt("Ficha enviada por e-mail para o Wilkson.");
+  setSt("Enviando sua ficha para o Wilkson...");
+  const a = S.answers, c = a.checkin || {};
+  const temp = { A: "quente", B: "morno", C: "frio" }[t];
+  const body = {
+    _subject: `Nova ficha ${S.code} · ${c.nome} · lead ${temp} (${score} pts)`,
+    _template: "table",
+    _captcha: "false",
+    "Código da ficha": S.code,
+    "Lead score": `${score}/100 (${temp})`,
+    "Perfil": `${prof.name} · ${xp} XP`,
+    "Nome": c.nome, "Idade": c.idade, "WhatsApp": c.whats, "Instagram": c.insta || "-",
+    "Missão": label("objetivo", a.objetivo),
+    "Urgência": `${a.urgencia}/10`,
+    "Treino hoje": label("nivel", a.nivel),
+    "Rotina": label("rotina", a.rotina),
+    "Onde treinaria": label("local", a.local),
+    "Dias por semana": label("dias", a.dias),
+    "Saúde": label("saude", a.saude),
+    "Chefões": (a.chefoes || []).map(id => label("chefoes", id)).join("; "),
+    "Acompanhamento online antes": label("historico", a.historico),
+    "Formato preferido": label("formato", a.formato),
+    "Investimento (90 dias)": label("investimento", a.investimento),
+    "Quando quer começar": label("inicio", a.inicio),
+    "Recado": a.recado || "-",
+    "Enviado em": new Date().toLocaleString("pt-BR")
+  };
+  fetch(`https://formsubmit.co/ajax/${encodeURI(CONFIG.email.trim())}`, {
+    method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(body)
+  }).then(r => r.json()).then(j => {
+    if (j && (j.success === true || j.success === "true")) { S.mailed = true; save(); setSt("Ficha enviada por e-mail para o Wilkson."); }
+    else throw new Error((j && j.message) || "falha");
+  }).catch(() => setSt("Não deu pra enviar o e-mail agora. Verifique a conexão.", true));
+}
+
 function renderResult() {
   const a = S.answers, c = a.checkin || {};
   const score = leadScore(a), t = tier(score);
@@ -726,13 +774,15 @@ function renderResult() {
         </div>
       </div>
     </article>
+    <p class="note mailst" id="mailst" aria-live="polite"></p>
     <p class="note">Último passo: envie sua ficha pro Wilkson no WhatsApp. Ele analisa suas respostas e volta com uma proposta feita pra sua rotina.</p>
     <div class="actions">
       <a class="btn" id="wa" href="${wa}" target="_blank" rel="noopener">Enviar ficha pro Wilkson <span class="arr">→</span></a>
       <button class="link" id="redo" type="button">Refazer ficha</button>
     </div>
   </section>`;
-  $("#redo").onclick = () => { clearSave(); S = { screen: "intro", qi: 0, answers: {}, cleared: [], finished: false, sent: false, code: null }; shownXP = 0; $("#xp").textContent = "0"; render(); };
+  sendEmail(score, t, prof, xp);
+  $("#redo").onclick = () => { clearSave(); S = { screen: "intro", qi: 0, answers: {}, cleared: [], finished: false, sent: false, mailed: false, code: null }; shownXP = 0; $("#xp").textContent = "0"; render(); };
 }
 
 /* ---------- teclado: 1-9 escolhe, Enter confirma ---------- */
