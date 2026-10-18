@@ -1,0 +1,12 @@
+<!-- @dsCard group="Web" height=290 -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><title>LinkCard</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.DC, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dc-stack dc-pad' }, h(D.LinkCard, { href: '#', index: '01', tag: 'Artigo', title: 'Com IA ficou mais fácil fazer Marketing?', sub: 'Output não é outcome. Entenda a diferença.' }), h(D.LinkCard, { href: '#', index: '05', tag: 'Conversa direta', title: 'Fale comigo no WhatsApp', sub: 'Bora tomar esse café?', variant: 'primary', whatsapp: true })));
+</script>
+</body>
+</html>

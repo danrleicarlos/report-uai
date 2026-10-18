@@ -1,0 +1,12 @@
+<!-- @dsCard group="Canvases" height=560 subtitle="1920×1080 em 22%" -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><title>Slide</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.DC, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dc-pad', style: { display: 'grid', gridTemplateColumns: 'repeat(2, max-content)', gap: 20 } }, h(D.Slide, { scale: 0.22, kicker: 'Diagnóstico estratégico', title: 'Marketing com', accent: 'porquê.', body: 'Como transformar demanda em receita previsível.' }), h(D.Slide, { scale: 0.22, variant: 'section', number: '02', title: 'O que está', accent: 'vazando.' }), h(D.Slide, { scale: 0.22, variant: 'data', kicker: 'Resultados', title: 'O que a operação', accent: 'entregou.', stats: [{ value: '250×', label: 'ROAS sobre mídia' }, { value: '36%', label: 'taxa de qualificação' }, { value: '+300', label: 'empresas atendidas' }] }), h(D.Slide, { scale: 0.22, variant: 'statement', title: 'Receita acima de', accent: 'vaidade.' })));
+</script>
+</body>
+</html>

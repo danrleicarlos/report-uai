@@ -1,0 +1,12 @@
+<!-- @dsCard group="Web" height=330 -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><title>Headline</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.DC, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dc-stack dc-pad', style: { maxWidth: 560 } }, h(D.Headline, { accent: 'Carlos.' }, 'Danrlei'), h(D.Headline, { size: 'l', as: 'h2', accent: 'café.', breakBeforeAccent: false }, 'Escolha seu'), h(D.Headline, { size: 'm', as: 'p', accent: 'achismo', accentStyle: 'strike', breakBeforeAccent: false }, 'Marketing é dado, estratégia e decisão, sem')));
+</script>
+</body>
+</html>

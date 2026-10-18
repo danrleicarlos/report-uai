@@ -1,0 +1,12 @@
+<!-- @dsCard group="Web" height=120 -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><title>Kicker</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.DC, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dc-stack dc-pad' }, h(D.Kicker, null, 'Por onde começar'), h(D.Kicker, { tone: 'muted', rule: false }, 'No feed')));
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!-- @dsCard group="Web" height=110 -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><title>Annotation</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.DC, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dc-row dc-pad' }, h(D.Annotation, null, 'respira. e repensa.'), h(D.Annotation, { tone: 'ink', rotate: 3 }, 'bla bla bla'), h(D.Annotation, { variant: 'marker', tone: 'ink', rotate: -6 }, 'Penso logo vendo')));
+</script>
+</body>
+</html>

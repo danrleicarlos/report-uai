@@ -1,0 +1,51 @@
+<!-- @dsCard height=300 -->
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Danrlei Carlos</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--font-serif); overflow: hidden; }
+  .cover { position: relative; height: 300px; overflow: hidden; }
+  .art { position: absolute; top: 0; left: 480px; width: 480px; height: 300px; overflow: hidden; }
+  .art svg { display: block; width: 480px; height: 300px; }
+  .brand { fill: var(--red); }
+  .deep { fill: var(--ink); }
+  .tint { fill: var(--rule-gray); }
+  .hair { stroke: var(--ink); stroke-width: var(--stroke-hair); }
+  .seg { stroke: var(--red); stroke-width: var(--stroke-rule); }
+  .words { position: absolute; left: var(--space-8); bottom: var(--space-8); max-width: 440px; }
+  .name { margin: 0; font-size: 104px; line-height: .92; font-weight: 700; letter-spacing: -.025em; color: var(--ink); }
+  .tag { margin: var(--space-3) 0 0 4px; font-family: var(--font-sans); font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 300" width="480" height="300">
+<!--
+  blocks      red disc r130 (radius-disc) bled off the top, the "sun" behind the statue in the brand's posters · ink slab 176×184 overlapping the disc with a red offset of 6 below and right (shadow-hard-red) · rule-gray tile 192×96 for relief — ≈35% of 960×300
+  arrangement one large disc with a hard-edged slab overlapping it and a low tile at its foot, all square-cornered (radius-0) except the disc
+  pattern     editorial serif, "profundidade por sombra dura, divisor cinza · vermelho · cinza": three Rule dividers stacked on the tile at a space-6 pitch, hairline ink with a stroke-rule red segment
+  scales      sides in space-4 (16px) multiples; pitch space-6 (24px); disc radius-disc; offset 6px from shadow-hard-red; strokes stroke-hair and stroke-rule
+-->
+<circle class="brand" cx="176" cy="64" r="130"/>
+<rect class="brand" x="278" y="94" width="176" height="184"/>
+<rect class="deep" x="272" y="88" width="176" height="184"/>
+<rect class="tint" x="32" y="192" width="192" height="96"/>
+<line class="hair" x1="48" y1="216" x2="208" y2="216"/>
+<line class="seg" x1="112" y1="216" x2="144" y2="216"/>
+<line class="hair" x1="48" y1="240" x2="208" y2="240"/>
+<line class="seg" x1="112" y1="240" x2="144" y2="240"/>
+<line class="hair" x1="48" y1="264" x2="208" y2="264"/>
+<line class="seg" x1="112" y1="264" x2="144" y2="264"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Danrlei<br>Carlos</h1>
+<p class="tag">Falo de Marketing como quem pede um Café.</p>
+</div>
+</div>
+</body>
+</html>

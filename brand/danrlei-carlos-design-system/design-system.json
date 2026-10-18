@@ -1,0 +1,101 @@
+{
+  "v": 3,
+  "layout": "files",
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-18T22:43:32Z"
+  },
+  "title": "Danrlei Carlos",
+  "namespace": "DC",
+  "libraries": [
+    {
+      "name": "react",
+      "version": "18"
+    },
+    {
+      "name": "react-dom",
+      "version": "18"
+    }
+  ],
+  "sections": {},
+  "groups": [
+    "Grafismos"
+  ],
+  "assetGroups": {
+    "Grafismos": {
+      "name": "Grafismos",
+      "tile": "s",
+      "order": [
+        "coroa.svg",
+        "x-vermelho.svg",
+        "contagem.svg",
+        "seta-curva.svg",
+        "risco.svg",
+        "respingo.svg",
+        "xicara.svg",
+        "divisor.svg"
+      ],
+      "files": {
+        "coroa.svg": {
+          "name": "coroa.svg",
+          "blob": "6a149c70f96806aca152a0bc05ae3b6e",
+          "size": 444,
+          "type": "image/svg+xml"
+        },
+        "x-vermelho.svg": {
+          "name": "x-vermelho.svg",
+          "blob": "55cac239a425a3259adefc9be40c46e7",
+          "size": 224,
+          "type": "image/svg+xml"
+        },
+        "contagem.svg": {
+          "name": "contagem.svg",
+          "blob": "4911e85d87f98f2f6209aabbea03253b",
+          "size": 205,
+          "type": "image/svg+xml"
+        },
+        "seta-curva.svg": {
+          "name": "seta-curva.svg",
+          "blob": "fb7f9a8772db36069908a193eef9b5e7",
+          "size": 223,
+          "type": "image/svg+xml"
+        },
+        "risco.svg": {
+          "name": "risco.svg",
+          "blob": "aa0b750e1a61dabd894cca4dcb40832e",
+          "size": 218,
+          "type": "image/svg+xml"
+        },
+        "respingo.svg": {
+          "name": "respingo.svg",
+          "blob": "bacd573573a872b30ab17b039f238e18",
+          "size": 367,
+          "type": "image/svg+xml"
+        },
+        "xicara.svg": {
+          "name": "xicara.svg",
+          "blob": "4db1ab1fc95e761ba20c749e962147a3",
+          "size": 372,
+          "type": "image/svg+xml"
+        },
+        "divisor.svg": {
+          "name": "divisor.svg",
+          "blob": "e21cf0b9e31b4cc1ed70b6e861625b16",
+          "size": 254,
+          "type": "image/svg+xml"
+        }
+      }
+    }
+  },
+  "blobs": {},
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "lastChange": {
+    "by": "Danrlei Carlos",
+    "at": "2026-10-18T22:43:32Z",
+    "via": "Claude Code",
+    "note": "Primeira versão: brandbook, tokens, 12 componentes, grafismos e capa."
+  }
+}

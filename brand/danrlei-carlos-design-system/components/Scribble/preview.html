@@ -1,0 +1,12 @@
+<!-- @dsCard group="Grafismos" height=170 -->
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><title>Scribble</title></head>
+<body>
+<div id="root"></div>
+<script>
+  var D = window.DC, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'dc-row dc-pad' }, h(D.Scribble, { kind: 'crown', size: 140, rotate: -9 }), h(D.Scribble, { kind: 'x', size: 80 }), h(D.Scribble, { kind: 'tally', size: 70 }), h(D.Scribble, { kind: 'arrow', size: 70, tone: 'red' }), h(D.Scribble, { kind: 'strike', size: 110 }), h(D.Scribble, { kind: 'splat', size: 100 }), h(D.Scribble, { kind: 'cup', size: 70 })));
+</script>
+</body>
+</html>
