@@ -1,15 +1,18 @@
 Marca pessoal de **Danrlei Carlos**, sócio-diretor da Uai Sô! Marketing com porquê. Assinatura: *“Falo de Marketing como quem pede um Café.”* O visual vem de cartaz editorial: papel de jornal, tipografia serifada grande, preto e um único vermelho, interrompidos por rabiscos feitos à mão (coroa, X, “bla bla”, “PENSO LOGO VENDO”). Lógica na tipografia, emoção no rabisco, credibilidade no número.
 
-Use este sistema para posts de Instagram, posts e carrosséis de LinkedIn, landing pages, link na bio e apresentações. Todos os formatos compartilham os mesmos tokens e componentes; muda só o tamanho da tela.
+Use este sistema para posts de Instagram, posts e carrosséis de LinkedIn, landing pages, link na bio e apresentações, dentro de uma estratégia de Founder Led Growth: a marca pessoal gera demanda e a Uai Sô! executa. Todos os formatos compartilham os mesmos tokens e componentes; muda só o tamanho da tela. Antes de escrever qualquer peça, leia o capítulo **Arquétipos e Founder Led Growth**.
 
 ## Essência
 
-- **Território:** marketing com porquê. Dado acima de opinião, receita acima de vaidade, sem achismo.
-- **Personagem:** mineiro, direto, bem-humorado. Explica coisa complexa como conversa de café.
+- **Território:** transformar operações fragmentadas de marketing e vendas em um motor de receita integrado, sem deixar o crescimento virar caos. Marketing com porquê: dado acima de opinião, receita acima de vaidade, sem achismo.
+- **Arquétipos:** **Mago** no núcleo (transforma complexidade em execução), **Governante** na presença (direção e critério), **Sábio** na comunicação (evidência). Herói só como traço.
+- **Inimigo conceitual:** “mais tráfego resolve crescimento”. Assinatura verbal: *Mais mídia em uma operação ruim só compra problemas mais caros.*
+- **Personagem:** empresário com profundidade operacional; mineiro, direto, bem-humorado. Explica coisa complexa como conversa de café.
 - **Os três pilares (referência aristotélica):** *logos* (lógica, números, método), *pathos* (provocação, humor, rabisco) e *ethos* (credibilidade: R$ 150 mil+/mês em mídia, MBA, sócio de agência). Toda peça boa tem os três; o design dá forma a cada um: serifa = logos, rabisco vermelho = pathos, bloco de número = ethos.
 
 ## Voz e texto
 
+- Tom: técnico, inteligente, direto e provocativo, sempre sustentado por lógica e prática. Sequência de argumento: provocação → diagnóstico → lógica/evidência → consequência operacional → decisão.
 - Fale em primeira pessoa (“eu”, “a gente”) com o leitor como “você”. Português do Brasil, coloquial e correto.
 - Frases curtas. Um ponto final no título dá peso: “Danrlei Carlos.”, “Escolha seu café.”
 - Mineirês com parcimônia, no máximo um por peça: “uai”, “bora”, “sô”, “trem”. Nunca caricatura.
@@ -18,6 +21,7 @@ Use este sistema para posts de Instagram, posts e carrosséis de LinkedIn, landi
 - Números sempre com unidade e formato brasileiro: `R$ 150.000+`, `36%`, `250×`.
 - Caixa: frase normal (sentence case) em títulos e botões; CAIXA ALTA só no `label` (kicker) e no `marker`.
 - Sem emoji no design. Sem exclamação dupla. Sem “incrível”, “revolucionário”, “segredo”.
+- Nunca se apresente como “estrategista digital” ou “gestor de tráfego”, nem prometa “crescimento previsível”. Ferramentas (CRM, automação, mídia) só aparecem como prova dentro de um caso.
 - Botão começa com verbo: “Chamar no WhatsApp”, “Conheça a Uai Sô!”, “Abrir no Instagram”.
 
 Exemplos reais:
@@ -77,7 +81,7 @@ Exemplos reais:
 
 ## Componentes
 
-`window.DC` (React 18). `Button`, `Kicker`, `Headline`, `Rule`, `Annotation`, `Scribble`, `StatBlock`, `LinkCard`, `Tape` para web; `InstagramPost`, `LinkedInPost` e `Slide` são canvases em tamanho real (1080×1350, 1200×1200, 1920×1080) com a prop `scale` para pré-visualizar menor. Cada um tem guia próprio.
+`window.DC` (React 18). `Button`, `Kicker`, `Headline`, `Rule`, `Annotation`, `Scribble`, `StatBlock`, `LinkCard`, `Tape` para web. Os blocos de argumento dos arquétipos: `RevenueEngine` (Mago: o motor de receita com o gargalo marcado), `MythCard` (Governante: crença derrubada e contraponto) e `CaseFlow` (Sábio: caso em contexto → gargalo → integração → decisão → efeito na receita). `InstagramPost`, `LinkedInPost` e `Slide` são canvases em tamanho real (1080×1350, 1200×1200, 1920×1080) com a prop `scale` para pré-visualizar menor, e usam esses blocos nas variantes `system`, `myth` e `case`. Cada componente tem guia próprio.
 
 ## Não faça
 
@@ -86,3 +90,4 @@ Exemplos reais:
 - Mais de um vermelho por título ou um segundo acento de cor.
 - Emoji como ícone, banco de imagem genérico sorrindo, fotos coloridas saturadas.
 - Texto centralizado em bloco, títulos em caixa alta inteira.
+- Tese sem sustentação: nunca publique provocação sem dado, caso ou mecanismo na mesma peça.

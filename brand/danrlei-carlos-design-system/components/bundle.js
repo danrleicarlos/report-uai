@@ -1,4 +1,4 @@
-/* @ds-bundle: {"format":4,"namespace":"DC","components":[{"name":"Button"},{"name":"Kicker"},{"name":"Headline"},{"name":"Rule"},{"name":"Annotation"},{"name":"Scribble"},{"name":"StatBlock"},{"name":"LinkCard"},{"name":"Tape"},{"name":"InstagramPost"},{"name":"LinkedInPost"},{"name":"Slide"}]} */
+/* @ds-bundle: {"format":4,"namespace":"DC","components":[{"name":"Button"},{"name":"Kicker"},{"name":"Headline"},{"name":"Rule"},{"name":"Annotation"},{"name":"Scribble"},{"name":"StatBlock"},{"name":"LinkCard"},{"name":"Tape"},{"name":"RevenueEngine"},{"name":"MythCard"},{"name":"CaseFlow"},{"name":"InstagramPost"},{"name":"LinkedInPost"},{"name":"Slide"}]} */
 (function () {
   var R = window.React, h = R.createElement, F = R.Fragment;
   function cx() { return Array.prototype.filter.call(arguments, Boolean).join(' '); }
@@ -91,6 +91,54 @@
       h('div', { className: 'dc-tape-track' }, seq.map(function (t, i) { return h(F, { key: i }, h('span', null, t), h('span', { className: 'x' }, '✕')); })));
   }
 
+  /* ---------- arquétipos ---------- */
+  var ENGINE = ['Aquisição', 'Conversão', 'Handoff', 'Dados', 'Capacidade operacional', 'Feedback'];
+  function Ring() {
+    return h('svg', { className: 'dc-ring', viewBox: '0 0 200 100', preserveAspectRatio: 'none', 'aria-hidden': 'true', fill: 'none', stroke: 'currentColor', strokeWidth: 3, strokeLinecap: 'round' },
+      h('path', { d: 'M18 58 C8 22 92 6 160 14 C204 20 198 78 150 90 C96 102 20 92 12 52 C10 40 26 26 40 22', vectorEffect: 'non-scaling-stroke' }));
+  }
+  function RevenueEngine(p) {
+    var stages = p.stages || ENGINE;
+    var b = typeof p.bottleneck === 'string' ? stages.indexOf(p.bottleneck) : (p.bottleneck == null ? -1 : p.bottleneck);
+    return h('div', { className: cx('dc-engine', p.className) },
+      h('ol', { className: 'dc-engine-grid' }, stages.map(function (s, i) {
+        var hit = i === b;
+        return h('li', { key: i, className: cx('dc-engine-node', hit && 'is-bottleneck', i % 3 === 2 && 'is-row-end') },
+          h('span', { className: 'dc-engine-num' }, (i < 9 ? '0' : '') + (i + 1)),
+          h('span', { className: 'dc-engine-name' }, s),
+          hit ? h(Ring) : null,
+          hit ? h(Annotation, { className: 'dc-engine-note', rotate: -6 }, p.note || 'o gargalo tá aqui') : null);
+      })),
+      p.loop === false ? null : h('div', { className: 'dc-engine-loop' }, h('span', null, '↺'), p.loopLabel || 'O feedback volta para a aquisição. O motor gira de novo.'));
+  }
+
+  function MythCard(p) {
+    return h('div', { className: cx('dc-myth', p.className) },
+      h('div', { className: 'dc-myth-a' },
+        h('span', { className: 'dc-myth-label' }, p.mythLabel || 'Crença comum'),
+        h('p', { className: 'dc-myth-text' }, '“', p.myth, '”'),
+        h(Scribble, { kind: 'x', className: 'dc-myth-x' })),
+      h('div', { className: 'dc-myth-b' },
+        h('span', { className: 'dc-myth-label dc-myth-label-red' }, p.truthLabel || 'Na real'),
+        h('p', { className: 'dc-myth-truth' }, p.truth)));
+  }
+
+  var CASE_KEYS = [['context', 'Contexto'], ['bottleneck', 'Gargalo'], ['integration', 'Integração'], ['decision', 'Decisão'], ['result', 'Efeito na receita']];
+  function CaseFlow(p) {
+    return h('div', { className: cx('dc-case', p.className) },
+      p.client ? h('div', { className: 'dc-case-client' }, p.client) : null,
+      h('ol', { className: 'dc-case-steps' }, CASE_KEYS.map(function (k, i) {
+        if (k[0] === 'result') {
+          return h('li', { key: i, className: 'dc-case-step dc-case-result' },
+            h('span', { className: 'dc-case-k' }, k[1]),
+            p.resultValue ? h('span', { className: 'dc-case-v' }, p.resultValue) : null,
+            h('p', null, p.result));
+        }
+        return h('li', { key: i, className: cx('dc-case-step', k[0] === 'bottleneck' && 'is-bottleneck') },
+          h('span', { className: 'dc-case-k' }, k[1]), h('p', null, p[k[0]]));
+      })));
+  }
+
   /* ---------- canvases ---------- */
   function Canvas(w, ht, scale, cls, children, style) {
     scale = scale || 1;
@@ -122,6 +170,15 @@
     } else if (v === 'list') {
       body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', accent: p.accent, as: 'h2', className: 'dc-ig-h2' }, p.title),
         h('ol', { className: 'dc-ig-list' }, (p.items || []).map(function (it, i) { return h('li', { key: i }, h('span', null, (i < 9 ? '0' : '') + (i + 1)), h('p', null, it)); })));
+    } else if (v === 'myth') {
+      body = h(F, null, h(Kicker, null, p.kicker), p.title ? h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-ig-h2' }, p.title) : null,
+        h(MythCard, { myth: p.myth, truth: p.truth, mythLabel: p.mythLabel, truthLabel: p.truthLabel }));
+    } else if (v === 'system') {
+      body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-ig-h2' }, p.title),
+        h(RevenueEngine, { stages: p.stages, bottleneck: p.bottleneck, note: p.note, loop: false }), p.body ? h('p', { className: 'dc-ig-small' }, p.body) : null);
+    } else if (v === 'case') {
+      body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-ig-h2' }, p.title),
+        h(CaseFlow, p.case || {}));
     } else if (v === 'cta') {
       body = h(F, null, h(Kicker, { tone: 'muted', rule: false }, p.kicker), h('p', { className: 'dc-ig-cta-title' }, Lines(p.title)),
         p.body ? h('p', { className: 'dc-ig-cta-body' }, p.body) : null,
@@ -139,6 +196,11 @@
     if (v === 'quote') {
       body = h(F, null, h(Kicker, null, p.kicker), h('p', { className: 'dc-li-quote-text' }, '“', Lines(p.title), p.accent ? h(F, null, ' ', Accent(p.accent, 'underline')) : null, '”'),
         h(Rule), h('p', { className: 'dc-li-author' }, h('b', null, 'Danrlei Carlos'), h('br'), p.role || 'Sócio-diretor · Uai Sô! Marketing com porquê'));
+    } else if (v === 'myth') {
+      body = h(F, null, h(Kicker, null, p.kicker), p.title ? h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-li-h2' }, p.title) : null,
+        h(MythCard, { myth: p.myth, truth: p.truth, mythLabel: p.mythLabel, truthLabel: p.truthLabel }));
+    } else if (v === 'case') {
+      body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-li-h2 dc-li-h2-s' }, p.title), h(CaseFlow, p.case || {}));
     } else {
       body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-li-h2' }, p.title),
         h('div', { className: 'dc-li-row' }, h(StatBlock, { value: p.value, suffix: p.suffix, label: p.label, note: p.note }), h('p', { className: 'dc-li-body' }, p.body)));
@@ -155,6 +217,11 @@
     } else if (v === 'data') {
       body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-sl-h2' }, p.title),
         h('div', { className: 'dc-sl-data' }, (p.stats || []).map(function (s, i) { return h('div', { key: i, className: 'dc-sl-datum' }, h('span', { className: 'dc-sl-datum-v' }, s.value), h('span', { className: 'dc-sl-datum-l' }, s.label)); })));
+    } else if (v === 'system') {
+      body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-sl-h2' }, p.title),
+        h(RevenueEngine, { stages: p.stages, bottleneck: p.bottleneck, note: p.note, loopLabel: p.loopLabel }));
+    } else if (v === 'case') {
+      body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-sl-h2' }, p.title), h(CaseFlow, Object.assign({ className: 'dc-case-row' }, p.case || {})));
     } else if (v === 'content') {
       body = h(F, null, h(Kicker, null, p.kicker), h(Headline, { size: 'l', as: 'h2', accent: p.accent, className: 'dc-sl-h2' }, p.title),
         h('ol', { className: 'dc-sl-list' }, (p.items || []).map(function (it, i) { return h('li', { key: i }, h('span', null, (i < 9 ? '0' : '') + (i + 1)), h('p', null, it)); })));
@@ -165,7 +232,7 @@
     return Canvas(1920, 1080, p.scale, cx('dc-sl', 'dc-sl-' + v, 'dc-grain'), h(F, null, h('div', { className: 'dc-sl-inner' }, body), Foot(p)));
   }
 
-  var api = { Button: Button, Kicker: Kicker, Headline: Headline, Rule: Rule, Annotation: Annotation, Scribble: Scribble, StatBlock: StatBlock, LinkCard: LinkCard, Tape: Tape, InstagramPost: InstagramPost, LinkedInPost: LinkedInPost, Slide: Slide };
+  var api = { Button: Button, Kicker: Kicker, Headline: Headline, Rule: Rule, Annotation: Annotation, Scribble: Scribble, StatBlock: StatBlock, LinkCard: LinkCard, Tape: Tape, RevenueEngine: RevenueEngine, MythCard: MythCard, CaseFlow: CaseFlow, InstagramPost: InstagramPost, LinkedInPost: LinkedInPost, Slide: Slide };
   window.DC = window.DC || {};
   Object.assign(window.DC, api);
 })();
