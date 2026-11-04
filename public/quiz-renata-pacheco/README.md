@@ -2,17 +2,27 @@
 
 Arquivo único: `index.html` (HTML + CSS + JS, logo embutida, fonte Jost via Google Fonts).
 
-## Compatibilidade com rastreamento de formulário externo
-- Um único `<form>` nativo renderizado direto no DOM.
-- Todos os campos têm `name` e nenhum fica `disabled`.
-- Contato: `name`, `email` (`type="email"`) e `phone` (`type="tel"`).
-- Envio pelo evento `submit` nativo, via `<button type="submit">`.
-- Seleções múltiplas são gravadas em campos ocultos com `name` (`quimicas`, `atencao_couro_cabeludo`, `como_usa_cabelo`, `rotina_atividades`).
-- Campos ocultos gerados automaticamente: `perfil_alongamento`, `pontuacao_quiz`, `resumo_consultoria` (briefing completo em texto para a Renata) e `utm_*`.
+## Etapas
+1. Você: como gostaria de ser chamada, WhatsApp, e-mail, como nos conheceu (+ quem indicou)
+2. Seus fios: comprimento atual e textura (cards com imagem), alergia/sensibilidade
+3. O sonho: comprimento e volume desejados (cards com imagem)
+4. Experiência: recepção preferida e música
+5. Fotos: cabelo atual, cabelo dos sonhos, foto favorita + consentimento LGPD
 
-## Configuração (no topo do `<script>`)
-- `CONFIG.whatsapp`: número da Renata para o botão "Enviar fotos de referência".
-- `CONFIG.webhookUrl` (opcional): também envia uma cópia em JSON (n8n, Make, Google Sheets).
+## Compatibilidade com rastreamento de formulário externo
+- Um único `<form>` nativo no DOM; todos os campos com `name`, nenhum `disabled`.
+- Contato: `name`, `email` (`type="email"`) e `phone` (`type="tel"`).
+- Envio pelo evento `submit` nativo (`<button type="submit">`), disparado uma única vez, já validado.
+- Campos ocultos: `perfil_alongamento`, `resumo_consultoria` (briefing completo), `foto_*_url`, `utm_*`.
+
+## Configuração (topo do `<script>`)
+- `IMAGES`: cole a URL de cada imagem dos cards (3:4, ex. 900×1200). Vazio = placeholder descritivo.
+- `CONFIG.whatsapp`: número da Renata.
+- Upload das fotos (o rastreamento nativo não transporta arquivos, só os links):
+  - Cloudinary: `cloudinaryCloudName` + `cloudinaryUploadPreset` (preset "unsigned"), ou
+  - `uploadEndpoint`: recebe multipart `file` e responde `{ "url": "..." }`.
+  - Sem upload configurado, a tela final mostra botão para enviar as fotos pelo WhatsApp.
+- `CONFIG.webhookUrl` (opcional): cópia das respostas em JSON.
 
 ## Pré-preenchimento por URL
-`?nome=...&email=...&telefone=...&data=AAAA-MM-DD&utm_source=whatsapp`
+`?nome=...&email=...&telefone=...&utm_source=whatsapp`
