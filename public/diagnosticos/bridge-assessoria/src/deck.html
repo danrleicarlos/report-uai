@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnóstico Bridge Assessoria</title>
+<style>
+@font-face{font-family:"Tilt Warp DS";src:url({{FONT:tilt-warp-400.woff2}}) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Kanit DS";src:url({{FONT:kanit-600.woff2}}) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Kanit DS";src:url({{FONT:kanit-700.woff2}}) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Figtree DS";src:url({{FONT:figtree-variable.woff2}}) format("woff2");font-weight:300 800;font-display:swap}
+
+:root{
+  --red:#C01831;--red-dark:#9C0E25;--orange:#FF972A;--coffee:#312415;
+  --ink:#0F0D0B;--ink-2:#2B231C;--ink-soft:rgba(15,13,11,.78);--ink-mute:rgba(15,13,11,.6);
+  --paper:#FAF7F2;--paper-2:#F2EDE5;--paper-3:#E8E1D6;--line:rgba(23,20,17,.10);
+  --night:#161414;
+  --green:#2F7D4F;--green-soft:#E3F0E6;
+  --display:"Tilt Warp DS",system-ui,sans-serif;
+  --body:"Figtree DS",system-ui,-apple-system,sans-serif;
+  --label:"Kanit DS",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0a09;font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:inherit}
+
+/* ---------- stage ---------- */
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;width:1600px;height:900px;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s;padding:72px 88px 84px}
+.slide.on{opacity:1;visibility:visible}
+.slide.paper{background:
+  radial-gradient(58% 38% at 100% 0%,rgba(255,151,42,.12) 0%,transparent 60%),
+  radial-gradient(46% 36% at 0% 22%,rgba(192,24,49,.06) 0%,transparent 60%),
+  linear-gradient(180deg,#FBF8F3 0%,#F4EFE7 100%)}
+.slide.red{background:radial-gradient(70% 60% at 85% 10%,rgba(255,151,42,.28) 0%,transparent 60%),linear-gradient(160deg,#C9203A 0%,#9C0E25 100%);color:#fff}
+.slide.dark{background:radial-gradient(60% 50% at 90% 0%,rgba(255,151,42,.18) 0%,transparent 60%),radial-gradient(50% 50% at 5% 100%,rgba(192,24,49,.22) 0%,transparent 60%),linear-gradient(160deg,#211a14 0%,#161414 100%);color:#fff}
+.slide.dark .muted,.slide.red .muted{color:rgba(255,255,255,.72)}
+
+/* topography lines (identidade do deck Uai Sô!) */
+.topo{position:absolute;inset:0;pointer-events:none;opacity:.10}
+.slide.paper .topo{opacity:.06}
+
+/* ---------- type ---------- */
+.kicker{font-family:var(--label);font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);display:inline-flex;align-items:center;gap:10px}
+.kicker .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.red .kicker,.dark .kicker,[data-title="Capa"] .kicker{color:var(--orange)}
+[data-title="Capa"] .h-mega em{color:var(--orange)}[data-title="Capa"] .lede{color:rgba(255,255,255,.8)}[data-title="Capa"] .foot{color:rgba(255,255,255,.55)}
+.h-mega{font-family:var(--display);font-size:118px;line-height:.92;letter-spacing:-.04em}
+.h1{font-family:var(--display);font-size:72px;line-height:.98;letter-spacing:-.035em}
+.h2{font-family:var(--display);font-size:52px;line-height:1.02;letter-spacing:-.03em;margin-top:14px;max-width:1250px}
+.h2 em,.h1 em,.h-mega em{font-style:normal;color:var(--red)}
+.red .h1 em,.red .h-mega em,.dark .h1 em,.dark .h2 em,.dark .h-mega em,.red .h2 em{color:var(--orange)}
+.h3{font-family:var(--display);font-size:28px;line-height:1.08;letter-spacing:-.02em}
+.h4{font-family:var(--body);font-weight:800;font-size:20px;line-height:1.2}
+.lede{font-size:23px;line-height:1.45;color:var(--ink-soft);max-width:1050px;margin-top:18px}
+.dark .lede,.red .lede{color:rgba(255,255,255,.8)}
+.p{font-size:18px;line-height:1.5;color:var(--ink-soft)}
+.dark .p,.red .p{color:rgba(255,255,255,.78)}
+.small{font-size:15px;line-height:1.45;color:var(--ink-mute)}
+.dark .small,.red .small{color:rgba(255,255,255,.6)}
+.label{font-family:var(--label);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+.dark .label,.red .label{color:rgba(255,255,255,.6)}
+.num{font-family:var(--display);letter-spacing:-.03em;line-height:1}
+.red-t{color:var(--red)}.or-t{color:var(--orange)}.gr-t{color:var(--green)}
+b,strong{font-weight:750}
+
+/* ---------- footer ---------- */
+.foot{position:absolute;left:88px;right:88px;bottom:30px;display:flex;align-items:center;justify-content:space-between;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+.dark .foot,.red .foot{color:rgba(255,255,255,.55)}
+.foot img{height:42px;display:block}
+.foot .act{display:flex;gap:18px}
+.foot .act span{opacity:.45}.foot .act span.cur{opacity:1;color:var(--red)}
+.dark .foot .act span.cur,.red .foot .act span.cur{color:var(--orange)}
+.src{position:absolute;left:88px;bottom:80px;font-size:12.5px;color:var(--ink-mute);max-width:1100px}
+.dark .src,.red .src{color:rgba(255,255,255,.5)}
+
+/* ---------- glass + cards ---------- */
+.glass{border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.78) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),inset 0 0 0 1px rgba(255,255,255,.6),0 22px 44px -24px rgba(23,20,17,.22),0 6px 16px -8px rgba(23,20,17,.08)}
+.dark .glass,.red .glass{background:linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 0 0 1px rgba(255,255,255,.08)}
+.pad{padding:26px 28px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-family:var(--label);font-weight:600;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;background:rgba(192,24,49,.08);color:var(--red)}
+.pill.g{background:var(--green-soft);color:var(--green)}
+.pill.o{background:rgba(255,151,42,.16);color:#A45A00}
+.pill.k{background:rgba(15,13,11,.07);color:var(--ink-2)}
+.pill.w{background:rgba(255,255,255,.14);color:#fff}
+.bar-accent{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--red),var(--orange))}
+
+.grid{display:grid;gap:22px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+.row{display:flex;gap:22px}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mt32{margin-top:32px}.mt40{margin-top:40px}.mt48{margin-top:48px}
+
+/* stat */
+.stat .num{font-size:64px;color:var(--red)}
+.stat .k{margin-top:10px;font-size:17px;line-height:1.35;color:var(--ink-soft)}
+.dark .stat .num{color:var(--orange)}.dark .stat .k{color:rgba(255,255,255,.75)}
+
+/* hbar chart */
+.hbars{display:flex;flex-direction:column;gap:12px}
+.hb{display:grid;grid-template-columns:240px 1fr 90px;align-items:center;gap:16px;font-size:16.5px}
+.hb .nm{font-weight:650;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb .tr{height:26px;border-radius:8px;background:rgba(15,13,11,.05);position:relative;overflow:hidden}
+.hb .fl{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:rgba(15,13,11,.22)}
+.hb.me .fl{background:linear-gradient(90deg,var(--red),#E0413E)}
+.hb.me .nm{color:var(--red)}
+.hb .vl{font-family:var(--display);font-size:20px;text-align:right}
+.dark .hb .nm{color:#fff}.dark .hb .tr{background:rgba(255,255,255,.07)}.dark .hb .fl{background:rgba(255,255,255,.3)}
+.dark .hb.me .fl{background:linear-gradient(90deg,var(--orange),#FFB766)}.dark .hb.me .nm{color:var(--orange)}
+
+/* tables */
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:16.5px}
+table.t th{font-family:var(--label);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);text-align:left;padding:10px 14px;border-bottom:1.5px solid var(--line)}
+table.t td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.38;color:var(--ink-2)}
+table.t tr:last-child td{border-bottom:0}
+table.t.tight td{padding:8px 12px}table.t.tight th{padding:6px 12px}
+table.t td.strong{font-weight:750;color:var(--ink)}
+
+/* ad card (biblioteca de anúncios) */
+.ad{border-radius:18px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.04),0 16px 34px -20px rgba(23,20,17,.28);border:1px solid rgba(23,20,17,.08);padding:16px 18px;display:flex;flex-direction:column;gap:10px;font-size:14.5px}
+.ad .hd{display:flex;align-items:center;gap:10px}
+.ad .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);color:#fff;font-size:16px;flex:none}
+.ad .pn{font-weight:750;font-size:15px;color:var(--ink)}
+.ad .st{font-size:12.5px;color:var(--ink-mute)}
+.ad .live{display:inline-flex;align-items:center;gap:6px;color:#1E7A3E;font-weight:700;font-size:12px}
+.ad .live i{width:7px;height:7px;border-radius:50%;background:#1E9E4A;display:block}
+.ad .cr{border-radius:12px;padding:16px;min-height:78px;display:flex;align-items:flex-end;font-family:var(--display);font-size:19px;line-height:1.1;color:#fff}
+.ad .id{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--ink-mute);text-decoration:none}
+.ad .id:hover{color:var(--red)}
+
+/* checklist */
+.ck{display:grid;grid-template-columns:34px 1fr 140px 120px;gap:14px;align-items:start;padding:13px 4px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.ck:last-child{border-bottom:0}
+.ck .bx{width:26px;height:26px;border-radius:8px;border:2px solid rgba(15,13,11,.28);display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.ck.done .bx{background:var(--red);border-color:var(--red)}
+.ck.done .bx::after{content:"";width:11px;height:6px;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.ck .tx{font-size:16.5px;line-height:1.35;color:var(--ink)}
+.ck .tx small{display:block;font-size:13.5px;color:var(--ink-mute);margin-top:3px}
+.ck.done .tx{color:var(--ink-mute)}
+.who{font-family:var(--label);font-weight:600;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;justify-self:start;margin-top:2px}
+.who.u{background:rgba(192,24,49,.1);color:var(--red)}
+.who.s{background:var(--green-soft);color:var(--green)}
+.who.j{background:rgba(255,151,42,.18);color:#A45A00}
+.ck .dt{font-family:var(--label);font-weight:600;font-size:13px;letter-spacing:.06em;color:var(--ink-soft);margin-top:4px}
+
+/* phase header */
+.phase-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px}
+.phase-n{font-family:var(--display);font-size:150px;line-height:.8;color:var(--red);letter-spacing:-.05em}
+
+/* nav ui */
+#ui{position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:20}
+#prog{height:100%;background:linear-gradient(90deg,var(--red),var(--orange));width:0;transition:width .35s}
+#counter{position:fixed;right:16px;bottom:12px;z-index:21;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;color:rgba(255,255,255,.55)}
+.navbtn{position:fixed;top:50%;transform:translateY(-50%);z-index:21;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#fff;font-size:20px;cursor:pointer;opacity:0;transition:opacity .25s}
+body:hover .navbtn{opacity:.8}
+#prev{left:12px}#next{right:12px}
+#grid{position:fixed;inset:0;z-index:30;background:rgba(11,10,9,.94);display:none;overflow:auto;padding:28px}
+#grid.open{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-content:start}
+#grid button{border:0;background:#1e1b18;color:#fff;text-align:left;padding:14px;border-radius:12px;cursor:pointer;font-family:var(--body);font-size:14px;line-height:1.3}
+#grid button span{display:block;font-family:var(--label);font-size:11px;letter-spacing:.16em;color:var(--orange);margin-bottom:6px}
+#hint{position:fixed;left:16px;bottom:12px;z-index:21;font-size:12px;color:rgba(255,255,255,.45)}
+
+/* reveal */
+.slide.on .rv{animation:rv .7s cubic-bezier(.2,.8,.2,1) both}
+.slide.on .rv:nth-child(2){animation-delay:.06s}.slide.on .rv:nth-child(3){animation-delay:.12s}.slide.on .rv:nth-child(4){animation-delay:.18s}.slide.on .rv:nth-child(5){animation-delay:.24s}.slide.on .rv:nth-child(6){animation-delay:.3s}
+@keyframes rv{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.slide.on .grow{animation:grow 1s cubic-bezier(.2,.8,.2,1) both .2s;transform-origin:left}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.slide.on .rv,.slide.on .grow{animation:none}}
+
+/* print: um slide por página */
+@media print{
+  @page{size:1600px 900px;margin:0}
+  html,body{overflow:visible;background:#fff;height:auto}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;width:1600px;height:auto}
+  .slide{position:relative;opacity:1;visibility:visible;page-break-after:always;break-after:page}
+  #ui,#counter,.navbtn,#grid,#hint{display:none!important}
+  .slide .rv,.slide .grow{animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+<style>
+:root{--bz-deep:#0C2340;--bz-navy:#16395E;--bz-sky:#5E8AB4;--bz-mist:#DBE2E9;--bz-sand:#F5F1EA;--bz-graph:#333F48;--bz-or:#ED832E}
+.mk{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:inline-flex;align-items:center;justify-content:center;font-style:normal}
+.mk.st{position:static;flex:none;width:32px;height:32px;font-size:16px}
+.bz{font-family:var(--display);color:var(--bz-deep);letter-spacing:-.03em}
+</style>
+
+<!-- 01 CAPA -->
+<section class="slide" data-title="Capa" data-act="0" style="background:#151515;color:#fff">
+  <div style="position:absolute;right:0;top:0;bottom:0;width:640px;background:url({{IMG:mascote.jpg}}) right bottom/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 30%);mask-image:linear-gradient(90deg,transparent 0%,#000 30%);opacity:.95"></div>
+  <div style="position:relative;max-width:900px;margin-top:70px">
+    <span class="kicker rv"><span class="dot"></span>Diagnóstico estratégico · Novembro 2026</span>
+    <h1 class="h-mega rv" style="margin-top:26px">Bridge<br><em>Assessoria</em></h1>
+    <p class="lede rv" style="max-width:720px">A ponte entre quem precisa de proteção, quem orienta e quem garante. O que investigamos, a estratégia que propomos e o checklist dos primeiros 90 dias.</p>
+    <div class="row rv mt40" style="gap:12px">
+      <span class="pill w">01 · Investigação</span><span class="pill w">02 · Estratégia</span><span class="pill w">03 · Plano de ação</span>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt="Uai Sô! Marketing com porquê"><span>Ponte Nova · MG</span></div>
+</section>
+
+<!-- 02 ROTEIRO -->
+<section class="slide paper" data-title="Roteiro" data-act="0">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Como esta conversa está organizada</span>
+  <h2 class="h2">Uma história com começo, meio e fim.</h2>
+  <div class="grid g3 mt48">
+    <div class="glass pad rv" style="min-height:470px">
+      <div class="num" style="font-size:120px;color:var(--red)">01</div>
+      <h3 class="h3 mt16">Investigação</h3>
+      <p class="p mt16">Onde a Bridge está hoje: site, concorrência local e nacional, o que as seguradoras estão anunciando e o que o público procura no Google.</p>
+      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">Site</span><span class="pill k">Concorrência</span><span class="pill">Meta Ads</span><span class="pill">Busca</span><span class="pill k">SWOT</span></div>
+    </div>
+    <div class="glass pad rv" style="min-height:470px">
+      <div class="num" style="font-size:120px;color:var(--orange)">02</div>
+      <h3 class="h3 mt16">Estratégia</h3>
+      <p class="p mt16">Como a Bridge se posiciona, com quem fala, com que voz, sobre o quê, e como o conteúdo chega aos clientes pelos perfis dos consultores.</p>
+      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">Posicionamento</span><span class="pill k">Personas</span><span class="pill k">Arquétipos</span><span class="pill k">Editorias</span><span class="pill k">Identidade</span></div>
+    </div>
+    <div class="glass pad rv" style="min-height:470px">
+      <div class="num" style="font-size:120px;color:var(--ink)">03</div>
+      <h3 class="h3 mt16">Plano de ação</h3>
+      <p class="p mt16">O checklist dos 90 dias: o que será entregue, por quem, em que fase, e como saberemos que deu certo.</p>
+      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">4 fases</span><span class="pill k">28 entregas</span><span class="pill k">Indicadores dia 90</span></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><span>Diagnóstico Bridge · 2026</span></div>
+</section>
+
+<!-- 03 HISTÓRIA -->
+<section class="slide paper" data-title="A Bridge" data-act="0">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Ponto de partida</span>
+  <h2 class="h2">Uma marca nova, <em>com 11 anos de estrada</em> por trás.</h2>
+  <div class="glass mt40 rv" style="padding:40px 44px 34px;position:relative">
+    <div style="position:absolute;left:44px;right:44px;top:84px;height:4px;border-radius:4px" class="bar-accent grow"></div>
+    <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:24px;position:relative">
+      <div><div class="num" style="font-size:38px;color:var(--red)">11 anos</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16.5px">Léo Leite no mercado de seguros: <b>Prudential, XP e MetLife</b>.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--red)">2026</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16.5px">Nasce a Bridge Assessoria, em <b>Ponte Nova (MG)</b>.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--red)">abr/26</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16.5px">Entra o primeiro consultor e começa a expansão.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--orange)">agora</div><div style="width:18px;height:18px;border-radius:50%;background:var(--orange);border:4px solid var(--orange);margin:14px 0"></div><p class="p" style="font-size:16.5px">Consolidar a estrutura e ampliar a atuação em Minas Gerais.</p></div>
+    </div>
+  </div>
+  <div class="grid mt32" style="grid-template-columns:1.1fr 1fr;gap:28px">
+    <div class="glass pad rv" style="display:flex;gap:24px;align-items:center">
+      <svg width="190" height="90" viewBox="0 0 190 90" aria-hidden="true"><path d="M5 80 Q95 -10 185 80" fill="none" stroke="#C01831" stroke-width="6"/><g stroke="#C01831" stroke-width="3"><line x1="40" y1="44" x2="40" y2="80"/><line x1="70" y1="27" x2="70" y2="80"/><line x1="95" y1="22" x2="95" y2="80"/><line x1="120" y1="27" x2="120" y2="80"/><line x1="150" y1="44" x2="150" y2="80"/></g><line x1="0" y1="80" x2="190" y2="80" stroke="#0F0D0B" stroke-width="5"/></svg>
+      <div><div class="h4">Por que “Bridge”</div><p class="p mt8">A ponte entre <b>segurado, consultor e seguradora</b>, e uma referência a Ponte Nova, onde o fundador vive.</p></div>
+    </div>
+    <div class="glass pad rv"><div class="h4">Propósito</div><p class="p mt8">Orientar com especialidade em proteção financeira e <b>formar profissionais</b> para uma atuação consultiva no mercado.</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Contexto</span></div></div>
+</section>
+
+<!-- 04 OBJETIVOS -->
+<section class="slide dark" data-title="Objetivos" data-act="0">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Objetivos</span>
+  <h2 class="h2">Dois públicos para conquistar: <em>quem compra proteção e quem quer vender com a Bridge.</em></h2>
+  <div class="grid g2 mt40" style="gap:28px">
+    <div>
+      <div class="label">De negócio</div>
+      <div class="grid mt16" style="gap:12px">
+        <div class="glass" style="padding:16px 20px"><p class="p"><b style="color:#fff">Consolidar</b> a Bridge como assessoria especializada em proteção e planejamento financeiro</p></div>
+        <div class="glass" style="padding:16px 20px"><p class="p"><b style="color:#fff">Fortalecer</b> a atuação em Minas Gerais pela presença dos consultores nas cidades</p></div>
+        <div class="glass" style="padding:16px 20px"><p class="p"><b style="color:#fff">Atrair e integrar</b> novos consultores com apoio da comunicação</p></div>
+        <div class="glass" style="padding:16px 20px"><p class="p"><b style="color:#fff">Ampliar</b> reconhecimento e credibilidade entre segurados e profissionais</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="label">De marketing</div>
+      <div class="grid mt16" style="gap:12px">
+        <div class="glass" style="padding:16px 20px"><p class="p">Presença digital <b style="color:#fff">profissional e consistente</b></p></div>
+        <div class="glass" style="padding:16px 20px"><p class="p">Autoridade por <b style="color:#fff">conteúdo educativo</b> sobre proteção financeira</p></div>
+        <div class="glass" style="padding:16px 20px"><p class="p"><b style="color:#fff">Léo e os consultores</b> como rostos da marca</p></div>
+        <div class="glass" style="padding:16px 20px"><p class="p">Identidade própria, <b style="color:#fff">sem dependência visual da MetLife</b></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="glass pad mt24 rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25);display:flex;gap:24px;align-items:center"><div class="num" style="font-size:56px;color:#fff">90 dias</div><p style="font-size:19px;line-height:1.45;color:#fff">Marca visualmente estruturada, comunicação alinhada, presença digital ativa e os <b>primeiros indicadores</b> de engajamento e reconhecimento orgânico.</p></div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span class="cur">Contexto</span></div></div>
+</section>
+
+<!-- 05 ESCOPO -->
+<section class="slide paper" data-title="Escopo" data-act="0">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Escopo contratado nesta etapa</span>
+  <h2 class="h2">Cinco frentes, <em>três prioridades.</em></h2>
+  <div class="grid g3 mt40" style="gap:18px">
+    <div class="glass pad rv" style="background:linear-gradient(180deg,#C9203A,#9C0E25);color:#fff;min-height:270px"><span class="pill w">Prioridade 1</span><div class="h3 mt16">Conteúdo da Bridge em collab</div><p class="mt16" style="font-size:17px;line-height:1.5;opacity:.88">Conteúdo original produzido pela Uai Sô! e publicado em parceria nos perfis dos consultores.</p></div>
+    <div class="glass pad rv" style="background:linear-gradient(180deg,#C9203A,#9C0E25);color:#fff;min-height:270px"><span class="pill w">Prioridade 2</span><div class="h3 mt16">Régua de relacionamento</div><p class="mt16" style="font-size:17px;line-height:1.5;opacity:.88">Comunicação contínua com a base de contatos por WhatsApp e e-mail.</p></div>
+    <div class="glass pad rv" style="background:linear-gradient(180deg,#C9203A,#9C0E25);color:#fff;min-height:270px"><span class="pill w">Prioridade 3</span><div class="h3 mt16">Atração de consultores</div><p class="mt16" style="font-size:17px;line-height:1.5;opacity:.88">Conteúdo e LinkedIn voltados a profissionais que podem entrar para a Bridge.</p></div>
+  </div>
+  <div class="grid g2 mt24" style="gap:18px">
+    <div class="glass pad rv"><span class="pill k">Apoio</span><div class="h4 mt16">Repaginação do perfil do consultor</div><p class="p mt8">Bio, destaques, foto e posicionamento de cada consultor.</p></div>
+    <div class="glass pad rv"><span class="pill k">Apoio</span><div class="h4 mt16">Treinamento bimestral</div><p class="p mt8">Tutorial para corretores e consultores produzirem e publicarem os próprios conteúdos.</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Contexto</span></div></div>
+</section>
+
+<!-- 06 DIVISOR ATO 1 -->
+<section class="slide red" data-title="Ato 1 · Investigação" data-act="1">
+  {{TOPO}}
+  <div style="position:absolute;right:88px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:520px;line-height:.8;color:rgba(255,255,255,.08);letter-spacing:-.06em">01</div>
+  <div style="position:relative;margin-top:180px">
+    <span class="kicker"><span class="dot"></span>Ato 1</span>
+    <h2 class="h-mega mt24">Investigação</h2>
+    <p class="lede" style="max-width:820px">Olhamos para o site, para os concorrentes de Ponte Nova e do Brasil, para os anúncios que as seguradoras estão rodando agora e para o que as pessoas procuram no Google.</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 07 SITE -->
+<section class="slide paper" data-title="Site matriz" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Análise do site matriz</span>
+  <h2 class="h2">O site é onde o cliente e o futuro consultor <em>vão conferir se a Bridge é séria.</em></h2>
+  <div class="grid mt32" style="grid-template-columns:760px 1fr;gap:44px;align-items:start">
+    <div class="glass rv" style="padding:18px">
+      <div style="display:flex;gap:6px;margin-bottom:12px"><i style="width:11px;height:11px;border-radius:50%;background:#E8E1D6;display:block"></i><i style="width:11px;height:11px;border-radius:50%;background:#E8E1D6;display:block"></i><i style="width:11px;height:11px;border-radius:50%;background:#E8E1D6;display:block"></i><span class="small" style="margin-left:10px;font-family:ui-monospace,monospace;font-size:12px">bridgeassessoria · estrutura proposta</span></div>
+      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--bz-sand)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#fff;border-bottom:1px solid var(--line)">
+          <span class="bz" style="font-size:20px">Bridge</span>
+          <div class="row" style="gap:14px;font-size:13px;color:var(--bz-graph)"><span>Proteção</span><span>Consultores</span><span>Conteúdo</span><span>Carreira</span></div>
+          <span style="background:#25D366;color:#fff;font-size:12px;font-weight:800;padding:7px 12px;border-radius:999px">WhatsApp</span>
+        </div>
+        <div style="background:var(--bz-deep);color:#fff;padding:26px 24px;position:relative"><div style="font-family:var(--display);font-size:28px;line-height:1.1">Proteção financeira<br>com quem conhece a sua história.</div><div class="row mt16" style="gap:10px"><span style="background:var(--bz-or);color:#fff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px">Quero uma análise</span><span style="border:1px solid rgba(255,255,255,.5);font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px">Quero ser consultor</span></div><b class="mk" style="right:16px;top:14px">1</b></div>
+        <div class="grid g3" style="gap:10px;padding:14px;position:relative">
+          <div style="background:#fff;border-radius:10px;padding:12px;font-size:13px"><b>Quem é o Léo</b><br><span style="color:var(--ink-mute)">11 anos de mercado</span></div>
+          <div style="background:#fff;border-radius:10px;padding:12px;font-size:13px"><b>Nossos consultores</b><br><span style="color:var(--ink-mute)">por cidade</span></div>
+          <div style="background:#fff;border-radius:10px;padding:12px;font-size:13px"><b>Como funciona a análise</b><br><span style="color:var(--ink-mute)">método</span></div>
+          <b class="mk" style="right:6px;top:-8px">2</b>
+        </div>
+        <div style="margin:0 14px 14px;background:var(--bz-mist);border-radius:10px;padding:12px;font-size:13px;position:relative"><b>Conteúdo:</b> seguro de vida sem complicação · proteção de renda · sinistro<b class="mk" style="right:6px;top:-10px">3</b></div>
+      </div>
+    </div>
+    <div>
+      <div class="label">O que o site precisa contar</div>
+      <div class="grid mt16" style="gap:10px">
+        <div class="row rv" style="gap:12px;align-items:flex-start"><b class="mk st">1</b><p class="p">Duas portas: <b>cliente</b> (análise de proteção) e <b>profissional</b> (carreira de consultor), com WhatsApp visível.</p></div>
+        <div class="row rv" style="gap:12px;align-items:flex-start"><b class="mk st">2</b><p class="p">História e liderança do Léo, consultores e <b>regiões atendidas</b>, e o método da análise.</p></div>
+        <div class="row rv" style="gap:12px;align-items:flex-start"><b class="mk st">3</b><p class="p">Conteúdo educativo que responde às buscas de proteção e planejamento.</p></div>
+      </div>
+      <div class="glass pad mt24 rv" style="padding:18px 22px">
+        <div class="row" style="justify-content:space-between;align-items:center"><div class="label">Auditoria técnica</div><span class="pill o">pendente · Fase 0</span></div>
+        <div class="grid g2 mt16" style="gap:8px 16px;font-size:15px;color:var(--ink-soft)">
+          <span>○ Domínio e situação atual</span><span>○ Navegação e mobile</span><span>○ Velocidade</span><span>○ Indexação e SEO</span><span>○ Clareza e CTAs</span><span>○ Integração com contato</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Wireframe conceitual. Os pontos técnicos não foram medidos na reunião e entram na auditoria da Fase 0.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 08 MAPA CONCORRÊNCIA -->
+<section class="slide paper" data-title="Concorrência" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Concorrência · três camadas</span>
+  <h2 class="h2">A Bridge disputa com o corretor da cidade, <em>com o banco e com as gigantes.</em></h2>
+  <div class="grid g3 mt40" style="gap:20px">
+    <div class="glass rv" style="overflow:hidden">
+      <div style="background:var(--ink-2);color:#fff;padding:22px 24px"><div class="label" style="color:rgba(255,255,255,.65)">Camada 1</div><div class="h3 mt8">Locais · Ponte Nova</div></div>
+      <div class="pad">
+        <div class="h4">MR3 Corretora</div><p class="p mt8" style="font-size:16px">Atuação local, mas canais digitais difíceis de acessar; site indisponível no levantamento.</p>
+        <div class="h4 mt24">Paulinho Seguros</div><p class="p mt8" style="font-size:16px">Presença em Ponte Nova sem redes ou site oficial encontráveis.</p>
+        <div class="mt24"><span class="pill g">Oportunidade: ser a marca encontrável</span></div>
+      </div>
+    </div>
+    <div class="glass rv" style="overflow:hidden">
+      <div style="background:var(--red);color:#fff;padding:22px 24px"><div class="label" style="color:rgba(255,255,255,.7)">Camada 2</div><div class="h3 mt8">Grandes seguradoras</div></div>
+      <div class="pad">
+        <div class="row" style="flex-wrap:wrap;gap:8px"><span class="pill k">Porto Seguro</span><span class="pill k">Bradesco Seguros</span><span class="pill k">Zurich</span><span class="pill k">Líbero</span></div>
+        <p class="p mt16" style="font-size:16px">Reconhecimento nacional, estrutura robusta e domínio das buscas pela própria marca. Porto e Zurich ainda ranqueiam para “seguro de vida”.</p>
+        <div class="mt24"><span class="pill g">Oportunidade: atendimento consultivo e próximo</span></div>
+      </div>
+    </div>
+    <div class="glass rv" style="overflow:hidden">
+      <div style="background:var(--orange);color:#2B231C;padding:22px 24px"><div class="label" style="color:rgba(43,35,28,.7)">Camada 3</div><div class="h3 mt8">Especialistas em vida</div></div>
+      <div class="pad">
+        <div class="row" style="flex-wrap:wrap;gap:8px"><span class="pill k">Prudential</span><span class="pill k">MAG Seguros</span><span class="pill k">Icatu</span><span class="pill k">Azos</span></div>
+        <p class="p mt16" style="font-size:16px">Referências de comunicação em proteção financeira, educação e linguagem digital simples (Azos).</p>
+        <div class="mt24"><span class="pill g">Oportunidade: educação acessível e regional</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="glass pad mt24 rv" style="display:flex;gap:22px;align-items:center"><span class="pill">Conclusão</span><p class="p">A oportunidade não está em competir por volume de comunicação, e sim em <b>fortalecer o valor da orientação personalizada.</b></p></div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 09 META ADS -->
+<section class="slide paper" data-title="Meta Ads agora" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Biblioteca de Anúncios da Meta · consulta em 05/11/2026</span>
+  <h2 class="h2">Quem anuncia proteção agora, <em>e com que mensagem.</em></h2>
+  <div class="grid mt40" style="grid-template-columns:1.05fr 1fr;gap:52px;align-items:start">
+    <div class="rv">
+      <div class="label">Anúncios ativos no Brasil, por página</div>
+      <div class="hbars mt24">
+        <div class="hb"><span class="nm">Prudential do Brasil</span><div class="tr"><div class="fl grow" style="width:100%;background:#1F4E9C"></div></div><span class="vl">62</span></div>
+        <div class="hb"><span class="nm">Líbero Franquias</span><div class="tr"><div class="fl grow" style="width:75.8%;background:#0F7B6C"></div></div><span class="vl">47</span></div>
+        <div class="hb"><span class="nm">Azos</span><div class="tr"><div class="fl grow" style="width:69.4%;background:#6C3BD1"></div></div><span class="vl">43</span></div>
+        <div class="hb me"><span class="nm">Bridge Assessoria</span><div class="tr"><div class="fl" style="width:0"></div></div><span class="vl">0</span></div>
+      </div>
+      <div class="glass pad mt32">
+        <div class="h4">Três mensagens, três intenções</div>
+        <div class="grid mt16" style="gap:14px">
+          <div class="row" style="gap:14px"><span class="pill k" style="min-width:150px;justify-content:center">Relação</span><p class="p"><b>Prudential:</b> “Um plano que acompanha você”. Vende continuidade, não apólice.</p></div>
+          <div class="row" style="gap:14px"><span class="pill o" style="min-width:150px;justify-content:center">Simplicidade</span><p class="p"><b>Azos:</b> “Finalmente um seguro para sua vida”. Quebra o mito do “seguro de morte”.</p></div>
+          <div class="row" style="gap:14px"><span class="pill g" style="min-width:150px;justify-content:center">Recrutamento</span><p class="p"><b>Líbero:</b> “Seja um franqueado de sucesso”. Toda a mídia vai para atrair rede.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid g2 rv" style="gap:14px">
+      <div class="ad"><div class="hd"><div class="av" style="background:#1F4E9C">P</div><div><div class="pn">Prudential do Brasil</div><div class="st">Patrocinado · 05/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#1F4E9C,#0C2340)">Um plano que acompanha você</div><div class="live"><i></i>Ativo</div><a class="id" href="https://www.facebook.com/ads/library/?id=1665025741892900" target="_blank" rel="noopener">ID 1665025741892900 ↗</a></div>
+      <div class="ad"><div class="hd"><div class="av" style="background:#6C3BD1">A</div><div><div class="pn">Azos</div><div class="st">Patrocinado · 27/10/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#6C3BD1,#3A1C80)">Finalmente um seguro para sua vida.</div><div class="live"><i></i>Ativo</div><a class="id" href="https://www.facebook.com/ads/library/?id=1625729172342580" target="_blank" rel="noopener">ID 1625729172342580 ↗</a></div>
+      <div class="ad"><div class="hd"><div class="av" style="background:#0F7B6C">L</div><div><div class="pn">Líbero Franquias</div><div class="st">Patrocinado · 04/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#0F7B6C,#07463D)">Seja um franqueado de sucesso</div><div class="live"><i></i>Ativo</div><a class="id" href="https://www.facebook.com/ads/library/?id=1137602515331781" target="_blank" rel="noopener">ID 1137602515331781 ↗</a></div>
+      <div class="ad"><div class="hd"><div class="av" style="background:#0F7B6C">L</div><div><div class="pn">Líbero Franquias</div><div class="st">Patrocinado · 03/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#14A08C,#0F7B6C)">Invista onde os grandes investem</div><div class="live"><i></i>Ativo</div><a class="id" href="https://www.facebook.com/ads/library/?id=1677080177369533" target="_blank" rel="noopener">ID 1677080177369533 ↗</a></div>
+      <div class="ad" style="grid-column:1/-1;border:2px dashed rgba(192,24,49,.4);background:rgba(255,255,255,.6)"><div class="hd"><div class="av" style="background:var(--bz-deep)">B</div><div><div class="pn">Bridge Assessoria</div><div class="st">Nenhum anúncio na biblioteca</div></div></div><p class="p" style="font-size:15px">Normal para uma marca recente. O escopo atual é orgânico; a mídia paga pode entrar depois que a base de conteúdo estiver no ar.</p></div>
+    </div>
+  </div>
+  <div class="src">Cards reconstruídos a partir dos metadados públicos da Biblioteca de Anúncios (página, data, título, ID). Clique no ID para ver o criativo original.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 10 META ADS: CORRETORES E RECRUTAMENTO -->
+<section class="slide paper" data-title="Meta Ads · corretores e recrutamento" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Biblioteca de Anúncios · o que corretores e assessorias fazem</span>
+  <h2 class="h2">Corretores vendem pelo WhatsApp. <em>Quase ninguém recruta consultor.</em></h2>
+  <div class="grid g4 mt40 rv" style="gap:16px">
+    <div class="ad"><div class="hd"><div class="av" style="background:#B5462E">D</div><div><div class="pn">Corretora DMA</div><div class="st">Corretora · 05/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#B5462E,#6E2617)">Quem recebe é você</div><a class="id" href="https://www.facebook.com/ads/library/?id=1864436578335440" target="_blank" rel="noopener">ID 1864436578335440 ↗</a></div>
+    <div class="ad"><div class="hd"><div class="av" style="background:#B5462E">D</div><div><div class="pn">Corretora DMA</div><div class="st">Corretora · 05/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#25D366,#128C4A)">Veja quanto custa pelo WhatsApp</div><a class="id" href="https://www.facebook.com/ads/library/?id=2325031864929236" target="_blank" rel="noopener">ID 2325031864929236 ↗</a></div>
+    <div class="ad"><div class="hd"><div class="av" style="background:#B5462E">D</div><div><div class="pn">Corretora DMA</div><div class="st">Corretora · 05/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#8C6A3F,#4A3820)">Seguro de vida a partir dos 66 anos</div><a class="id" href="https://www.facebook.com/ads/library/?id=2670831250040596" target="_blank" rel="noopener">ID 2670831250040596 ↗</a></div>
+    <div class="ad"><div class="hd"><div class="av" style="background:#2B4C7E">M</div><div><div class="pn">Melnick Corretora</div><div class="st">Corretora · 03/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#2B4C7E,#152844)">Seja um Consultor Protefort</div><a class="id" href="https://www.facebook.com/ads/library/?id=1532233172204742" target="_blank" rel="noopener">ID 1532233172204742 ↗</a></div>
+  </div>
+  <div class="grid g3 mt32" style="gap:22px">
+    <div class="glass pad rv"><div class="label">Padrão 1 · cliente</div><p class="p mt8">Benefício em vida (“quem recebe é você”), nicho de idade e <b>WhatsApp como canal de conversão</b>. A régua de WhatsApp da Bridge conversa com isso.</p></div>
+    <div class="glass pad rv"><div class="label">Padrão 2 · recrutamento</div><p class="p mt8">A busca por anúncios de “consultor de seguros / carreira” trouxe <b>só 2 resultados ativos</b> no Brasil. Fora a Líbero (franquia), o espaço está vazio.</p></div>
+    <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff"><div class="label" style="color:rgba(255,255,255,.75)">Direcionamento</div><p class="mt8" style="font-size:18px;line-height:1.45">A Bridge pode <b>ser a referência de carreira consultiva em MG</b>, com LinkedIn e conteúdo de bastidor, sem prometer ganho fácil.</p></div>
+  </div>
+  <div class="src">Fonte: Biblioteca de Anúncios da Meta, buscas “MAG Seguros”, “seja consultor de seguros carreira” · Brasil · 05/11/2026.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 11 BUSCA -->
+<section class="slide paper" data-title="Busca · o que procuram" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Palavras-chave · concorrentes</span>
+  <h2 class="h2">As gigantes ganham pela marca. <em>As dúvidas de proteção estão em aberto.</em></h2>
+  <div class="grid mt40" style="grid-template-columns:1.1fr 1fr;gap:52px;align-items:start">
+    <div class="rv">
+      <div class="label">Buscas mensais · quem aparece</div>
+      <div class="hbars mt24">
+        <div class="hb"><span class="nm">“seguro de vida”</span><div class="tr"><div class="fl grow" style="width:100%"></div></div><span class="vl">201 mil</span></div>
+        <div class="hb"><span class="nm">“LGPD”</span><div class="tr"><div class="fl grow" style="width:45%"></div></div><span class="vl">90,5 mil</span></div>
+        <div class="hb"><span class="nm">“sinistro”</span><div class="tr"><div class="fl grow" style="width:11%"></div></div><span class="vl">22,2 mil</span></div>
+      </div>
+      <table class="t tight mt32" style="font-size:15.5px">
+        <tr><th>Concorrente</th><th>Onde é forte</th><th>Posição</th></tr>
+        <tr><td class="strong">Zurich</td><td>seguro de vida</td><td>2º</td></tr>
+        <tr><td class="strong">Porto Seguro</td><td>seguro de vida · marca · Porto Bank</td><td>3º</td></tr>
+        <tr><td class="strong">Prudential</td><td>LGPD 3º · sinistro 4º · login</td><td>3º–4º</td></tr>
+        <tr><td class="strong">Bradesco</td><td>bradesco seguros, saúde, previdência</td><td>1º (marca)</td></tr>
+        <tr><td class="strong">Líbero</td><td>franquia corretora 5º · franquia de seguros 6º</td><td>5º–6º</td></tr>
+      </table>
+    </div>
+    <div class="rv">
+      <div class="label">Onde a Bridge pode ganhar</div>
+      <div class="grid mt16" style="gap:10px">
+        <div class="glass" style="padding:14px 18px;display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center"><span class="pill">Proteção</span><span class="p" style="font-size:16px">proteção de renda · seguro por invalidez · doenças graves</span></div>
+        <div class="glass" style="padding:14px 18px;display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center"><span class="pill o">Nicho</span><span class="p" style="font-size:16px">seguro de vida para médicos · profissionais liberais · planejamento familiar</span></div>
+        <div class="glass" style="padding:14px 18px;display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center"><span class="pill k">Dúvida</span><span class="p" style="font-size:16px">o que é sinistro · como acionar · o que o seguro cobre</span></div>
+        <div class="glass" style="padding:14px 18px;display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center"><span class="pill g">Carreira</span><span class="p" style="font-size:16px">consultor de seguros · carreira no mercado de seguros</span></div>
+      </div>
+      <div class="glass pad mt24" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff"><p style="font-size:19px;line-height:1.45">Não competir por “seguro de vida” com a Zurich. <b>Ganhar as perguntas específicas</b> que vêm antes da decisão.</p></div>
+    </div>
+  </div>
+  <div class="src">Fonte: levantamento de palavras-chave do diagnóstico base (ferramenta de SEO), volumes mensais Brasil.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 12 MAPA POSICIONAMENTO -->
+<section class="slide paper" data-title="Mapa de posicionamento" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Comparativo</span>
+  <h2 class="h2">O quadrante livre: <em>especialista e próximo.</em></h2>
+  <div class="grid mt32" style="grid-template-columns:820px 1fr;gap:48px;align-items:center">
+    <div class="glass rv" style="padding:24px">
+      <svg viewBox="0 0 760 560" width="760" height="560" aria-label="Mapa de posicionamento">
+        <rect x="380" y="20" width="360" height="250" rx="16" fill="rgba(192,24,49,.07)"/>
+        <line x1="60" y1="280" x2="740" y2="280" stroke="rgba(15,13,11,.25)" stroke-width="2"/>
+        <line x1="380" y1="20" x2="380" y2="520" stroke="rgba(15,13,11,.25)" stroke-width="2"/>
+        <g font-family="Kanit DS" font-weight="600" font-size="13" letter-spacing="1.5" fill="rgba(15,13,11,.55)">
+          <text x="380" y="545" text-anchor="middle">PROXIMIDADE E PERSONALIZAÇÃO →</text>
+          <text x="66" y="300">ESCALA</text><text x="660" y="300">PESSOAL</text>
+          <text x="30" y="40" transform="rotate(-90 30 40)" text-anchor="end">ESPECIALIDADE EM PROTEÇÃO →</text>
+        </g>
+        <text x="560" y="50" text-anchor="middle" font-family="Kanit DS" font-weight="700" font-size="13" letter-spacing="2" fill="#C01831">TERRITÓRIO LIVRE</text>
+        <g font-family="Figtree DS" font-weight="700" text-anchor="middle">
+          <circle cx="210" cy="90" r="42" fill="#1F4E9C"/><text x="210" y="95" fill="#fff" font-size="14">Prudential</text>
+          <circle cx="300" cy="170" r="34" fill="#6C3BD1"/><text x="300" y="175" fill="#fff" font-size="14">Azos</text>
+          <circle cx="140" cy="200" r="34" fill="#5A7A2B"/><text x="140" y="196" fill="#fff" font-size="12">MAG</text><text x="140" y="211" fill="#fff" font-size="12">Icatu</text>
+          <circle cx="150" cy="400" r="44" fill="#333F48"/><text x="150" y="396" fill="#fff" font-size="12">Porto · Zurich</text><text x="150" y="411" fill="#fff" font-size="12">Bradesco</text>
+          <circle cx="300" cy="460" r="30" fill="rgba(15,13,11,.3)"/><text x="300" y="505" fill="rgba(15,13,11,.65)" font-size="13">seguro do banco</text>
+          <circle cx="580" cy="420" r="32" fill="rgba(15,13,11,.35)"/><text x="580" y="470" fill="rgba(15,13,11,.7)" font-size="13">corretores locais</text>
+          <circle cx="600" cy="140" r="50" fill="#0C2340" stroke="#fff" stroke-width="5"/><text x="600" y="137" fill="#fff" font-size="17">Bridge</text><text x="600" y="157" fill="#ED832E" font-size="13">alvo</text>
+        </g>
+      </svg>
+    </div>
+    <div class="grid" style="gap:16px">
+      <table class="t rv" style="font-size:15.5px">
+        <tr><th>Grupo</th><th>Oportunidade para a Bridge</th></tr>
+        <tr><td class="strong">Locais</td><td>Identidade forte, autoridade e proximidade</td></tr>
+        <tr><td class="strong">Grandes</td><td>Atendimento personalizado e consultivo</td></tr>
+        <tr><td class="strong">Especialistas</td><td>Educação acessível e diferenciação regional</td></tr>
+      </table>
+      <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff"><div class="label" style="color:rgba(255,255,255,.75)">Posicionamento</div><p class="mt8" style="font-size:20px;line-height:1.4"><b>Assessoria premium acessível:</b> credibilidade, conhecimento técnico e relacionamento humano.</p></div>
+    </div>
+  </div>
+  <div class="src">Mapa qualitativo construído pela Uai Sô! a partir da análise de comunicação. Posições relativas, não medidas.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 13 SWOT -->
+<section class="slide paper" data-title="SWOT" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Síntese da investigação</span>
+  <h2 class="h2">Liderança experiente <em>numa marca que ainda precisa ser vista.</em></h2>
+  <div class="grid g2 mt32" style="gap:18px">
+    <div class="glass pad rv" style="border-top:6px solid var(--green)"><div class="row" style="justify-content:space-between"><div class="h3">Forças</div><span class="num" style="font-size:44px;color:var(--green)">S</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>11 anos de mercado do fundador</li><li>Liderança comercial próxima dos consultores</li><li>Proposta de atendimento consultivo</li><li>Atuação em diferentes cidades de MG</li><li>Profissionais dispostos a representar a marca</li></ul></div>
+    <div class="glass pad rv" style="border-top:6px solid var(--red)"><div class="row" style="justify-content:space-between"><div class="h3">Fraquezas</div><span class="num red-t" style="font-size:44px">W</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>Marca e operação recentes</li><li>Comunicação digital em estruturação</li><li>Reconhecimento institucional em construção</li><li>Canais digitais a fortalecer</li><li>Sem metas quantitativas de marketing</li></ul></div>
+    <div class="glass pad rv" style="border-top:6px solid var(--orange)"><div class="row" style="justify-content:space-between"><div class="h3">Oportunidades</div><span class="num or-t" style="font-size:44px">O</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>Educar sobre proteção financeira em vida</li><li>Imagem e experiência dos consultores</li><li>Concorrentes locais quase invisíveis no digital</li><li>Espaço vazio em anúncios de carreira consultiva</li><li>Comunicação de recrutamento</li></ul></div>
+    <div class="glass pad rv" style="border-top:6px solid var(--ink)"><div class="row" style="justify-content:space-between"><div class="h3">Ameaças</div><span class="num" style="font-size:44px">T</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>Seguro visto como “coisa de morte”</li><li>Bancos e outros canais de venda</li><li>Resistência a contratar proteção</li><li>Medo da remuneração variável entre profissionais</li></ul></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 14 DIVISOR ATO 2 -->
+<section class="slide dark" data-title="Ato 2 · Estratégia" data-act="2">
+  {{TOPO}}
+  <div style="position:absolute;right:88px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:520px;line-height:.8;color:rgba(255,151,42,.10);letter-spacing:-.06em">02</div>
+  <div style="position:relative;margin-top:180px">
+    <span class="kicker"><span class="dot"></span>Ato 2</span>
+    <h2 class="h-mega mt24">Estratégia</h2>
+    <p class="lede" style="max-width:820px">A Bridge não precisa falar mais alto que as seguradoras. <b style="color:#fff">Precisa ser a ponte em quem as pessoas confiam.</b></p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 15 A PONTE -->
+<section class="slide paper" data-title="A ponte" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Posicionamento</span>
+  <h2 class="h2">A Bridge é <em>a ponte</em>, e cada consultor é uma ponte na sua cidade.</h2>
+  <svg class="rv mt16" viewBox="0 0 1424 470" width="1424" height="400" style="display:block" aria-label="Diagrama da ponte">
+    <path d="M190 330 Q712 40 1234 330" fill="none" stroke="#C01831" stroke-width="8"/>
+    <g stroke="#C01831" stroke-width="3" opacity=".7"><line x1="330" y1="252" x2="330" y2="330"/><line x1="470" y1="198" x2="470" y2="330"/><line x1="600" y1="172" x2="600" y2="330"/><line x1="712" y1="166" x2="712" y2="330"/><line x1="824" y1="172" x2="824" y2="330"/><line x1="954" y1="198" x2="954" y2="330"/><line x1="1094" y1="252" x2="1094" y2="330"/></g>
+    <line x1="120" y1="330" x2="1304" y2="330" stroke="#0F0D0B" stroke-width="8"/>
+    <g font-family="Figtree DS">
+      <rect x="20" y="360" width="300" height="100" rx="20" fill="#fff"/><text x="170" y="400" text-anchor="middle" font-weight="800" font-size="22" fill="#0F0D0B">Segurado</text><text x="170" y="428" text-anchor="middle" font-size="16" fill="rgba(15,13,11,.6)">quer proteção que faça sentido</text>
+      <rect x="1104" y="360" width="300" height="100" rx="20" fill="#fff"/><text x="1254" y="400" text-anchor="middle" font-weight="800" font-size="22" fill="#0F0D0B">Seguradora</text><text x="1254" y="428" text-anchor="middle" font-size="16" fill="rgba(15,13,11,.6)">garante a cobertura</text>
+      <rect x="542" y="20" width="340" height="110" rx="24" fill="#0C2340"/><text x="712" y="66" text-anchor="middle" font-family="Tilt Warp DS" font-size="32" fill="#fff">Bridge</text><text x="712" y="98" text-anchor="middle" font-size="16" fill="#DBE2E9">método · conteúdo · liderança do Léo</text>
+      <g font-weight="700" font-size="15" fill="#fff" text-anchor="middle">
+        <circle cx="470" cy="275" r="44" fill="#ED832E"/><text x="470" y="280" font-size="14">consultor</text>
+        <circle cx="712" cy="275" r="44" fill="#ED832E"/><text x="712" y="280" font-size="14">consultor</text>
+        <circle cx="954" cy="275" r="44" fill="#ED832E"/><text x="954" y="280" font-size="14">consultor</text>
+      </g>
+    </g>
+  </svg>
+  <div class="grid g3" style="gap:18px;margin-top:8px">
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Para o segurado</div><p class="p mt8">Alguém que conhece a sua história explica sem pressa e revisa a proteção a cada fase da vida.</p></div>
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Para o consultor</div><p class="p mt8">Método, treinamento e conteúdo pronto da marca para construir a própria reputação.</p></div>
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Para a marca</div><p class="p mt8">Cada perfil de consultor amplia o alcance da Bridge pelo modelo de collab.</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 16 PERSONAS -->
+<section class="slide paper" data-title="Personas" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Com quem vamos falar</span>
+  <h2 class="h2">Um cliente e um futuro consultor. <em>Duas jornadas, a mesma confiança.</em></h2>
+  <div class="grid g2 mt40" style="gap:24px">
+    <div class="glass rv" style="overflow:hidden">
+      <div style="background:var(--bz-deep);color:#fff;padding:24px 28px;display:flex;justify-content:space-between;align-items:flex-end"><div><div class="label" style="color:#DBE2E9">Cliente · proteção de renda</div><div class="h3 mt8" style="font-size:32px">Rafael Andrade, 38</div><div style="opacity:.8;margin-top:6px">Médico PJ · Ponte Nova e região</div></div><span class="pill" style="background:#ED832E;color:#fff">Classe A/B</span></div>
+      <div class="pad grid g2" style="gap:20px">
+        <div><div class="label">Dores</div><ul class="p mt8" style="font-size:15.5px;padding-left:18px;line-height:1.5"><li>Se parar de trabalhar, a renda da família para junto</li><li>Já recebeu seguro no banco sem explicação</li><li>Vê seguro como custo e “coisa de morte”</li><li>Sem tempo para comparar coberturas</li></ul></div>
+        <div><div class="label">Como a Bridge ajuda</div><ul class="p mt8" style="font-size:15.5px;padding-left:18px;line-height:1.5"><li>Análise personalizada de proteção de renda</li><li>Consultor que explica sem empurrar produto</li><li>Revisão a cada nova fase da vida</li></ul><div class="small mt16">Confia em indicação de colegas; pesquisa no Google, Instagram e LinkedIn.</div></div>
+      </div>
+    </div>
+    <div class="glass rv" style="overflow:hidden">
+      <div style="background:var(--orange);color:#2B231C;padding:24px 28px;display:flex;justify-content:space-between;align-items:flex-end"><div><div class="label" style="color:rgba(43,35,28,.7)">Futura consultora · recrutamento</div><div class="h3 mt8" style="font-size:32px">Juliana Campos, 41</div><div style="opacity:.8;margin-top:6px">Gerente de relacionamento em banco · Viçosa e região</div></div><span class="pill k">R$ 7–10 mil</span></div>
+      <div class="pad grid g2" style="gap:20px">
+        <div><div class="label">Dores</div><ul class="p mt8" style="font-size:15.5px;padding-left:18px;line-height:1.5"><li>Medo de trocar salário fixo por variável</li><li>Começar sem carteira de clientes</li><li>Falta de treinamento e marketing</li><li>Receio de ser vista como “vendedora de seguro”</li></ul></div>
+        <div><div class="label">Como a Bridge ajuda</div><ul class="p mt8" style="font-size:15.5px;padding-left:18px;line-height:1.5"><li>Liderança do Léo e acompanhamento próximo</li><li>Treinamento bimestral de conteúdo</li><li>Collab e perfil profissional repaginado</li></ul><div class="small mt16">Quer autonomia, renda crescente e propósito. Decide quando vê método e liderança.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 17 ARQUÉTIPOS + TOM -->
+<section class="slide paper" data-title="Arquétipos e tom de voz" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Personalidade da marca</span>
+  <h2 class="h2">Cuidador no jeito de falar. <em>Sábio no que se diz.</em></h2>
+  <div class="grid g2 mt32" style="gap:24px">
+    <div class="glass pad rv">
+      <div class="row" style="justify-content:space-between;align-items:center"><div class="h3" style="font-size:34px">Cuidador</div><span class="pill o">proteção · proximidade</span></div>
+      <p class="p mt16">Caminha ao lado: entende a realidade de cada pessoa, explica sem pressa e constrói junto uma proteção que faz sentido.</p>
+      <div class="mt16 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">humano</span><span class="pill k">calmo</span><span class="pill k">sem alarmismo</span><span class="pill k">sem “contrate agora”</span></div>
+      <div class="glass mt24" style="padding:16px 20px;background:var(--paper-2)"><p style="font-family:var(--display);font-size:22px;line-height:1.2">“Você não fala com uma central. Fala com alguém que conhece a sua história.”</p></div>
+    </div>
+    <div class="glass pad rv">
+      <div class="row" style="justify-content:space-between;align-items:center"><div class="h3" style="font-size:34px">Sábio</div><span class="pill">autoridade · decisão segura</span></div>
+      <p class="p mt16">Explica coberturas, compara cenários e orienta com método: sem promessas exageradas, com direção firme e embasamento.</p>
+      <div class="mt16 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">técnico sem “seguradês”</span><span class="pill k">didático</span><span class="pill k">embasado</span></div>
+      <div class="glass mt24" style="padding:16px 20px;background:var(--paper-2)"><p style="font-family:var(--display);font-size:22px;line-height:1.2">“Seguro de vida não é só sobre morte. É sobre proteger sua renda em vida.”</p></div>
+    </div>
+  </div>
+  <div class="grid g5 mt24 rv" style="gap:12px">
+    <div class="glass" style="padding:14px 16px"><div class="label">Pilar</div><div class="h4 mt8" style="font-size:16px">Autoridade técnica</div></div>
+    <div class="glass" style="padding:14px 16px"><div class="label">Pilar</div><div class="h4 mt8" style="font-size:16px">Clareza e didatismo</div></div>
+    <div class="glass" style="padding:14px 16px"><div class="label">Pilar</div><div class="h4 mt8" style="font-size:16px">Proteção e planejamento</div></div>
+    <div class="glass" style="padding:14px 16px"><div class="label">Pilar</div><div class="h4 mt8" style="font-size:16px">Proximidade</div></div>
+    <div class="glass" style="padding:14px 16px"><div class="label">Pilar</div><div class="h4 mt8" style="font-size:16px">Carreira e desenvolvimento</div></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 18 LINHAS EDITORIAIS -->
+<section class="slide paper" data-title="Linhas editoriais" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Conteúdo</span>
+  <h2 class="h2">Seis linhas editoriais, <em>cada uma com função no funil.</em></h2>
+  <div class="grid g3 mt32" style="gap:16px">
+    <div class="glass pad rv" style="padding:20px 22px"><div class="row" style="justify-content:space-between"><span class="pill">Topo · meio</span><span class="small">201 mil buscas</span></div><div class="h4 mt16">Seguro de vida sem complicação</div><p class="small mt8">“Seguro de vida não é seguro de morte: entenda o que você pode estar deixando de proteger”</p></div>
+    <div class="glass pad rv" style="padding:20px 22px"><div class="row" style="justify-content:space-between"><span class="pill o">Meio</span><span class="small">invalidez · renda</span></div><div class="h4 mt16">Proteção de renda e segurança financeira</div><p class="small mt8">“Se você ficasse 90 dias sem trabalhar, como ficariam suas contas?”</p></div>
+    <div class="glass pad rv" style="padding:20px 22px"><div class="row" style="justify-content:space-between"><span class="pill o">Meio · fundo</span><span class="small">22,2 mil buscas</span></div><div class="h4 mt16">Seguro na prática: coberturas e sinistros</div><p class="small mt8">“O que é sinistro e como funciona o acionamento do seguro?”</p></div>
+    <div class="glass pad rv" style="padding:20px 22px"><div class="row" style="justify-content:space-between"><span class="pill">Topo · meio</span><span class="small">previdência</span></div><div class="h4 mt16">Planejamento financeiro e proteção familiar</div><p class="small mt8">“Quatro filhos e R$ 100 mil de proteção: essa conta fecha?”</p></div>
+    <div class="glass pad rv" style="padding:20px 22px"><div class="row" style="justify-content:space-between"><span class="pill o">Meio · fundo</span><span class="small">diferencial</span></div><div class="h4 mt16">Consultoria especializada e diferenciais da Bridge</div><p class="small mt8">“Como funciona uma análise de proteção financeira na Bridge?”</p></div>
+    <div class="glass pad rv" style="padding:20px 22px;background:linear-gradient(180deg,#C9203A,#9C0E25);color:#fff"><div class="row" style="justify-content:space-between"><span class="pill w">Funil de recrutamento</span><span style="font-size:13px;opacity:.75">LinkedIn</span></div><div class="h4 mt16">Carreira, oportunidades e cultura Bridge</div><p class="mt8" style="font-size:15px;opacity:.85">“Como funciona a rotina de um consultor na Bridge?”</p></div>
+  </div>
+  <div class="glass pad mt24 rv" style="display:flex;gap:22px;align-items:center"><span class="pill k">Regra</span><p class="p">Todo conteúdo assinado pela Bridge e publicado <b>em collab</b> com o consultor da cidade: a marca ganha alcance, o consultor ganha autoridade.</p></div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 19 DISTRIBUIÇÃO -->
+<section class="slide dark" data-title="Como o conteúdo circula" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Distribuição</span>
+  <h2 class="h2">Um conteúdo, <em>vários perfis, duas jornadas.</em></h2>
+  <div class="grid mt40" style="grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+    <svg class="rv" viewBox="0 0 640 520" width="640" height="520" aria-label="Distribuição em collab">
+      <g stroke="rgba(255,151,42,.6)" stroke-width="3"><line x1="320" y1="260" x2="120" y2="90"/><line x1="320" y1="260" x2="520" y2="90"/><line x1="320" y1="260" x2="90" y2="330"/><line x1="320" y1="260" x2="550" y2="330"/><line x1="320" y1="260" x2="320" y2="460"/></g>
+      <circle cx="320" cy="260" r="92" fill="#0C2340" stroke="#ED832E" stroke-width="4"/>
+      <text x="320" y="252" text-anchor="middle" font-family="Tilt Warp DS" font-size="30" fill="#fff">Bridge</text>
+      <text x="320" y="280" text-anchor="middle" font-family="Figtree DS" font-size="15" fill="#DBE2E9">conteúdo original</text>
+      <g font-family="Figtree DS" font-weight="700" font-size="15" text-anchor="middle" fill="#fff">
+        <circle cx="120" cy="90" r="52" fill="#C01831"/><text x="120" y="87">Consultor</text><text x="120" y="106" font-weight="400" font-size="13">Ponte Nova</text>
+        <circle cx="520" cy="90" r="52" fill="#C01831"/><text x="520" y="87">Consultor</text><text x="520" y="106" font-weight="400" font-size="13">Viçosa</text>
+        <circle cx="90" cy="330" r="52" fill="#C01831"/><text x="90" y="327">Consultor</text><text x="90" y="346" font-weight="400" font-size="13">cidade 3</text>
+        <circle cx="550" cy="330" r="52" fill="#9C0E25"/><text x="550" y="327">LinkedIn</text><text x="550" y="346" font-weight="400" font-size="13">Léo · Bridge</text>
+        <circle cx="320" cy="460" r="52" fill="#25D366"/><text x="320" y="457">WhatsApp</text><text x="320" y="476" font-weight="400" font-size="13">+ e-mail</text>
+      </g>
+    </svg>
+    <div class="grid" style="gap:16px">
+      <div class="glass pad rv"><div class="label">Jornada do cliente</div><p class="p mt8">Post em collab no perfil do consultor → conversa no WhatsApp → análise personalizada → régua de relacionamento com revisão a cada fase da vida.</p></div>
+      <div class="glass pad rv"><div class="label">Jornada do consultor</div><p class="p mt8">LinkedIn do Léo e da Bridge + conteúdo de carreira → conversa individual → integração com treinamento bimestral e perfil repaginado.</p></div>
+      <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25)"><p style="font-size:19px;line-height:1.4;color:#fff">Cada novo consultor <b>aumenta o alcance da marca</b>. O recrutamento também é marketing.</p></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 20 IDENTIDADE -->
+<section class="slide paper" data-title="Identidade visual" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Diagnóstico de branding e design</span>
+  <h2 class="h2">Uma identidade própria, <em>sem depender da MetLife.</em></h2>
+  <p class="lede" style="font-size:19px">A Bridge é uma assessoria independente de proteção e planejamento financeiro. Entende a história, os objetivos e os riscos de cada cliente para desenhar soluções sob medida.</p>
+  <div class="grid mt32 rv" style="grid-template-columns:repeat(7,1fr);gap:12px">
+    <div class="glass" style="overflow:hidden"><div style="height:150px;background:#0C2340"></div><div style="padding:14px"><div class="h4" style="font-size:15px">Azul Profundo</div><div class="small" style="font-family:ui-monospace,monospace;font-size:12px">#0C2340 · P 289 C</div></div></div>
+    <div class="glass" style="overflow:hidden"><div style="height:150px;background:#16395E"></div><div style="padding:14px"><div class="h4" style="font-size:15px">Azul Marinho</div><div class="small" style="font-family:ui-monospace,monospace;font-size:12px">#16395E · P 534 C</div></div></div>
+    <div class="glass" style="overflow:hidden"><div style="height:150px;background:#5E8AB4"></div><div style="padding:14px"><div class="h4" style="font-size:15px">Azul Horizonte</div><div class="small" style="font-family:ui-monospace,monospace;font-size:12px">#5E8AB4 · P 646 C</div></div></div>
+    <div class="glass" style="overflow:hidden"><div style="height:150px;background:#333F48"></div><div style="padding:14px"><div class="h4" style="font-size:15px">Grafite</div><div class="small" style="font-family:ui-monospace,monospace;font-size:12px">#333F48 · P 432 C</div></div></div>
+    <div class="glass" style="overflow:hidden"><div style="height:150px;background:#ED832E"></div><div style="padding:14px"><div class="h4" style="font-size:15px">Laranja</div><div class="small" style="font-family:ui-monospace,monospace;font-size:12px">#ED832E · P 715 C</div></div></div>
+    <div class="glass" style="overflow:hidden"><div style="height:150px;background:#DBE2E9"></div><div style="padding:14px"><div class="h4" style="font-size:15px">Névoa</div><div class="small" style="font-family:ui-monospace,monospace;font-size:12px">#DBE2E9 · P 649 C</div></div></div>
+    <div class="glass" style="overflow:hidden"><div style="height:150px;background:#F5F1EA;border-bottom:1px solid var(--line)"></div><div style="padding:14px"><div class="h4" style="font-size:15px">Areia</div><div class="small" style="font-family:ui-monospace,monospace;font-size:12px">#F5F1EA</div></div></div>
+  </div>
+  <div class="grid g3 mt24" style="gap:18px">
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Base</div><p class="p mt8">Azuis profundos transmitem solidez e confiança; areia e névoa dão respiro.</p></div>
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Acento</div><p class="p mt8">O laranja é o ponto de calor humano: chamadas, destaques e o “consultor”.</p></div>
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Aplicação</div><p class="p mt8">Templates de collab com assinatura Bridge + nome e cidade do consultor.</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- 21 DIVISOR ATO 3 -->
+<section class="slide red" data-title="Ato 3 · Plano de ação" data-act="3">
+  {{TOPO}}
+  <div style="position:absolute;right:88px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:520px;line-height:.8;color:rgba(255,255,255,.08);letter-spacing:-.06em">90</div>
+  <div style="position:relative;margin-top:180px">
+    <span class="kicker"><span class="dot"></span>Ato 3</span>
+    <h2 class="h-mega mt24">Plano de ação<br><em>de 90 dias</em></h2>
+    <p class="lede" style="max-width:820px">Um checklist do que vamos cumprir, fase por fase. Cada item tem dono e critério de pronto.</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 22 ROADMAP -->
+<section class="slide paper" data-title="Roadmap 90 dias" data-act="3">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Visão geral</span>
+  <h2 class="h2">Direcionar, construir, fortalecer, <em>consolidar.</em></h2>
+  <div class="glass mt40 rv" style="padding:30px 34px">
+    <div style="display:grid;grid-template-columns:240px 1fr">
+      <div></div>
+      <div style="display:grid;grid-template-columns:repeat(9,1fr);font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.1em;color:var(--ink-mute);border-bottom:1px solid var(--line);padding-bottom:8px"><span>dia 1</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:18px"><div><b>Fase 0</b><div class="small">Diagnóstico e direcionamento</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:0;width:10%;top:0;bottom:0;border-radius:12px;background:var(--ink-2);color:#fff;display:flex;align-items:center;padding:0 12px;font-weight:700;font-size:13px">1–9</div></div></div>
+    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Fase 1</b><div class="small">Presença e autoridade</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:10%;width:23.3%;top:0;bottom:0;border-radius:12px;background:var(--red);color:#fff;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 10–30</div></div></div>
+    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Fase 2</b><div class="small">Fortalecimento e consideração</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:33.3%;width:33.3%;top:0;bottom:0;border-radius:12px;background:#E0413E;color:#fff;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 31–60</div></div></div>
+    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Fase 3</b><div class="small">Consolidação e próximos passos</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:66.6%;width:33.4%;top:0;bottom:0;border-radius:12px;background:var(--orange);color:#2B231C;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 61–90</div></div></div>
+    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Contínuo</b><div class="small">Conteúdo e régua</div></div><div style="position:relative;height:30px"><div style="position:absolute;left:10%;right:0;top:6px;height:18px;border-radius:999px;background:repeating-linear-gradient(90deg,rgba(12,35,64,.35) 0 22px,rgba(12,35,64,.12) 22px 30px)"></div></div></div>
+  </div>
+  <div class="grid g4 mt32" style="gap:18px">
+    <div class="rv"><div class="label">Marco · dia 9</div><p class="p mt8"><b>Direcionamento aprovado</b>: personas, editorias e indicadores</p></div>
+    <div class="rv"><div class="label">Marco · dia 30</div><p class="p mt8"><b>Presença no ar</b>: perfis repaginados e collabs publicando</p></div>
+    <div class="rv"><div class="label">Marco · dia 60</div><p class="p mt8"><b>Autoridade</b>: Léo e consultores como rostos, régua ativa</p></div>
+    <div class="rv"><div class="label">Marco · dia 90</div><p class="p mt8"><b>Leitura</b> dos indicadores e prioridades do próximo ciclo</p></div>
+  </div>
+  <div class="src">Datas das fases 2 e 3 propostas pela Uai Sô! (dias 31–60 e 61–90), a validar com a Bridge.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 23 FASE 0 -->
+<section class="slide paper" data-title="Checklist · Fase 0" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 0 · dias 1 a 9</span><h2 class="h2">Diagnóstico e direcionamento</h2><p class="lede" style="font-size:19px;margin-top:10px">Estabelecer o posicionamento premium acessível e organizar as bases da comunicação.</p></div>
+    <div class="phase-n">0</div>
+  </div>
+  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f0">
+    <div class="ck"><div class="bx"></div><div class="tx">Consolidar diagnóstico e referências competitivas<small>Pronto quando: este documento aprovado pelo Léo</small></div><span class="who j">Juntos</span><span class="dt">dia 1–5</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Validar personas (Rafael e Juliana) e linhas editoriais<small>Pronto quando: ajustes registrados e aprovados</small></div><span class="who j">Juntos</span><span class="dt">dia 1–7</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Avaliar identidade visual e canais digitais (Instagram, LinkedIn, site)<small>Pronto quando: lista de ajustes por canal</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 1–7</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Auditoria técnica do site: domínio, mobile, velocidade, SEO, CTAs e contato<small>Pronto quando: relatório com prioridades</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 1–9</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Mapear objeções comerciais com Léo e consultores<small>Pronto quando: top 10 objeções viram pautas</small></div><span class="who j">Juntos</span><span class="dt">dia 1–9</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Definir indicadores iniciais e linha de base<small>Pronto quando: painel no Reportei com números de partida</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 9</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Enviar lista de consultores, cidades e acessos aos perfis<small>Pronto quando: planilha completa</small></div><span class="who s">Bridge</span><span class="dt">dia 5</span></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 24 FASE 1 -->
+<section class="slide paper" data-title="Checklist · Fase 1" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 1 · dias 10 a 30</span><h2 class="h2">Presença e autoridade</h2><p class="lede" style="font-size:19px;margin-top:10px">Iniciar uma comunicação profissional, educativa e humanizada.</p></div>
+    <div class="phase-n">1</div>
+  </div>
+  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f1">
+    <div class="ck"><div class="bx"></div><div class="tx">Templates de collab com assinatura Bridge + nome e cidade do consultor<small>Pronto quando: kit aprovado e entregue</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 10–15</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Repaginar perfis dos consultores: bio, destaques, foto e posicionamento<small>Pronto quando: todos os perfis atualizados</small></div><span class="who j">Juntos</span><span class="dt">dia 10–25</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Conteúdos institucionais: história, o Léo e os profissionais da Bridge<small>Pronto quando: série publicada em collab</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 15–30</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Conteúdos de proteção financeira e benefícios em vida (objeções)<small>Pronto quando: calendário do mês em execução</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 15–30</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Primeiros posts de carreira no LinkedIn (Léo e Bridge)<small>Pronto quando: 4 posts publicados</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 15–30</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Desenhar a régua de relacionamento (WhatsApp e e-mail) e segmentar a base<small>Pronto quando: fluxo e mensagens aprovados</small></div><span class="who j">Juntos</span><span class="dt">dia 20–30</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">1º treinamento: como produzir e publicar conteúdo<small>Pronto quando: consultores treinados + tutorial gravado</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 30</span></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 25 FASE 2 -->
+<section class="slide paper" data-title="Checklist · Fase 2" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 2 · dias 31 a 60</span><h2 class="h2">Fortalecimento e consideração</h2><p class="lede" style="font-size:19px;margin-top:10px">Aprofundar a autoridade da Bridge e ampliar o interesse pelos seus serviços.</p></div>
+    <div class="phase-n">2</div>
+  </div>
+  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f2">
+    <div class="ck"><div class="bx"></div><div class="tx">Conteúdos com o Léo e os consultores em vídeo (rosto da marca)<small>Pronto quando: série de vídeos publicada</small></div><span class="who j">Juntos</span><span class="dt">dia 31–60</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Materiais comparativos e educativos (vida × previdência, invalidez, sinistro)<small>Pronto quando: 2 carrosséis-âncora por linha</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 31–50</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Mostrar o valor da análise personalizada (“como funciona a análise na Bridge”)<small>Pronto quando: conteúdo + roteiro de conversa</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 40</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Régua de WhatsApp e e-mail no ar, sem abordagem comercial excessiva<small>Pronto quando: primeiros envios e respostas medidos</small></div><span class="who j">Juntos</span><span class="dt">dia 35</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Reforçar recrutamento: bastidores, rotina do consultor e treinamento<small>Pronto quando: contatos de candidatos registrados</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 31–60</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Avaliar temas e formatos com maior aceitação<small>Pronto quando: ranking de conteúdos no relatório mensal</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 60</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">2º treinamento bimestral de conteúdo<small>Pronto quando: consultores publicando com autonomia</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 60</span></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 26 FASE 3 -->
+<section class="slide paper" data-title="Checklist · Fase 3" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 3 · dias 61 a 90</span><h2 class="h2">Consolidação e próximos passos</h2><p class="lede" style="font-size:19px;margin-top:10px">Consolidar o posicionamento e avaliar a evolução das oportunidades.</p></div>
+    <div class="phase-n" style="color:var(--orange)">3</div>
+  </div>
+  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f3">
+    <div class="ck"><div class="bx"></div><div class="tx">Analisar os indicadores da presença digital (marca e consultores)<small>Pronto quando: comparativo com a linha de base</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 75</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Medir evolução de interações e solicitações de contato<small>Pronto quando: número por consultor e por canal</small></div><span class="who j">Juntos</span><span class="dt">dia 80</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Avaliar a atratividade para potenciais consultores<small>Pronto quando: candidatos e conversas registrados</small></div><span class="who s">Bridge</span><span class="dt">dia 80</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Revisar conteúdos e oportunidades editoriais<small>Pronto quando: editorias ajustadas para o próximo ciclo</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 85</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Mapear integração entre marketing e comercial<small>Pronto quando: como o contato chega ao consultor e volta com resultado</small></div><span class="who j">Juntos</span><span class="dt">dia 85</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Recomendar prioridades do próximo ciclo (site, mídia paga, metas)<small>Pronto quando: apresentado e aprovado pelo Léo</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 90</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Definir as primeiras metas quantitativas de marketing<small>Pronto quando: metas registradas para o trimestre seguinte</small></div><span class="who j">Juntos</span><span class="dt">dia 90</span></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 27 KPIs -->
+<section class="slide dark" data-title="Indicadores do dia 90" data-act="3">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Painel do dia 90</span>
+  <h2 class="h2">Como saberemos que <em>deu certo.</em></h2>
+  <div class="grid g3 mt40" style="gap:20px">
+    <div class="glass pad rv"><div class="label">Presença</div><div class="num or-t mt16" style="font-size:68px">100%</div><p class="p mt8">dos perfis de consultores repaginados e publicando em collab</p></div>
+    <div class="glass pad rv"><div class="label">Alcance</div><div class="num or-t mt16" style="font-size:68px">↑ base</div><p class="p mt8">evolução de alcance e seguidores da Bridge e dos consultores</p></div>
+    <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25)"><div class="label" style="color:rgba(255,255,255,.75)">Indicador norte</div><div class="num mt16" style="font-size:68px;color:#fff">contatos</div><p class="p mt8" style="color:rgba(255,255,255,.85)">solicitações de análise vindas do conteúdo e da régua</p></div>
+    <div class="glass pad rv"><div class="label">Autoridade</div><div class="num or-t mt16" style="font-size:68px">salvos</div><p class="p mt8">salvamentos e compartilhamentos dos conteúdos educativos</p></div>
+    <div class="glass pad rv"><div class="label">Recrutamento</div><div class="num or-t mt16" style="font-size:68px">candidatos</div><p class="p mt8">profissionais que pediram conversa sobre carreira</p></div>
+    <div class="glass pad rv"><div class="label">Autonomia</div><div class="num or-t mt16" style="font-size:68px">2 treinos</div><p class="p mt8">consultores publicando no padrão, sem refação</p></div>
+  </div>
+  <div class="src">A Bridge ainda não tem metas quantitativas de marketing. As metas de volume serão fixadas após a linha de base da Fase 0.</div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 28 SLA -->
+<section class="slide paper" data-title="Rito e SLA" data-act="3">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Como vamos trabalhar juntos</span>
+  <h2 class="h2">Do planejamento à publicação <em>sem post no dia.</em></h2>
+  <div class="mt40 rv" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px">
+    <div class="glass" style="padding:18px"><div class="label">1</div><div class="h4 mt8" style="font-size:17px">Planejamento mensal</div><p class="small mt8">Nathalia · mensal</p></div>
+    <div class="glass" style="padding:18px;background:var(--green-soft)"><div class="label">2</div><div class="h4 mt8" style="font-size:17px">Aprovação do plano</div><p class="small mt8">Léo · 48h úteis</p></div>
+    <div class="glass" style="padding:18px"><div class="label">3</div><div class="h4 mt8" style="font-size:17px">Textos</div><p class="small mt8">Nathalia · 3 dias úteis</p></div>
+    <div class="glass" style="padding:18px"><div class="label">4</div><div class="h4 mt8" style="font-size:17px">Artes</div><p class="small mt8">Design · 3 dias úteis</p></div>
+    <div class="glass" style="padding:18px"><div class="label">5</div><div class="h4 mt8" style="font-size:17px">Revisão + aprovação interna</div><p class="small mt8">Yoshiro 1 dia · Landim 24h</p></div>
+    <div class="glass" style="padding:18px;background:var(--green-soft)"><div class="label">6</div><div class="h4 mt8" style="font-size:17px">Aprovação final</div><p class="small mt8">Léo · 48h úteis</p></div>
+    <div class="glass" style="padding:18px;background:var(--red);color:#fff"><div class="label" style="color:rgba(255,255,255,.7)">7</div><div class="h4 mt8" style="font-size:17px">Agendamento</div><p class="mt8" style="font-size:14px;opacity:.8">5 dias antes</p></div>
+  </div>
+  <div class="grid g3 mt40" style="gap:20px">
+    <div class="glass pad rv"><div class="label">Gate obrigatório</div><p class="p mt8">Nenhum conteúdo segue sem o OK formal do Landim.</p></div>
+    <div class="glass pad rv"><div class="label">Conteúdo estratégico</div><p class="p mt8">Posicionamento comercial, anúncio, evento ou oferta: aprovação em <b>72h úteis</b>.</p></div>
+    <div class="glass pad rv"><div class="label">Como você recebe</div><p class="p mt8">Calendário mensal com datas sugeridas → apresentação com artes e legendas → comentários em cada slide.</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- 29 FECHAMENTO -->
+<section class="slide dark" data-title="Encerramento" data-act="3">
+  {{TOPO}}
+  <div style="position:absolute;right:0;top:0;bottom:0;width:700px;background:url({{IMG:mascote.jpg}}) right bottom/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 35%);mask-image:linear-gradient(90deg,transparent 0%,#000 35%)"></div>
+  <div style="position:relative;max-width:860px;margin-top:120px">
+    <span class="kicker"><span class="dot"></span>Em uma frase</span>
+    <h2 class="h1 mt24">Em 90 dias, a Bridge deixa de ser só uma marca nova e passa a ser <em>a ponte em quem as pessoas confiam.</em></h2>
+    <div class="row mt40" style="gap:14px;flex-wrap:wrap">
+      <span class="pill w">Identidade própria</span><span class="pill w">Consultores como rosto</span><span class="pill w">Educação sem “seguradês”</span><span class="pill w">Carreira consultiva</span>
+    </div>
+    <p class="lede mt40" style="font-size:20px">Próximo passo: aprovar o direcionamento da Fase 0 e enviar a lista de consultores, cidades e acessos.</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt="Uai Sô! Marketing com porquê"></div>
+</section>
+</div></div>
+
+<div id="ui"><div id="prog"></div></div>
+<div id="counter"></div>
+<div id="hint">← → navegar · G índice · P imprimir/PDF</div>
+<button class="navbtn" id="prev" aria-label="Anterior">‹</button>
+<button class="navbtn" id="next" aria-label="Próximo">›</button>
+<div id="grid" aria-label="Índice de slides"></div>
+
+<style>
+.mk{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:inline-flex;align-items:center;justify-content:center;font-style:normal;box-shadow:0 4px 10px -2px rgba(0,0,0,.25)}
+.mk.st{position:static;flex:none;width:32px;height:32px;font-size:16px}
+</style>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var stage=document.getElementById('stage');
+  var i=0;
+  function fit(){var s=Math.min(window.innerWidth/1600,window.innerHeight/900);stage.style.transform='scale('+s+')';}
+  window.addEventListener('resize',fit);fit();
+  function go(n){
+    n=Math.max(0,Math.min(slides.length-1,n));
+    slides[i].classList.remove('on');i=n;slides[i].classList.add('on');
+    document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+    document.getElementById('counter').textContent=(i+1)+' / '+slides.length;
+    try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+  }
+  var start=parseInt((location.hash||'').slice(1),10);
+  slides[0].classList.add('on');go(isNaN(start)?0:start-1);
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.getElementById('next').onclick=function(){go(i+1)};
+  var grid=document.getElementById('grid');
+  slides.forEach(function(s,k){var b=document.createElement('button');b.innerHTML='<span>'+String(k+1).padStart(2,'0')+'</span>'+s.getAttribute('data-title');b.onclick=function(){grid.classList.remove('open');go(k)};grid.appendChild(b);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+    else if(e.key==='g'||e.key==='G')grid.classList.toggle('open');
+    else if(e.key==='Escape')grid.classList.remove('open');
+    else if(e.key==='p'||e.key==='P')window.print();
+  });
+  var tx=null;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',function(e){if(tx===null)return;var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(i+(d<0?1:-1));tx=null});
+  // checklist (memória local, só neste navegador)
+  var KEY='bridge-diag-checklist';var st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+  document.querySelectorAll('[data-ck]').forEach(function(box){
+    box.querySelectorAll('.ck').forEach(function(row,k){
+      var id=box.getAttribute('data-ck')+'-'+k;if(st[id])row.classList.add('done');
+      row.addEventListener('click',function(){row.classList.toggle('done');st[id]=row.classList.contains('done');try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}});
+    });
+  });
+})();
+</script>
+</body>
+</html>
