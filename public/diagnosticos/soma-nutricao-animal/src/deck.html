@@ -1,0 +1,1363 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnóstico Soma Nutrição Animal</title>
+<style>
+@font-face{font-family:"Tilt Warp DS";src:url({{FONT:tilt-warp-400.woff2}}) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Kanit DS";src:url({{FONT:kanit-600.woff2}}) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Kanit DS";src:url({{FONT:kanit-700.woff2}}) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Figtree DS";src:url({{FONT:figtree-variable.woff2}}) format("woff2");font-weight:300 800;font-display:swap}
+
+:root{
+  --red:#C01831;--red-dark:#9C0E25;--orange:#FF972A;--coffee:#312415;
+  --ink:#0F0D0B;--ink-2:#2B231C;--ink-soft:rgba(15,13,11,.78);--ink-mute:rgba(15,13,11,.6);
+  --paper:#FAF7F2;--paper-2:#F2EDE5;--paper-3:#E8E1D6;--line:rgba(23,20,17,.10);
+  --night:#161414;
+  --green:#2F7D4F;--green-soft:#E3F0E6;
+  --display:"Tilt Warp DS",system-ui,sans-serif;
+  --body:"Figtree DS",system-ui,-apple-system,sans-serif;
+  --label:"Kanit DS",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0a09;font-family:var(--body);color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:inherit}
+
+/* ---------- stage ---------- */
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;width:1600px;height:900px;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .45s ease,visibility .45s;padding:72px 88px 84px}
+.slide.on{opacity:1;visibility:visible}
+.slide.paper{background:
+  radial-gradient(58% 38% at 100% 0%,rgba(255,151,42,.12) 0%,transparent 60%),
+  radial-gradient(46% 36% at 0% 22%,rgba(192,24,49,.06) 0%,transparent 60%),
+  linear-gradient(180deg,#FBF8F3 0%,#F4EFE7 100%)}
+.slide.red{background:radial-gradient(70% 60% at 85% 10%,rgba(255,151,42,.28) 0%,transparent 60%),linear-gradient(160deg,#C9203A 0%,#9C0E25 100%);color:#fff}
+.slide.dark{background:radial-gradient(60% 50% at 90% 0%,rgba(255,151,42,.18) 0%,transparent 60%),radial-gradient(50% 50% at 5% 100%,rgba(192,24,49,.22) 0%,transparent 60%),linear-gradient(160deg,#211a14 0%,#161414 100%);color:#fff}
+.slide.dark .muted,.slide.red .muted{color:rgba(255,255,255,.72)}
+
+/* topography lines (identidade do deck Uai Sô!) */
+.topo{position:absolute;inset:0;pointer-events:none;opacity:.10}
+.slide.paper .topo{opacity:.06}
+
+/* ---------- type ---------- */
+.kicker{font-family:var(--label);font-weight:700;font-size:15px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);display:inline-flex;align-items:center;gap:10px}
+.kicker .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.red .kicker,.dark .kicker{color:var(--orange)}
+.h-mega{font-family:var(--display);font-size:118px;line-height:.92;letter-spacing:-.04em}
+.h1{font-family:var(--display);font-size:72px;line-height:.98;letter-spacing:-.035em}
+.h2{font-family:var(--display);font-size:52px;line-height:1.02;letter-spacing:-.03em;margin-top:14px;max-width:1250px}
+.h2 em,.h1 em,.h-mega em{font-style:normal;color:var(--red)}
+.red .h1 em,.red .h-mega em,.dark .h1 em,.dark .h2 em,.dark .h-mega em,.red .h2 em{color:var(--orange)}
+.h3{font-family:var(--display);font-size:28px;line-height:1.08;letter-spacing:-.02em}
+.h4{font-family:var(--body);font-weight:800;font-size:20px;line-height:1.2}
+.lede{font-size:23px;line-height:1.45;color:var(--ink-soft);max-width:1050px;margin-top:18px}
+.dark .lede,.red .lede{color:rgba(255,255,255,.8)}
+.p{font-size:18px;line-height:1.5;color:var(--ink-soft)}
+.dark .p,.red .p{color:rgba(255,255,255,.78)}
+.small{font-size:15px;line-height:1.45;color:var(--ink-mute)}
+.dark .small,.red .small{color:rgba(255,255,255,.6)}
+.label{font-family:var(--label);font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+.dark .label,.red .label{color:rgba(255,255,255,.6)}
+.num{font-family:var(--display);letter-spacing:-.03em;line-height:1}
+.red-t{color:var(--red)}.or-t{color:var(--orange)}.gr-t{color:var(--green)}
+b,strong{font-weight:750}
+
+/* ---------- footer ---------- */
+.foot{position:absolute;left:88px;right:88px;bottom:30px;display:flex;align-items:center;justify-content:space-between;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute)}
+.dark .foot,.red .foot{color:rgba(255,255,255,.55)}
+.foot img{height:42px;display:block}
+.foot .act{display:flex;gap:18px}
+.foot .act span{opacity:.45}.foot .act span.cur{opacity:1;color:var(--red)}
+.dark .foot .act span.cur,.red .foot .act span.cur{color:var(--orange)}
+.src{position:absolute;left:88px;bottom:80px;font-size:12.5px;color:var(--ink-mute);max-width:1100px}
+.dark .src,.red .src{color:rgba(255,255,255,.5)}
+
+/* ---------- glass + cards ---------- */
+.glass{border-radius:24px;background:linear-gradient(180deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.78) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.98),inset 0 0 0 1px rgba(255,255,255,.6),0 22px 44px -24px rgba(23,20,17,.22),0 6px 16px -8px rgba(23,20,17,.08)}
+.dark .glass,.red .glass{background:linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 0 0 1px rgba(255,255,255,.08)}
+.pad{padding:26px 28px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;font-family:var(--label);font-weight:600;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;background:rgba(192,24,49,.08);color:var(--red)}
+.pill.g{background:var(--green-soft);color:var(--green)}
+.pill.o{background:rgba(255,151,42,.16);color:#A45A00}
+.pill.k{background:rgba(15,13,11,.07);color:var(--ink-2)}
+.pill.w{background:rgba(255,255,255,.14);color:#fff}
+.bar-accent{height:4px;border-radius:4px;background:linear-gradient(90deg,var(--red),var(--orange))}
+
+.grid{display:grid;gap:22px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+.row{display:flex;gap:22px}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mt32{margin-top:32px}.mt40{margin-top:40px}.mt48{margin-top:48px}
+
+/* stat */
+.stat .num{font-size:64px;color:var(--red)}
+.stat .k{margin-top:10px;font-size:17px;line-height:1.35;color:var(--ink-soft)}
+.dark .stat .num{color:var(--orange)}.dark .stat .k{color:rgba(255,255,255,.75)}
+
+/* hbar chart */
+.hbars{display:flex;flex-direction:column;gap:12px}
+.hb{display:grid;grid-template-columns:240px 1fr 90px;align-items:center;gap:16px;font-size:16.5px}
+.hb .nm{font-weight:650;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb .tr{height:26px;border-radius:8px;background:rgba(15,13,11,.05);position:relative;overflow:hidden}
+.hb .fl{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:rgba(15,13,11,.22)}
+.hb.me .fl{background:linear-gradient(90deg,var(--red),#E0413E)}
+.hb.me .nm{color:var(--red)}
+.hb .vl{font-family:var(--display);font-size:20px;text-align:right}
+.dark .hb .nm{color:#fff}.dark .hb .tr{background:rgba(255,255,255,.07)}.dark .hb .fl{background:rgba(255,255,255,.3)}
+.dark .hb.me .fl{background:linear-gradient(90deg,var(--orange),#FFB766)}.dark .hb.me .nm{color:var(--orange)}
+
+/* tables */
+table.t{width:100%;border-collapse:separate;border-spacing:0;font-size:16.5px}
+table.t th{font-family:var(--label);font-weight:600;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);text-align:left;padding:10px 14px;border-bottom:1.5px solid var(--line)}
+table.t td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.38;color:var(--ink-2)}
+table.t tr:last-child td{border-bottom:0}
+table.t.tight td{padding:8px 12px}table.t.tight th{padding:6px 12px}
+table.t td.strong{font-weight:750;color:var(--ink)}
+
+/* ad card (biblioteca de anúncios) */
+.ad{border-radius:18px;background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.04),0 16px 34px -20px rgba(23,20,17,.28);border:1px solid rgba(23,20,17,.08);padding:16px 18px;display:flex;flex-direction:column;gap:10px;font-size:14.5px}
+.ad .hd{display:flex;align-items:center;gap:10px}
+.ad .av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);color:#fff;font-size:16px;flex:none}
+.ad .pn{font-weight:750;font-size:15px;color:var(--ink)}
+.ad .st{font-size:12.5px;color:var(--ink-mute)}
+.ad .live{display:inline-flex;align-items:center;gap:6px;color:#1E7A3E;font-weight:700;font-size:12px}
+.ad .live i{width:7px;height:7px;border-radius:50%;background:#1E9E4A;display:block}
+.ad .cr{border-radius:12px;padding:16px;min-height:78px;display:flex;align-items:flex-end;font-family:var(--display);font-size:19px;line-height:1.1;color:#fff}
+.ad .id{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--ink-mute);text-decoration:none}
+.ad .id:hover{color:var(--red)}
+
+/* checklist */
+.ck{display:grid;grid-template-columns:34px 1fr 140px 120px;gap:14px;align-items:start;padding:13px 4px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.ck:last-child{border-bottom:0}
+.ck .bx{width:26px;height:26px;border-radius:8px;border:2px solid rgba(15,13,11,.28);display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:1px}
+.ck.done .bx{background:var(--red);border-color:var(--red)}
+.ck.done .bx::after{content:"";width:11px;height:6px;border-left:3px solid #fff;border-bottom:3px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.ck .tx{font-size:16.5px;line-height:1.35;color:var(--ink)}
+.ck .tx small{display:block;font-size:13.5px;color:var(--ink-mute);margin-top:3px}
+.ck.done .tx{color:var(--ink-mute)}
+.who{font-family:var(--label);font-weight:600;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:999px;justify-self:start;margin-top:2px}
+.who.u{background:rgba(192,24,49,.1);color:var(--red)}
+.who.s{background:var(--green-soft);color:var(--green)}
+.who.j{background:rgba(255,151,42,.18);color:#A45A00}
+.ck .dt{font-family:var(--label);font-weight:600;font-size:13px;letter-spacing:.06em;color:var(--ink-soft);margin-top:4px}
+
+/* phase header */
+.phase-head{display:flex;align-items:flex-end;justify-content:space-between;gap:30px}
+.phase-n{font-family:var(--display);font-size:150px;line-height:.8;color:var(--red);letter-spacing:-.05em}
+
+/* nav ui */
+#ui{position:fixed;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.08);z-index:20}
+#prog{height:100%;background:linear-gradient(90deg,var(--red),var(--orange));width:0;transition:width .35s}
+#counter{position:fixed;right:16px;bottom:12px;z-index:21;font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.14em;color:rgba(255,255,255,.55)}
+.navbtn{position:fixed;top:50%;transform:translateY(-50%);z-index:21;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#fff;font-size:20px;cursor:pointer;opacity:0;transition:opacity .25s}
+body:hover .navbtn{opacity:.8}
+#prev{left:12px}#next{right:12px}
+#grid{position:fixed;inset:0;z-index:30;background:rgba(11,10,9,.94);display:none;overflow:auto;padding:28px}
+#grid.open{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;align-content:start}
+#grid button{border:0;background:#1e1b18;color:#fff;text-align:left;padding:14px;border-radius:12px;cursor:pointer;font-family:var(--body);font-size:14px;line-height:1.3}
+#grid button span{display:block;font-family:var(--label);font-size:11px;letter-spacing:.16em;color:var(--orange);margin-bottom:6px}
+#hint{position:fixed;left:16px;bottom:12px;z-index:21;font-size:12px;color:rgba(255,255,255,.45)}
+
+/* reveal */
+.slide.on .rv{animation:rv .7s cubic-bezier(.2,.8,.2,1) both}
+.slide.on .rv:nth-child(2){animation-delay:.06s}.slide.on .rv:nth-child(3){animation-delay:.12s}.slide.on .rv:nth-child(4){animation-delay:.18s}.slide.on .rv:nth-child(5){animation-delay:.24s}.slide.on .rv:nth-child(6){animation-delay:.3s}
+@keyframes rv{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.slide.on .grow{animation:grow 1s cubic-bezier(.2,.8,.2,1) both .2s;transform-origin:left}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.slide.on .rv,.slide.on .grow{animation:none}}
+
+/* print: um slide por página */
+@media print{
+  @page{size:1600px 900px;margin:0}
+  html,body{overflow:visible;background:#fff;height:auto}
+  #viewport{position:static;display:block}
+  #stage{transform:none!important;width:1600px;height:auto}
+  .slide{position:relative;opacity:1;visibility:visible;page-break-after:always;break-after:page}
+  #ui,#counter,.navbtn,#grid,#hint{display:none!important}
+  .slide .rv,.slide .grow{animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+<!-- ======================================================= 01 CAPA -->
+<section class="slide red" data-title="Capa" data-act="0">
+  {{TOPO}}
+  <div style="position:absolute;right:0;top:0;bottom:0;width:640px;background:url({{IMG:mascote.jpg}}) right bottom/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 30%);mask-image:linear-gradient(90deg,transparent 0%,#000 30%);opacity:.95"></div>
+  <div style="position:relative;max-width:900px;margin-top:70px">
+    <span class="kicker rv"><span class="dot"></span>Diagnóstico estratégico · Novembro 2026</span>
+    <h1 class="h-mega rv" style="margin-top:26px">Soma<br>Nutrição<br><em>Animal</em></h1>
+    <p class="lede rv" style="max-width:720px">Do balcão ao digital: o que investigamos, a estratégia que propomos e o checklist dos primeiros 90 dias.</p>
+    <div class="row rv mt40" style="gap:12px">
+      <span class="pill w">01 · Investigação</span><span class="pill w">02 · Estratégia</span><span class="pill w">03 · Plano de ação</span>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt="Uai Sô! Marketing com porquê"><span>Rio Pomba · MG</span></div>
+</section>
+
+<!-- ======================================================= 02 ROTEIRO -->
+<section class="slide paper" data-title="Roteiro" data-act="0">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Como esta conversa está organizada</span>
+  <h2 class="h2">Uma história com começo, meio e fim.</h2>
+  <div class="grid g3 mt48">
+    <div class="glass pad rv" style="min-height:470px;position:relative">
+      <div class="num" style="font-size:120px;color:var(--red)">01</div>
+      <h3 class="h3 mt16">Investigação</h3>
+      <p class="p mt16">O que os dados dizem sobre a Soma hoje: funil, mídia, site, redes e o que a concorrência está fazendo, com lupa no <b>Pet</b>.</p>
+      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">Funil</span><span class="pill k">Site</span><span class="pill k">Redes</span><span class="pill">Meta Ads</span><span class="pill">Google</span><span class="pill k">Pet</span></div>
+    </div>
+    <div class="glass pad rv" style="min-height:470px">
+      <div class="num" style="font-size:120px;color:var(--orange)">02</div>
+      <h3 class="h3 mt16">Estratégia</h3>
+      <p class="p mt16">Onde a Soma vai jogar: o território livre, quem é o cliente que importa, como o lead vira pedido e qual o papel de cada canal.</p>
+      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">Território</span><span class="pill k">Públicos</span><span class="pill k">Fluxo do lead</span><span class="pill k">Mídia</span><span class="pill k">Conteúdo</span></div>
+    </div>
+    <div class="glass pad rv" style="min-height:470px">
+      <div class="num" style="font-size:120px;color:var(--ink)">03</div>
+      <h3 class="h3 mt16">Plano de ação</h3>
+      <p class="p mt16">O checklist dos 90 dias, com o que será entregue, por quem, até quando, e como saberemos que deu certo.</p>
+      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">4 fases</span><span class="pill k">32 entregas</span><span class="pill k">KPIs dia 90</span></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><span>Diagnóstico Soma · 2026</span></div>
+</section>
+
+<!-- ======================================================= 03 A SOMA EM NÚMEROS -->
+<section class="slide paper" data-title="A Soma em 30 anos" data-act="0">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Ponto de partida</span>
+  <h2 class="h2">30 anos de confiança construída no balcão e no campo, <em>ainda não traduzida no digital.</em></h2>
+  <!-- timeline -->
+  <div class="glass mt40 rv" style="padding:40px 44px 34px;position:relative">
+    <div style="position:absolute;left:44px;right:44px;top:84px;height:4px;border-radius:4px" class="bar-accent grow"></div>
+    <div class="grid" style="grid-template-columns:repeat(6,1fr);gap:16px;position:relative">
+      <div><div class="num" style="font-size:38px;color:var(--red)">1995</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16px">Nasce em Rio Pomba revendendo e fabricando ração para produção.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--red)">1996</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16px">Primeira planta fabril.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--red)">2001</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16px">Planta de minerais.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--red)">2008</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16px">Entra em peixes e pet.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--red)">2019</div><div style="width:18px;height:18px;border-radius:50%;background:#fff;border:4px solid var(--red);margin:14px 0"></div><p class="p" style="font-size:16px">2ª planta: pet e extrusados.</p></div>
+      <div><div class="num" style="font-size:38px;color:var(--orange)">2024·25</div><div style="width:18px;height:18px;border-radius:50%;background:var(--orange);border:4px solid var(--orange);margin:14px 0"></div><p class="p" style="font-size:16px">Top 10 Nutrição Animal · Globo Rural.</p></div>
+    </div>
+  </div>
+  <div class="grid g4 mt32">
+    <div class="stat rv"><div class="num">3</div><div class="k">frentes: <b>Insumos</b>, <b>Pet</b> (Degusté) e <b>EcOriginal</b></div></div>
+    <div class="stat rv"><div class="num">2</div><div class="k">plantas fabris, maior empresa de Rio Pomba</div></div>
+    <div class="stat rv"><div class="num">3</div><div class="k">estados fortes: MG, RJ e ES</div></div>
+    <div class="stat rv"><div class="num">201–500</div><div class="k">colaboradores (LinkedIn)</div></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Contexto</span></div></div>
+</section>
+
+<!-- ======================================================= 04 OBJETIVO RAIO -->
+<section class="slide dark" data-title="Objetivo de negócio" data-act="0">
+  {{TOPO}}
+  <div class="grid" style="grid-template-columns:1.05fr 1fr;gap:56px;height:100%;align-items:center">
+    <div>
+      <span class="kicker"><span class="dot"></span>Objetivo de negócio · Voo 44.415</span>
+      <h2 class="h2" style="font-size:58px">Dobrar o faturamento até 2030 crescendo <em>onde a Soma já é forte.</em></h2>
+      <div class="grid g2 mt40" style="gap:18px">
+        <div class="glass pad"><div class="num or-t" style="font-size:56px">18–19%</div><p class="p mt8">de crescimento ao ano até 2030</p></div>
+        <div class="glass pad"><div class="num or-t" style="font-size:56px">14 t/mês</div><p class="p mt8">o que compra um agropet completo, o cliente ideal (≈ 1 truck)</p></div>
+      </div>
+      <p class="lede" style="font-size:20px">Posicionamento desejado: <b style="color:#fff">premium acessível</b>. Qualidade técnica de grande marca com a proximidade e o preço de uma fábrica regional.</p>
+    </div>
+    <div style="position:relative;height:640px">
+      <svg viewBox="0 0 640 640" width="640" height="640" aria-label="Mapa de raios a partir de Rio Pomba">
+        <defs><radialGradient id="rg1"><stop offset="0" stop-color="#FF972A" stop-opacity=".45"/><stop offset="1" stop-color="#FF972A" stop-opacity=".08"/></radialGradient></defs>
+        <circle cx="320" cy="320" r="300" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.35)" stroke-dasharray="6 8" stroke-width="2"/>
+        <circle cx="320" cy="320" r="170" fill="url(#rg1)" stroke="#FF972A" stroke-width="3"/>
+        <circle cx="320" cy="320" r="14" fill="#C01831" stroke="#fff" stroke-width="4"/>
+        <text x="320" y="296" text-anchor="middle" fill="#fff" font-family="Kanit DS" font-weight="700" font-size="16" letter-spacing="2">RIO POMBA</text>
+        <text x="320" y="196" text-anchor="middle" fill="#FFB766" font-family="Tilt Warp DS" font-size="30">100 km</text>
+        <text x="320" y="222" text-anchor="middle" fill="rgba(255,255,255,.8)" font-family="Figtree DS" font-size="15">blindar · frete controlado</text>
+        <text x="320" y="60" text-anchor="middle" fill="#fff" font-family="Tilt Warp DS" font-size="26">200 km</text>
+        <text x="320" y="84" text-anchor="middle" fill="rgba(255,255,255,.7)" font-family="Figtree DS" font-size="15">expandir com controle</text>
+        <!-- cidades de referência (posição aproximada, ilustrativa) -->
+        <g font-family="Figtree DS" font-size="14" fill="rgba(255,255,255,.75)">
+          <circle cx="395" cy="410" r="5" fill="#fff"/><text x="405" y="414">Juiz de Fora</text>
+          <circle cx="250" cy="250" r="5" fill="#fff"/><text x="160" y="240">Barbacena</text>
+          <circle cx="420" cy="230" r="5" fill="#fff"/><text x="430" y="226">Ubá</text>
+          <circle cx="470" cy="300" r="5" fill="#fff"/><text x="480" y="304">Muriaé</text>
+          <circle cx="500" cy="520" r="5" fill="rgba(255,255,255,.6)"/><text x="440" y="545">Petrópolis (RJ)</text>
+          <circle cx="160" cy="470" r="5" fill="rgba(255,255,255,.6)"/><text x="60" y="495">São João del-Rei</text>
+        </g>
+        <text x="320" y="620" text-anchor="middle" fill="rgba(255,255,255,.55)" font-family="Figtree DS" font-size="13">Acima de 200 km: só pedidos grandes · mapa esquemático</text>
+      </svg>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span class="cur">Contexto</span></div></div>
+</section>
+
+<!-- ======================================================= 05 DIVISOR ATO 1 -->
+<section class="slide red" data-title="Ato 1 · Investigação" data-act="1">
+  {{TOPO}}
+  <div style="position:absolute;right:88px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:520px;line-height:.8;color:rgba(255,255,255,.08);letter-spacing:-.06em">01</div>
+  <div style="position:relative;margin-top:180px">
+    <span class="kicker"><span class="dot"></span>Ato 1</span>
+    <h2 class="h-mega mt24">Investigação</h2>
+    <p class="lede" style="max-width:820px">Antes de propor qualquer coisa, olhamos para cinco lugares: o funil, a mídia que já rodou, o site, as redes e a concorrência, campo por campo, anúncio por anúncio.</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 06 FUNIL QUEBRADO -->
+<section class="slide paper" data-title="O funil hoje" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Funil · o ponto mais crítico</span>
+  <h2 class="h2">Chegam ~200 leads por mês. <em>Ninguém sabe quantos viram pedido.</em></h2>
+  <div class="grid mt40" style="grid-template-columns:1.25fr 1fr;gap:40px;align-items:start">
+    <svg viewBox="0 0 820 520" width="820" height="520" aria-label="Funil com vazamentos">
+      <defs><linearGradient id="fg" x1="0" x2="1"><stop offset="0" stop-color="#C01831"/><stop offset="1" stop-color="#E0413E"/></linearGradient></defs>
+      <!-- etapa 1 -->
+      <path d="M20 20 H800 L730 130 H90 Z" fill="url(#fg)"/>
+      <text x="410" y="70" text-anchor="middle" fill="#fff" font-family="Tilt Warp DS" font-size="34">~200 leads / mês</text>
+      <text x="410" y="102" text-anchor="middle" fill="rgba(255,255,255,.85)" font-family="Figtree DS" font-size="17">redes + site → RD Station</text>
+      <!-- etapa 2 -->
+      <path d="M100 145 H720 L660 255 H160 Z" fill="#E8E1D6"/>
+      <text x="410" y="195" text-anchor="middle" fill="#0F0D0B" font-family="Tilt Warp DS" font-size="26">Misturados</text>
+      <text x="410" y="225" text-anchor="middle" fill="rgba(15,13,11,.7)" font-family="Figtree DS" font-size="16">lojista, produtor e tutor no mesmo caminho</text>
+      <!-- etapa 3 -->
+      <path d="M170 270 H650 L600 380 H220 Z" fill="#E8E1D6"/>
+      <text x="410" y="318" text-anchor="middle" fill="#0F0D0B" font-family="Tilt Warp DS" font-size="26">80–90 representantes</text>
+      <text x="410" y="348" text-anchor="middle" fill="rgba(15,13,11,.7)" font-family="Figtree DS" font-size="16">sem retorno do que aconteceu</text>
+      <!-- etapa 4 -->
+      <path d="M230 395 H590 L550 505 H270 Z" fill="none" stroke="#C01831" stroke-width="3" stroke-dasharray="8 8"/>
+      <text x="410" y="458" text-anchor="middle" fill="#C01831" font-family="Tilt Warp DS" font-size="40">? pedidos</text>
+      <!-- vazamentos -->
+      <g font-family="Kanit DS" font-weight="700" font-size="13" letter-spacing="1.5">
+        <circle cx="760" cy="200" r="16" fill="#FF972A"/><text x="760" y="205" text-anchor="middle" fill="#fff">1</text>
+        <circle cx="690" cy="325" r="16" fill="#FF972A"/><text x="690" y="330" text-anchor="middle" fill="#fff">2</text>
+        <circle cx="630" cy="450" r="16" fill="#FF972A"/><text x="630" y="455" text-anchor="middle" fill="#fff">3</text>
+      </g>
+    </svg>
+    <div class="grid" style="gap:16px">
+      <div class="glass pad rv"><div class="row" style="gap:14px;align-items:flex-start"><span class="num or-t" style="font-size:34px">1</span><div><div class="h4">Lead sem perfil</div><p class="p mt8">Cadastros sem CPF, CNPJ ou e-mail. O RD não conversa com o ERP.</p></div></div></div>
+      <div class="glass pad rv"><div class="row" style="gap:14px;align-items:flex-start"><span class="num or-t" style="font-size:34px">2</span><div><div class="h4">Representante sem retorno</div><p class="p mt8">PJs seniores, resistentes a tecnologia. O processo de devolver resultado exige esforço demais.</p></div></div></div>
+      <div class="glass pad rv"><div class="row" style="gap:14px;align-items:flex-start"><span class="num or-t" style="font-size:34px">3</span><div><div class="h4">Sem CRM, sem medição</div><p class="p mt8">Resultado: o marketing é visto como gasto, não como investimento.</p></div></div></div>
+      <div class="rv" style="padding:6px 4px"><span class="pill g">Boa notícia</span><p class="p mt8">A TI já desenvolve um <b>chatbot com IA</b> para distribuir leads. Ele pode ser a peça que conecta as pontas.</p></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 07 MÍDIA HISTÓRICA -->
+<section class="slide paper" data-title="Mídia que já rodou" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Meta Ads · histórico da conta (out/23 a mar/25)</span>
+  <h2 class="h2">A Soma comprou <em>alcance</em>, não cliente.</h2>
+  <div class="grid mt40" style="grid-template-columns:520px 1fr;gap:56px;align-items:center">
+    <div style="position:relative;width:480px;height:480px">
+      <svg viewBox="0 0 200 200" width="480" height="480" aria-label="75% da verba em alcance">
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#E8E1D6" stroke-width="26"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#C01831" stroke-width="26" stroke-dasharray="376.99 502.65" transform="rotate(-90 100 100)"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#FF972A" stroke-width="26" stroke-dasharray="40 502.65" stroke-dashoffset="-380" transform="rotate(-90 100 100)"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+        <div class="num red-t" style="font-size:110px">75%</div>
+        <div class="p" style="max-width:240px">da verba foi para alcance, vídeo e visitas ao perfil</div>
+      </div>
+    </div>
+    <div>
+      <div class="grid g3" style="gap:16px">
+        <div class="glass pad rv"><div class="num red-t" style="font-size:52px">R$ 17 mil</div><p class="p mt8">investidos em 18 meses</p></div>
+        <div class="glass pad rv"><div class="num red-t" style="font-size:52px">19 meses</div><p class="p mt8">de conta parada, desde abr/25</p></div>
+        <div class="glass pad rv"><div class="num" style="font-size:52px;color:var(--orange)">R$ 5,88</div><p class="p mt8">por contato na única campanha certa</p></div>
+      </div>
+      <div class="glass pad mt24 rv" style="border-left:0">
+        <div class="row" style="gap:18px;align-items:center"><span class="pill o">Prova</span><p class="p"><b>Cadastro B2B</b> gerou <b>357 contatos</b> a R$ 5,88. É o caminho certo, mas ninguém sabe quantos viraram pedido.</p></div>
+      </div>
+      <div class="grid g2 mt24" style="gap:16px">
+        <div class="rv"><div class="label">Geografia</div><p class="p mt8">Anúncios para 4 estados ou o Brasil inteiro. A logística atende bem <b>até 100 km</b>.</p></div>
+        <div class="rv"><div class="label">Público</div><p class="p mt8">Falou com tutor, produtor e criador. <b>Nenhum anúncio falou com o gerente do agropet.</b></p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 08 SITE RAIO-X -->
+<section class="slide paper" data-title="Site · raio-x" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Análise do site · somanutricaoanimal.com.br</span>
+  <h2 class="h2">O site atrai busca <em>informativa</em> e perde tráfego, sem converter quem chega.</h2>
+  <div class="grid g5 mt40" style="gap:14px">
+    <div class="glass pad rv"><div class="label">Autoridade</div><div class="num mt8" style="font-size:54px">25</div><p class="small mt8">score de domínio (0–100)</p></div>
+    <div class="glass pad rv"><div class="label">Tráfego orgânico</div><div class="num mt8 red-t" style="font-size:54px">3,3 mil</div><p class="small mt8"><b class="red-t">−31%</b> no período</p></div>
+    <div class="glass pad rv"><div class="label">Palavras-chave</div><div class="num mt8" style="font-size:54px;color:var(--green)">4,1 mil</div><p class="small mt8"><b class="gr-t">+132%</b>, mas pouca intenção de compra</p></div>
+    <div class="glass pad rv"><div class="label">Backlinks</div><div class="num mt8" style="font-size:54px">282</div><p class="small mt8">de 158 domínios</p></div>
+    <div class="glass pad rv"><div class="label">Tráfego pago</div><div class="num mt8" style="font-size:54px">0</div><p class="small mt8">nenhum anúncio de busca</p></div>
+  </div>
+  <div class="grid mt24" style="grid-template-columns:1.2fr 1fr;gap:30px;align-items:start">
+    <figure class="glass rv" style="padding:14px;overflow:hidden"><img src="{{IMG:image1.jpg}}" alt="Painel Semrush do domínio da Soma" style="width:100%;height:230px;object-fit:cover;object-position:top;border-radius:12px;display:block"><figcaption class="small" style="padding:10px 6px 0">Print Semrush · visão de domínio e tráfego (2 anos)</figcaption></figure>
+    <div>
+      <div class="label">O que buscam quando chegam na Soma</div>
+      <table class="t tight mt8" style="font-size:15.5px">
+        <tr><th>Termo</th><th>Posição</th><th>Intenção</th></tr>
+        <tr><td class="strong">gema do ovo</td><td>1º</td><td><span class="pill k">curiosidade</span></td></tr>
+        <tr><td class="strong">hipoalergênica</td><td>8º</td><td><span class="pill k">informativa</span></td></tr>
+        <tr><td class="strong">ovos de codorna</td><td>19º</td><td><span class="pill k">informativa</span></td></tr>
+        <tr><td class="strong">gato amigo</td><td>top 20</td><td><span class="pill o">marca/produto</span></td></tr>
+        <tr><td class="strong">fornecedor de ração p/ revenda</td><td>—</td><td><span class="pill">compra · ausente</span></td></tr>
+      </table>
+      <p class="p mt8" style="font-size:16.5px">A Soma ranqueia para curiosidades e <b>não aparece</b> quando o lojista procura fornecedor.</p>
+    </div>
+  </div>
+  <div class="src">Fonte: Semrush (prints do diagnóstico base). GA4 e Search Console entram assim que os acessos forem liberados.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 09 SITE ANATOMIA -->
+<section class="slide paper" data-title="Site · anatomia da home" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Análise do site · experiência e conversão</span>
+  <h2 class="h2">Feito para <em>apresentar</em> a empresa. Não para <em>converter</em> quem chega.</h2>
+  <div class="grid mt32" style="grid-template-columns:780px 1fr;gap:44px;align-items:start">
+    <!-- wireframe -->
+    <div class="glass rv" style="padding:18px;position:relative">
+      <div style="display:flex;gap:6px;margin-bottom:12px"><i style="width:11px;height:11px;border-radius:50%;background:#E8E1D6;display:block"></i><i style="width:11px;height:11px;border-radius:50%;background:#E8E1D6;display:block"></i><i style="width:11px;height:11px;border-radius:50%;background:#E8E1D6;display:block"></i><span class="small" style="margin-left:10px;font-family:ui-monospace,monospace;font-size:12px">somanutricaoanimal.com.br</span></div>
+      <div style="border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff">
+        <div style="display:flex;align-items:center;gap:18px;padding:14px 18px;border-bottom:1px solid var(--line)">
+          <div style="width:90px;height:26px;border-radius:6px;background:#2F7D4F"></div>
+          <div class="row" style="gap:14px;font-size:13px;color:var(--ink-mute)"><span>Institucional</span><span style="position:relative">Nossos Produtos<b class="mk" style="right:-22px">1</b></span><span style="position:relative">Blog<b class="mk" style="right:-22px">1</b></span><span>Carreira</span><span>Representante</span></div>
+        </div>
+        <div style="height:210px;background:linear-gradient(120deg,#2F7D4F,#5FA172);position:relative;display:flex;align-items:flex-end;padding:18px">
+          <div style="width:52%;height:16px;border-radius:4px;background:rgba(255,255,255,.7)"></div>
+          <b class="mk" style="right:16px;top:14px">2</b>
+        </div>
+        <div class="grid g3" style="gap:10px;padding:16px">
+          <div style="height:96px;border-radius:10px;background:#F2EDE5;display:flex;align-items:flex-end;padding:10px;font-size:13px;font-weight:700">Insumos</div>
+          <div style="height:96px;border-radius:10px;background:#F2EDE5;display:flex;align-items:flex-end;padding:10px;font-size:13px;font-weight:700">Pet</div>
+          <div style="height:96px;border-radius:10px;background:#F2EDE5;display:flex;align-items:flex-end;padding:10px;font-size:13px;font-weight:700">EcOriginal</div>
+        </div>
+        <div style="padding:0 16px 16px;display:flex;gap:10px;position:relative">
+          <div style="flex:1;height:44px;border-radius:10px;border:2px dashed rgba(192,24,49,.5);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--red);font-weight:700">Onde comprar? (não existe)</div>
+          <div style="flex:1;height:44px;border-radius:10px;border:2px dashed rgba(192,24,49,.5);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--red);font-weight:700">Sou lojista (não existe)</div>
+          <b class="mk" style="right:8px;top:-10px">3</b>
+        </div>
+      </div>
+      <div style="position:absolute;right:-18px;bottom:40px;width:62px;height:62px;border-radius:50%;border:2px dashed var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;text-align:center;color:var(--red);font-weight:800;background:#fff">sem<br>WhatsApp</div>
+    </div>
+    <div class="grid" style="gap:14px">
+      <div class="rv"><div class="row" style="gap:14px"><b class="mk st">1</b><div><div class="h4">Links que não levam a lugar nenhum</div><p class="p">“Nossos Produtos” e “Blog” no menu estão quebrados.</p></div></div></div>
+      <div class="rv"><div class="row" style="gap:14px"><b class="mk st">2</b><div><div class="h4">SEO técnico fraco</div><p class="p">Title genérico, banners sem texto alternativo.</p></div></div></div>
+      <div class="rv"><div class="row" style="gap:14px"><b class="mk st">3</b><div><div class="h4">Nenhuma porta de entrada para o lojista</div><p class="p">Lojista, produtor e tutor entram pelo mesmo caminho e chegam misturados ao representante. <b>É aqui que nasce o “lead fraco”.</b></p></div></div></div>
+      <div class="rv"><div class="row" style="gap:14px"><b class="mk st">4</b><div><div class="h4">Sem WhatsApp ou telefone visível</div><p class="p">O canal preferido do Rodrigo, gerente de agropet, não aparece.</p></div></div></div>
+      <div class="rv glass pad" style="padding:18px 22px"><span class="pill g">O que funciona</span><p class="p mt8">Estrutura clara das 3 frentes, área de carreira, materiais e caminho “seja representante”.</p></div>
+    </div>
+  </div>
+  <div class="src">Wireframe esquemático da home atual, a partir da auditoria do diagnóstico base.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 10 SITE BENCHMARK -->
+<section class="slide paper" data-title="Site · benchmark de busca" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Análise do site · Soma × concorrentes</span>
+  <h2 class="h2">A Soma tem mais palavras-chave que todos. <em>A Quatree tem 7× mais tráfego.</em></h2>
+  <div class="grid g2 mt40" style="gap:48px">
+    <div class="rv">
+      <div class="label">Tráfego orgânico mensal (visitas)</div>
+      <div class="hbars mt24">
+        <div class="hb"><span class="nm">quatreepet.com.br</span><div class="tr"><div class="fl grow" style="width:100%"></div></div><span class="vl">24,5 mil</span></div>
+        <div class="hb"><span class="nm">guabi.com.br</span><div class="tr"><div class="fl grow" style="width:42.9%"></div></div><span class="vl">10,5 mil</span></div>
+        <div class="hb me"><span class="nm">somanutricaoanimal</span><div class="tr"><div class="fl grow" style="width:13.5%"></div></div><span class="vl">3,3 mil</span></div>
+        <div class="hb"><span class="nm">reinodasaves.com.br</span><div class="tr"><div class="fl grow" style="width:9%"></div></div><span class="vl">2,2 mil</span></div>
+        <div class="hb"><span class="nm">masternutricao.com.br</span><div class="tr"><div class="fl grow" style="width:1.8%"></div></div><span class="vl">439</span></div>
+      </div>
+      <div class="label mt40">Palavras-chave orgânicas</div>
+      <div class="hbars mt24">
+        <div class="hb me"><span class="nm">somanutricaoanimal</span><div class="tr"><div class="fl grow" style="width:100%"></div></div><span class="vl">4 mil</span></div>
+        <div class="hb"><span class="nm">quatreepet.com.br</span><div class="tr"><div class="fl grow" style="width:70%"></div></div><span class="vl">2,8 mil</span></div>
+        <div class="hb"><span class="nm">guabi.com.br</span><div class="tr"><div class="fl grow" style="width:4%"></div></div><span class="vl">160</span></div>
+        <div class="hb"><span class="nm">reinodasaves.com.br</span><div class="tr"><div class="fl grow" style="width:2.7%"></div></div><span class="vl">108</span></div>
+        <div class="hb"><span class="nm">masternutricao.com.br</span><div class="tr"><div class="fl grow" style="width:.8%"></div></div><span class="vl">31</span></div>
+      </div>
+    </div>
+    <div>
+      <figure class="glass rv" style="padding:14px"><img src="{{IMG:image2.jpg}}" alt="Comparativo Semrush entre domínios" style="width:100%;border-radius:10px;display:block"><figcaption class="small" style="padding:10px 6px 0">Print Semrush · comparativo de domínios</figcaption></figure>
+      <div class="glass pad mt24 rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff">
+        <div class="label" style="color:rgba(255,255,255,.75)">Leitura</div>
+        <p class="mt8" style="font-size:20px;line-height:1.45">Volume de palavras não é o problema. <b>Qualidade da intenção é.</b> A Soma aparece para “gema do ovo”; a Quatree aparece para “quantidade diária Supreme”, quem já tem o produto na mão.</p>
+      </div>
+      <div class="glass pad mt16 rv"><div class="row" style="gap:16px;align-items:center"><div class="num red-t" style="font-size:56px">0</div><p class="p"><b>palavras-chave pagas</b> nos 5 domínios. Ninguém do setor compra busca no Google hoje.</p></div></div>
+    </div>
+  </div>
+  <div class="src">Fonte: Semrush, comparativo de domínios (dados do diagnóstico base).</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 11 SITE PROPOSTA -->
+<section class="slide dark" data-title="Site · proposta" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Análise do site · para onde ir</span>
+  <h2 class="h2">Três portas, um destino: <em>o pedido certo no representante certo.</em></h2>
+  <div class="grid mt32" style="grid-template-columns:760px 1fr;gap:48px;align-items:start">
+    <div class="rv" style="border-radius:20px;overflow:hidden;background:#FAF7F2;color:var(--ink);box-shadow:0 30px 60px -30px rgba(0,0,0,.7)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line)">
+        <div style="width:90px;height:24px;border-radius:6px;background:#2F7D4F"></div>
+        <div class="row" style="gap:16px;font-size:13px;color:var(--ink-soft)"><span>Produtos</span><span>Onde comprar</span><span>Conteúdo</span><span>Sobre</span></div>
+        <span style="background:#25D366;color:#fff;font-size:12px;font-weight:800;padding:8px 12px;border-radius:999px">WhatsApp</span>
+      </div>
+      <div style="padding:26px 24px 16px"><div class="h3" style="font-size:30px">Nutrição Top 10 do país,<br>feita a até 100 km de você.</div></div>
+      <div class="grid g3" style="gap:12px;padding:0 24px 22px">
+        <div style="border-radius:14px;padding:16px;background:var(--red);color:#fff"><div style="font-family:var(--label);font-size:11px;letter-spacing:.16em;font-weight:700;opacity:.8">PORTA 1</div><div class="h4" style="margin-top:6px;font-size:18px">Sou lojista</div><div style="font-size:13px;opacity:.85;margin-top:6px">Mix completo numa entrega → formulário com CNPJ</div></div>
+        <div style="border-radius:14px;padding:16px;background:#2F7D4F;color:#fff"><div style="font-family:var(--label);font-size:11px;letter-spacing:.16em;font-weight:700;opacity:.8">PORTA 2</div><div class="h4" style="margin-top:6px;font-size:18px">Sou produtor</div><div style="font-size:13px;opacity:.85;margin-top:6px">Resultado de campo → falar com técnico</div></div>
+        <div style="border-radius:14px;padding:16px;background:#FF972A;color:#2B231C"><div style="font-family:var(--label);font-size:11px;letter-spacing:.16em;font-weight:700;opacity:.8">PORTA 3</div><div class="h4" style="margin-top:6px;font-size:18px">Tutor e criador</div><div style="font-size:13px;opacity:.85;margin-top:6px">Onde encontrar perto de você</div></div>
+      </div>
+      <div style="margin:0 24px 24px;border-radius:14px;background:#F2EDE5;padding:14px 16px;display:flex;align-items:center;gap:12px;font-size:14px"><span style="width:30px;height:30px;border-radius:50%;background:var(--red);display:block;flex:none"></span><b>Localizador de lojas</b> · digite sua cidade</div>
+    </div>
+    <div>
+      <div class="label">Quick wins · dentro do conteúdo que já produzimos</div>
+      <div class="grid mt16" style="gap:10px">
+        <div class="glass" style="padding:14px 18px"><span class="pill w">Uai Sô!</span> <span class="p" style="margin-left:6px">Textos e SEO on-page: title, descrições, alt</span></div>
+        <div class="glass" style="padding:14px 18px"><span class="pill w">Uai Sô!</span> <span class="p" style="margin-left:6px">2 blog posts/mês com intenção comercial</span></div>
+        <div class="glass" style="padding:14px 18px"><span class="pill w">Uai Sô!</span> <span class="p" style="margin-left:6px">Briefing e copy da página do lojista</span></div>
+      </div>
+      <div class="label mt32">Precisa de desenvolvimento web <span style="color:var(--orange)">(orçamento à parte)</span></div>
+      <div class="grid mt16" style="gap:10px">
+        <div class="glass" style="padding:14px 18px"><span class="pill w">Dev</span> <span class="p" style="margin-left:6px">Corrigir links quebrados e botão de WhatsApp</span></div>
+        <div class="glass" style="padding:14px 18px"><span class="pill w">Dev</span> <span class="p" style="margin-left:6px">Três portas na home + formulários integrados ao RD</span></div>
+        <div class="glass" style="padding:14px 18px"><span class="pill w">Dev</span> <span class="p" style="margin-left:6px">Localizador “Onde comprar” (a Guabi já tem)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="src">Wireframe conceitual. A execução visual seguirá o manual de marca da Soma.</div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 12 REDES AUDIÊNCIA -->
+<section class="slide paper" data-title="Redes · audiência" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Redes sociais · tamanho de audiência</span>
+  <h2 class="h2">A Soma lidera entre os regionais. <em>No pet, joga contra gigantes.</em></h2>
+  <div class="grid mt40" style="grid-template-columns:1.35fr 1fr;gap:48px">
+    <div class="hbars rv">
+      <div class="hb"><span class="nm">@quatreepet</span><div class="tr"><div class="fl grow" style="width:100%"></div></div><span class="vl">202 mil</span></div>
+      <div class="hb"><span class="nm">@guabinaturalbr</span><div class="tr"><div class="fl grow" style="width:48.3%"></div></div><span class="vl">97,5 mil</span></div>
+      <div class="hb"><span class="nm">@reino.dasaves</span><div class="tr"><div class="fl grow" style="width:29.2%"></div></div><span class="vl">58,9 mil</span></div>
+      <div class="hb"><span class="nm">@guabioficial</span><div class="tr"><div class="fl grow" style="width:27%"></div></div><span class="vl">54,5 mil</span></div>
+      <div class="hb"><span class="nm">@nutribioticaoficial</span><div class="tr"><div class="fl grow" style="width:19.2%"></div></div><span class="vl">38,8 mil</span></div>
+      <div class="hb me"><span class="nm">@somanutricaoanimal</span><div class="tr"><div class="fl grow" style="width:9.6%"></div></div><span class="vl">19,4 mil</span></div>
+      <div class="hb me"><span class="nm">@somapetfood</span><div class="tr"><div class="fl grow" style="width:4.5%"></div></div><span class="vl">9 mil</span></div>
+      <div class="hb"><span class="nm">@racoesideal.rp</span><div class="tr"><div class="fl grow" style="width:3.6%"></div></div><span class="vl">7,2 mil</span></div>
+      <div class="hb me"><span class="nm">Soma no LinkedIn</span><div class="tr"><div class="fl grow" style="width:3.1%"></div></div><span class="vl">6,3 mil</span></div>
+      <div class="hb"><span class="nm">@masteralimentos…</span><div class="tr"><div class="fl grow" style="width:2.2%"></div></div><span class="vl">4,4 mil</span></div>
+      <div class="hb me"><span class="nm">@somaecoriginal</span><div class="tr"><div class="fl grow" style="width:2.2%"></div></div><span class="vl">4,4 mil</span></div>
+    </div>
+    <div class="grid" style="gap:16px;align-content:start">
+      <div class="glass pad rv"><div class="label">Frequência</div><div class="num red-t mt8" style="font-size:56px">+3.400</div><p class="p mt8">posts somados nos 3 perfis. Volume e constância a Soma já tem.</p></div>
+      <div class="glass pad rv"><div class="label">O que falta</div><p class="mt8" style="font-size:21px;line-height:1.4"><b>Direção.</b> Nenhum dos perfis fala com o dono ou o gerente do agropet, que é exatamente quem a Soma quer atrair.</p></div>
+      <div class="rv p">A Soma não precisa de mais canais. Precisa que os que existem <b>trabalhem para a venda.</b></div>
+    </div>
+  </div>
+  <div class="src">Seguidores no Instagram e LinkedIn conforme levantamento do diagnóstico base (out/2026).</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 13 DIVISOR PET -->
+<section class="slide dark" data-title="Lupa no Pet" data-act="1">
+  {{TOPO}}
+  <div style="position:absolute;right:-40px;bottom:-60px;width:720px;height:720px;border-radius:50%;border:44px solid rgba(255,151,42,.9);"></div>
+  <div style="position:absolute;right:250px;bottom:-250px;width:70px;height:300px;border-radius:30px;background:rgba(255,151,42,.9);transform:rotate(-40deg)"></div>
+  <div style="position:relative;margin-top:170px;max-width:920px">
+    <span class="kicker"><span class="dot"></span>Mergulho</span>
+    <h2 class="h-mega mt24">Lupa no<br><em>Pet</em></h2>
+    <p class="lede">A frente com mais marcas, menos unidade e a maior expectativa visual. Fomos à Biblioteca de Anúncios da Meta ver o que Quatree, Guabi Natural, Special Dog e companhia estão rodando agora.</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 14 PET ARQUITETURA -->
+<section class="slide paper" data-title="Pet · arquitetura de marca" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Pet · arquitetura de marca hoje</span>
+  <h2 class="h2">Cinco marcas disputam um feed de 9 mil seguidores. <em>Nenhuma vence.</em></h2>
+  <div class="grid mt40" style="grid-template-columns:1fr 1fr;gap:56px;align-items:center">
+    <div class="rv" style="position:relative;height:500px">
+      <svg viewBox="0 0 640 500" width="640" height="500" aria-label="Constelação de marcas pet">
+        <g stroke="rgba(15,13,11,.18)" stroke-width="2" stroke-dasharray="4 6">
+          <line x1="320" y1="250" x2="140" y2="110"/><line x1="320" y1="250" x2="510" y2="100"/><line x1="320" y1="250" x2="560" y2="320"/><line x1="320" y1="250" x2="120" y2="380"/><line x1="320" y1="250" x2="330" y2="440"/>
+        </g>
+        <circle cx="320" cy="250" r="62" fill="#2F7D4F"/><text x="320" y="246" text-anchor="middle" fill="#fff" font-family="Tilt Warp DS" font-size="24">Soma</text><text x="320" y="270" text-anchor="middle" fill="rgba(255,255,255,.8)" font-family="Figtree DS" font-size="13">marca-mãe</text>
+        <g font-family="Tilt Warp DS" font-size="20" text-anchor="middle">
+          <circle cx="140" cy="110" r="66" fill="#1D2B53"/><text x="140" y="116" fill="#fff">Degusté</text>
+          <circle cx="510" cy="100" r="58" fill="#7A1F3D"/><text x="510" y="106" fill="#fff">Prime</text>
+          <circle cx="560" cy="320" r="54" fill="#0F0D0B"/><text x="560" y="326" fill="#fff">High</text>
+          <circle cx="120" cy="380" r="52" fill="#8C6A3F"/><text x="120" y="386" fill="#fff">Essence</text>
+          <circle cx="330" cy="440" r="46" fill="#FF972A"/><text x="330" y="446" fill="#2B231C">Amigo</text>
+        </g>
+      </svg>
+      <div class="small" style="position:absolute;left:0;bottom:-10px">Cores ilustrativas: cada linha usa identidade própria, sem ligação visível com a Soma.</div>
+    </div>
+    <div class="grid" style="gap:16px">
+      <div class="glass pad rv"><div class="h4">O que acontece no feed</div><p class="p mt8">Azul-marinho da Degusté, mascote 3D e estilos diferentes por linha: <b>cada post parece de uma marca diferente.</b></p></div>
+      <div class="glass pad rv"><div class="h4">O que acontece no balcão</div><p class="p mt8">O lojista não sabe qual linha a Soma quer que ele venda. Verba limitada dividida por cinco.</p></div>
+      <div class="glass pad rv"><div class="h4">O que a concorrência faz</div><p class="p mt8">Quatree e Guabi Natural organizam o perfil <b>por linha, sob uma marca-herói</b>, com cor dominante e destaques fixos.</p></div>
+      <div class="rv" style="padding:4px"><span class="pill">Decisão pendente da Soma</span><p class="p mt8">Quais marcas pet comunicar, qual é a principal e para quem (B2B, B2C ou equilíbrio).</p></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 15 PET META ADS PAINEL -->
+<section class="slide paper" data-title="Pet · Meta Ads agora" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Biblioteca de Anúncios da Meta · consulta em 05/11/2026</span>
+  <h2 class="h2">Quem está anunciando pet agora, <em>e com que intensidade.</em></h2>
+  <div class="grid mt40" style="grid-template-columns:1.1fr 1fr;gap:56px;align-items:start">
+    <div class="rv">
+      <div class="label">Anúncios ativos no Brasil, por página</div>
+      <div class="hbars mt24">
+        <div class="hb"><span class="nm">Quatree Pet</span><div class="tr"><div class="fl grow" style="width:100%;background:#F28C28"></div></div><span class="vl">176</span></div>
+        <div class="hb"><span class="nm">Special Dog</span><div class="tr"><div class="fl grow" style="width:6.8%;background:#0A6AB5"></div></div><span class="vl">12</span></div>
+        <div class="hb"><span class="nm">Guabi Natural</span><div class="tr"><div class="fl grow" style="width:1.7%;background:#4E8B3A"></div></div><span class="vl">3</span></div>
+        <div class="hb me"><span class="nm">Soma · Degusté</span><div class="tr"><div class="fl" style="width:0"></div></div><span class="vl">0</span></div>
+      </div>
+      <div class="glass pad mt32">
+        <div class="h4">Três estratégias diferentes</div>
+        <div class="grid mt16" style="gap:14px">
+          <div class="row" style="gap:14px"><span class="pill o" style="min-width:150px;justify-content:center">Volume</span><p class="p"><b>Quatree</b> sobe dezenas de variações no mesmo dia: teste criativo em escala e captação para o <b>Clube Quatree</b> (CRM próprio).</p></div>
+          <div class="row" style="gap:14px"><span class="pill k" style="min-width:150px;justify-content:center">Perfil</span><p class="p"><b>Special Dog</b> leva tráfego para o Instagram de cada marca (Dog e Cat): constrói audiência para remarketing.</p></div>
+          <div class="row" style="gap:14px"><span class="pill g" style="min-width:150px;justify-content:center">Varejo</span><p class="p"><b>Guabi Natural</b> anuncia pouco. Quem anuncia Guabi é o <b>lojista</b> (próximo slide).</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid g2 rv" style="gap:14px">
+      <div class="ad"><div class="hd"><div class="av" style="background:#F28C28">Q</div><div><div class="pn">Quatree Pet</div><div class="st">Patrocinado · início 04/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#F28C28,#C9541A)">Entre no Clube Quatree!</div><div class="live"><i></i>Ativo · ~28 variações no mesmo dia</div><a class="id" href="https://www.facebook.com/ads/library/?id=2106732226878519" target="_blank" rel="noopener">ID 2106732226878519 ↗</a></div>
+      <div class="ad"><div class="hd"><div class="av" style="background:#0A6AB5">S</div><div><div class="pn">Special Dog</div><div class="st">Patrocinado · início 05/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#0A6AB5,#073F6B)">Destino: @specialcatoficial</div><div class="live"><i></i>Ativo</div><a class="id" href="https://www.facebook.com/ads/library/?id=1439635337713516" target="_blank" rel="noopener">ID 1439635337713516 ↗</a></div>
+      <div class="ad"><div class="hd"><div class="av" style="background:#4E8B3A">G</div><div><div class="pn">Guabi Natural</div><div class="st">Patrocinado · início 04/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#4E8B3A,#2C5A20)">Carrossel institucional Guabi Natural</div><div class="live"><i></i>Ativo</div><a class="id" href="https://www.facebook.com/ads/library/?id=1768563711101699" target="_blank" rel="noopener">ID 1768563711101699 ↗</a></div>
+      <div class="ad"><div class="hd"><div class="av" style="background:#0A6AB5">S</div><div><div class="pn">Special Dog</div><div class="st">Patrocinado · início 05/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#1E86D6,#0A6AB5)">Destino: @specialdogoficial</div><div class="live"><i></i>Ativo</div><a class="id" href="https://www.facebook.com/ads/library/?id=1033071486488884" target="_blank" rel="noopener">ID 1033071486488884 ↗</a></div>
+      <div class="ad" style="grid-column:1/-1;border:2px dashed rgba(192,24,49,.4);background:rgba(255,255,255,.6)"><div class="hd"><div class="av" style="background:var(--red)">S</div><div><div class="pn">Soma · Degusté · EcOriginal</div><div class="st">Nenhum anúncio encontrado na biblioteca</div></div></div><p class="p" style="font-size:15px">Conta parada desde abr/2025. O espaço de mídia local está livre, e o lojista de 100 km não está vendo a Soma em nenhum feed.</p></div>
+    </div>
+  </div>
+  <div class="src">Cards reconstruídos a partir dos metadados públicos da Biblioteca de Anúncios (página, data, título do link, ID). Clique no ID para ver o criativo original.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 16 PET VAREJO ANUNCIA -->
+<section class="slide paper" data-title="Pet · o lojista anuncia a marca" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Biblioteca de Anúncios · o achado mais importante para o Pet</span>
+  <h2 class="h2">As marcas nacionais ganham mídia de graça: <em>quem anuncia é o lojista.</em></h2>
+  <div class="grid g4 mt40 rv" style="gap:16px">
+    <div class="ad"><div class="hd"><div class="av" style="background:#6A4C93">L</div><div><div class="pn">Lecoland pet</div><div class="st">Pet shop · 16/10/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#4E8B3A,#2C5A20)">Guabi Natural 20 kg por R$ 395</div><a class="id" href="https://www.facebook.com/ads/library/?id=2805951719798949" target="_blank" rel="noopener">ID 2805951719798949 ↗</a></div>
+    <div class="ad"><div class="hd"><div class="av" style="background:#6A4C93">L</div><div><div class="pn">Lecoland pet</div><div class="st">Pet shop · 16/10/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#5FA172,#2C5A20)">Prove Guabi Natural a partir de R$ 23/kg</div><a class="id" href="https://www.facebook.com/ads/library/?id=986099677877730" target="_blank" rel="noopener">ID 986099677877730 ↗</a></div>
+    <div class="ad"><div class="hd"><div class="av" style="background:#2B231C">D</div><div><div class="pn">Dog In Box</div><div class="st">Pet shop · 05/11/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#0A6AB5,#073F6B)">Compra Premiada Special Dog</div><a class="id" href="https://www.facebook.com/ads/library/?id=957503713784226" target="_blank" rel="noopener">ID 957503713784226 ↗</a></div>
+    <div class="ad"><div class="hd"><div class="av" style="background:#8D5A2B">H</div><div><div class="pn">Haras El Shaddai</div><div class="st">Agro/equinos · 16/10/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#8D5A2B,#4A2E14)">Rações Guabi a partir de R$ 110</div><a class="id" href="https://www.facebook.com/ads/library/?id=1068283042931343" target="_blank" rel="noopener">ID 1068283042931343 ↗</a></div>
+  </div>
+  <div class="grid mt32" style="grid-template-columns:1fr 1fr 1fr;gap:22px">
+    <div class="glass pad rv"><div class="label">O padrão</div><p class="p mt8">Preço + marca + loja local. O varejo usa a <b>força da marca</b> para atrair o tutor, e a marca ganha alcance local sem pagar a mídia.</p></div>
+    <div class="glass pad rv"><div class="label">Por que importa para a Soma</div><p class="p mt8">É exatamente o raio de 100 km. Se o lojista parceiro anunciar <b>Degusté</b>, a Soma ganha presença local sem disputar verba com a Quatree.</p></div>
+    <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff"><div class="label" style="color:rgba(255,255,255,.75)">Direcionamento</div><p class="mt8" style="font-size:18px;line-height:1.45"><b>Kit de co-marketing Degusté</b> para o lojista: artes prontas com espaço para preço e endereço, + verba cooperada nas cidades-piloto.</p></div>
+  </div>
+  <div class="src">Fonte: Biblioteca de Anúncios da Meta, busca por “Guabi”, “Guabi Natural” e “Special Dog” · Brasil · 05/11/2026.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 17 PET REFERÊNCIAS VISUAIS -->
+<section class="slide paper" data-title="Pet · referências visuais" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Pet · o que cada concorrente faz bem</span>
+  <h2 class="h2">Quem cresce tem <em>um sistema visual</em>, não posts soltos.</h2>
+  <div class="grid g4 mt40" style="gap:18px">
+    <div class="glass rv" style="overflow:hidden">
+      <div style="height:150px;background:linear-gradient(140deg,#F28C28,#C9541A);position:relative;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:space-between">
+        <div class="row" style="gap:6px"><i style="width:22px;height:22px;border-radius:50%;background:#fff;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#FFD7A8;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#7A3A0E;display:block"></i></div>
+        <div class="h3" style="font-size:30px">Quatree</div>
+      </div>
+      <div class="pad" style="padding:20px">
+        <div class="label">202 mil · 176 anúncios ativos</div>
+        <ul class="p mt16" style="font-size:16px;padding-left:18px;line-height:1.55">
+          <li>Laranja dominante e mascote</li><li>Destaques por linha</li><li>Rosto humano nas campanhas</li><li><b>Fala com o balconista</b> (Dia do Balconista)</li><li>Clube de fidelidade</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass rv" style="overflow:hidden">
+      <div style="height:150px;background:linear-gradient(140deg,#5FA172,#2C5A20);position:relative;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:space-between">
+        <div class="row" style="gap:6px"><i style="width:22px;height:22px;border-radius:50%;background:#fff;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#CDE6C5;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#1F3F17;display:block"></i></div>
+        <div class="h3" style="font-size:30px">Guabi Natural</div>
+      </div>
+      <div class="pad" style="padding:20px">
+        <div class="label">97,5 mil · 3 anúncios ativos</div>
+        <ul class="p mt16" style="font-size:16px;padding-left:18px;line-height:1.55">
+          <li>Verde + ilustração</li><li>Textos curtos e afetivos</li><li>Causa: doação de sangue animal</li><li>“Onde comprar” e “Aqui tem Guabi”</li><li>Varejo anuncia por ela</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass rv" style="overflow:hidden">
+      <div style="height:150px;background:linear-gradient(140deg,#1E86D6,#073F6B);position:relative;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:space-between">
+        <div class="row" style="gap:6px"><i style="width:22px;height:22px;border-radius:50%;background:#fff;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#FFCE3A;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#062B49;display:block"></i></div>
+        <div class="h3" style="font-size:30px">Special Dog</div>
+      </div>
+      <div class="pad" style="padding:20px">
+        <div class="label">12 anúncios ativos</div>
+        <ul class="p mt16" style="font-size:16px;padding-left:18px;line-height:1.55">
+          <li>Perfis separados Dog e Cat</li><li>Celebridade como embaixadora</li><li><b>Special Day</b>: lojistas visitam a fábrica</li><li>Promoções via varejo (“Compra Premiada”)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="glass rv" style="overflow:hidden;outline:3px solid var(--red);outline-offset:-3px">
+      <div style="height:150px;background:linear-gradient(140deg,#1D2B53,#0E1630);position:relative;padding:18px;color:#fff;display:flex;flex-direction:column;justify-content:space-between">
+        <div class="row" style="gap:6px"><i style="width:22px;height:22px;border-radius:50%;background:#fff;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#2F7D4F;display:block"></i><i style="width:22px;height:22px;border-radius:50%;background:#FF972A;display:block"></i></div>
+        <div class="h3" style="font-size:30px">Degusté (Soma)</div>
+      </div>
+      <div class="pad" style="padding:20px">
+        <div class="label red-t">9 mil · 0 anúncios</div>
+        <ul class="p mt16" style="font-size:16px;padding-left:18px;line-height:1.55">
+          <li>Bom conteúdo de antes e depois</li><li>5 linhas, 5 estilos</li><li>Sem quadros fixos</li><li>Não fala com o lojista</li><li>Sem “onde encontrar”</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="glass pad mt24 rv" style="display:flex;gap:26px;align-items:center"><span class="pill">Para a Soma</span><p class="p"><b>Não vamos disputar alcance com 202 mil seguidores.</b> Vamos copiar o que é método (sistema visual, quadros fixos, falar com o balconista) e ganhar onde eles não chegam: o lojista a 100 km.</p></div>
+  <div class="src">Paletas e descrições são esquemáticas, a partir da observação dos perfis e da Biblioteca de Anúncios. Prints oficiais dos criativos: links por ID no slide anterior.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 18 PET MAPA POSICIONAMENTO -->
+<section class="slide paper" data-title="Pet · mapa de posicionamento" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Pet · mapa de posicionamento</span>
+  <h2 class="h2">O quadrante livre: <em>premium acessível, perto do lojista.</em></h2>
+  <div class="grid mt32" style="grid-template-columns:820px 1fr;gap:48px;align-items:center">
+    <div class="glass rv" style="padding:24px;position:relative">
+      <svg viewBox="0 0 760 560" width="760" height="560" aria-label="Mapa de posicionamento pet">
+        <rect x="380" y="20" width="360" height="250" rx="16" fill="rgba(192,24,49,.07)"/>
+        <line x1="60" y1="280" x2="740" y2="280" stroke="rgba(15,13,11,.25)" stroke-width="2"/>
+        <line x1="380" y1="20" x2="380" y2="520" stroke="rgba(15,13,11,.25)" stroke-width="2"/>
+        <g font-family="Kanit DS" font-weight="600" font-size="13" letter-spacing="1.5" fill="rgba(15,13,11,.55)">
+          <text x="380" y="545" text-anchor="middle">PROXIMIDADE COM O LOJISTA REGIONAL →</text>
+          <text x="66" y="300">DISTANTE</text><text x="690" y="300">PRÓXIMA</text>
+          <text x="30" y="40" transform="rotate(-90 30 40)" text-anchor="end">PERCEPÇÃO PREMIUM →</text>
+        </g>
+        <text x="560" y="50" text-anchor="middle" font-family="Kanit DS" font-weight="700" font-size="13" letter-spacing="2" fill="#C01831">TERRITÓRIO LIVRE</text>
+        <g font-family="Figtree DS" font-weight="700" font-size="16">
+          <circle cx="200" cy="80" r="40" fill="#F28C28"/><text x="200" y="85" text-anchor="middle" fill="#fff">Quatree</text>
+          <circle cx="300" cy="120" r="34" fill="#4E8B3A"/><text x="300" y="125" text-anchor="middle" fill="#fff" font-size="13">Guabi Nat.</text>
+          <circle cx="150" cy="210" r="34" fill="#0A6AB5"/><text x="150" y="215" text-anchor="middle" fill="#fff" font-size="13">Special Dog</text>
+          <circle cx="120" cy="420" r="30" fill="rgba(15,13,11,.25)"/><text x="120" y="470" text-anchor="middle" fill="rgba(15,13,11,.6)" font-size="13">marketplace / preço</text>
+          <circle cx="560" cy="400" r="30" fill="rgba(15,13,11,.35)"/><text x="560" y="450" text-anchor="middle" fill="rgba(15,13,11,.7)" font-size="13">Regionais (preço/prazo)</text>
+          <circle cx="470" cy="330" r="40" fill="#1D2B53"/><text x="470" y="327" text-anchor="middle" fill="#fff" font-size="13">Degusté</text><text x="470" y="343" text-anchor="middle" fill="#fff" font-size="12">hoje</text>
+          <circle cx="600" cy="150" r="48" fill="#C01831" stroke="#fff" stroke-width="5"/><text x="600" y="146" text-anchor="middle" fill="#fff" font-size="15">Degusté</text><text x="600" y="166" text-anchor="middle" fill="#fff" font-size="13">alvo</text>
+        </g>
+        <path d="M495 305 Q 540 230 572 190" fill="none" stroke="#C01831" stroke-width="3" stroke-dasharray="6 6" marker-end="url(#ah)"/>
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#C01831"/></marker></defs>
+      </svg>
+    </div>
+    <div class="grid" style="gap:16px">
+      <div class="rv"><div class="h3">Como a Degusté sobe no mapa</div></div>
+      <div class="glass pad rv" style="padding:18px 22px"><div class="row" style="gap:12px"><span class="num red-t" style="font-size:28px">↑</span><p class="p"><b>Premium:</b> prova técnica do Top 10 Globo Rural e da fábrica, com o design system ilustrativo.</p></div></div>
+      <div class="glass pad rv" style="padding:18px 22px"><div class="row" style="gap:12px"><span class="num red-t" style="font-size:28px">→</span><p class="p"><b>Proximidade:</b> “Tem Degusté na loja da sua cidade”, kit de PDV, co-marketing e o balconista como protagonista.</p></div></div>
+      <div class="glass pad rv" style="padding:18px 22px"><div class="row" style="gap:12px"><span class="num red-t" style="font-size:28px">✓</span><p class="p"><b>Acessível:</b> preço justo para a região, sem discurso de luxo nem guerra de preço.</p></div></div>
+    </div>
+  </div>
+  <div class="src">Mapa qualitativo, construído pela Uai Sô! a partir da análise de comunicação. Posições relativas, não medidas.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 19 PET PLAYBOOK -->
+<section class="slide paper" data-title="Pet · playbook de táticas" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Pet · táticas validadas pela concorrência</span>
+  <h2 class="h2">O que já funciona lá fora, <em>no tamanho da Soma.</em></h2>
+  <table class="t mt32 rv" style="font-size:17px">
+    <tr><th style="width:22%">Tática</th><th style="width:18%">Quem faz</th><th>Como a Soma adapta</th><th style="width:12%">Custo</th><th style="width:10%">Quando</th></tr>
+    <tr><td class="strong">Falar com o balconista</td><td>Quatree</td><td>Editoria “Na prateleira” + mini-treinamento em vídeo para o balcão das lojas-piloto</td><td><span class="pill g">baixo</span></td><td>Fase 1</td></tr>
+    <tr><td class="strong">Varejo anuncia a marca</td><td>Guabi Natural, Special Dog</td><td>Kit de co-marketing Degusté: artes com espaço para preço/endereço + verba cooperada</td><td><span class="pill o">médio</span></td><td>Fase 2</td></tr>
+    <tr><td class="strong">Onde comprar</td><td>Guabi</td><td>Destaque fixo no Instagram + lista de lojas parceiras por cidade (depois, localizador no site)</td><td><span class="pill g">baixo</span></td><td>Fase 1</td></tr>
+    <tr><td class="strong">Lojista visita a fábrica</td><td>Special Dog (Special Day)</td><td>“Feito em Rio Pomba”: dia de portas abertas para lojistas da curva A, com captação de conteúdo</td><td><span class="pill o">médio</span></td><td>Pós-90</td></tr>
+    <tr><td class="strong">Sistema visual reconhecível</td><td>Quatree, Guabi Natural</td><td>Design system ilustrativo com Degusté como marca-herói e linhas como variações</td><td><span class="pill g">no escopo</span></td><td>Fase 1–2</td></tr>
+    <tr><td class="strong">Clube / base própria</td><td>Quatree</td><td>Não agora. Primeiro organizar o RD e o retorno do lead.</td><td><span class="pill k">adiado</span></td><td>2027</td></tr>
+  </table>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 20 INSUMOS E PÁSSAROS -->
+<section class="slide paper" data-title="Insumos e pássaros" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Insumos e EcOriginal · referências</span>
+  <h2 class="h2">No agro e nos pássaros, a concorrência já <em>pede o lojista</em> no anúncio.</h2>
+  <div class="grid mt40" style="grid-template-columns:420px 1fr;gap:44px;align-items:start">
+    <div class="rv">
+      <div class="ad"><div class="hd"><div class="av" style="background:#E2A400">N</div><div><div class="pn">Nutribiótica</div><div class="st">Patrocinado · 11/09/2026</div></div></div><div class="cr" style="background:linear-gradient(140deg,#E2A400,#9C6B00);min-height:120px;font-size:24px">Seja um revendedor oficial da Nutribiótica.</div><div class="st">6 de 6 anúncios da página com esta mesma chamada (ago–set/2026)</div><a class="id" href="https://www.facebook.com/ads/library/?id=2149645675963397" target="_blank" rel="noopener">ID 2149645675963397 ↗</a></div>
+      <div class="glass pad mt16" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff"><p style="font-size:18px;line-height:1.45">A concorrente direta da EcOriginal gasta <b>100% da mídia</b> em captar revenda. É a validação externa da campanha [LEAD] Lojista.</p></div>
+    </div>
+    <div class="grid g2" style="gap:18px">
+      <div class="glass pad rv"><div class="label">Guabi · @guabioficial</div><div class="h4 mt8">Autoridade + humor + “Onde comprar”</div><p class="p mt8">Top of Mind, patrocínio ABQM, mascote de frango 3D e destaques “Aqui tem Guabi”.</p></div>
+      <div class="glass pad rv"><div class="label">Ideal · @racoesideal.rp</div><div class="h4 mt8">“Quem usa IDEAL, lucra!”</div><p class="p mt8">Cases de campo, representantes e técnicos como porta-vozes. Rosto que a Soma pouco mostra.</p></div>
+      <div class="glass pad rv"><div class="label">Master · Rio Pomba</div><div class="h4 mt8">Eventos e logística</div><p class="p mt8">Simpósio de pecuária, vagas e o CD de Juiz de Fora. Presença digital menor (1,7 mil no LinkedIn).</p></div>
+      <div class="glass pad rv"><div class="label">Reino das Aves</div><div class="h4 mt8">Quadros fixos por linha</div><p class="p mt8">Destaques Suprema, Gold Mix, Extra Gold, “Palavra da Semana” e ISO 9001.</p></div>
+    </div>
+  </div>
+  <div class="glass pad mt24 rv" style="display:flex;gap:22px;align-items:center"><span class="pill">Espaço vazio</span><p class="p"><b>Ninguém</b> comunica o mix inteiro (agro, pet e pássaros) numa só entrega, e quase ninguém fala com o dono ou gerente do agropet.</p></div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 21 GOOGLE ADS -->
+<section class="slide paper" data-title="Google Ads · oportunidade" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Google Ads · busca paga</span>
+  <h2 class="h2">Na busca, o leilão está <em>vazio.</em> Quem chegar primeiro paga menos.</h2>
+  <div class="grid mt32" style="grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+    <div>
+      <div class="glass pad rv" style="display:flex;gap:28px;align-items:center">
+        <div class="num red-t" style="font-size:110px">0</div>
+        <p class="p" style="font-size:20px">palavras-chave pagas para <b>Soma, Quatree, Guabi, Reino das Aves e Master</b>. Custo de tráfego pago estimado: <b>R$ 0</b>.</p>
+      </div>
+      <div class="label mt32">Clusters de busca que vamos disputar</div>
+      <div class="grid mt16" style="gap:10px">
+        <div class="glass" style="padding:14px 18px;display:grid;grid-template-columns:160px 1fr 110px;gap:14px;align-items:center"><span class="pill">Lojista</span><span class="p" style="font-size:16px">fornecedor de ração para revenda · distribuidor de ração · ração atacado · sal mineral atacado</span><span class="small">100 + 200 km</span></div>
+        <div class="glass" style="padding:14px 18px;display:grid;grid-template-columns:160px 1fr 110px;gap:14px;align-items:center"><span class="pill o">Marca</span><span class="p" style="font-size:16px">soma nutrição animal · degusté · ecoriginal · tropafort · tec aves</span><span class="small">200 km</span></div>
+        <div class="glass" style="padding:14px 18px;display:grid;grid-template-columns:160px 1fr 110px;gap:14px;align-items:center"><span class="pill g">Produtor</span><span class="p" style="font-size:16px">ração para poedeira · ração para cavalo · sal mineral para gado (pico na seca)</span><span class="small">100 km</span></div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="label">Simulação · como o anúncio da Soma apareceria</div>
+      <div style="margin-top:16px;border-radius:20px;background:#fff;box-shadow:0 24px 50px -26px rgba(23,20,17,.3);padding:22px 26px;font-family:Arial,Helvetica,sans-serif">
+        <div style="display:flex;align-items:center;gap:12px;border:1px solid #dfe1e5;border-radius:999px;padding:12px 18px;color:#202124;font-size:16px"><span style="width:16px;height:16px;border-radius:50%;border:2px solid #9aa0a6;display:block"></span>fornecedor de ração para revenda juiz de fora</div>
+        <div style="margin-top:22px;font-size:13px;color:#202124"><b>Patrocinado</b></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:8px"><span style="width:28px;height:28px;border-radius:50%;background:#2F7D4F;display:block"></span><div style="font-size:14px;color:#202124">Soma Nutrição Animal<br><span style="color:#4d5156;font-size:12px">somanutricaoanimal.com.br › lojista</span></div></div>
+        <div style="color:#1a0dab;font-size:21px;margin-top:8px;line-height:1.3">Insumos, Pet e Pássaros numa Só Entrega | Fábrica a 100 km de Você</div>
+        <div style="color:#4d5156;font-size:14.5px;line-height:1.5;margin-top:6px">Top 10 em Nutrição Animal (Globo Rural). Mix completo para o seu agropet, frete curto e apoio no PDV. Fale com um representante.</div>
+        <div style="display:flex;gap:18px;margin-top:10px;color:#1a0dab;font-size:14px"><span>Seja revendedor</span><span>Linha Pet Degusté</span><span>Falar no WhatsApp</span></div>
+      </div>
+      <p class="small mt16">Mock-up ilustrativo do anúncio proposto. Não é um anúncio veiculado.</p>
+      <div class="glass pad mt16" style="padding:16px 20px"><span class="pill k">Regra</span> <span class="p" style="margin-left:6px">Performance Max só depois que existir conversão de <b>pedido</b>; sem ela, o algoritmo busca o lead mais barato, que hoje é o misturado.</span></div>
+    </div>
+  </div>
+  <div class="src">Fonte: Semrush (paid keywords e paid traffic cost dos 5 domínios). A Central de Transparência do Google será revisada na Fase 0 com acesso à conta.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 22 SWOT -->
+<section class="slide paper" data-title="Síntese · SWOT" data-act="1">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Síntese da investigação</span>
+  <h2 class="h2">Uma marca forte com <em>um funil que não mede.</em></h2>
+  <div class="grid g2 mt32" style="gap:18px">
+    <div class="glass pad rv" style="border-top:6px solid var(--green)"><div class="row" style="justify-content:space-between"><div class="h3">Forças</div><span class="num" style="font-size:44px;color:var(--green)">S</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>30 anos, maior empresa de Rio Pomba, 2 plantas</li><li>Mix completo: agro, pet e pássaros</li><li>Top 10 Globo Rural 2024 e 2025</li><li>Maior audiência entre os regionais (19,4 mil)</li><li>PDV que funciona (case Tropa Forte)</li></ul></div>
+    <div class="glass pad rv" style="border-top:6px solid var(--red)"><div class="row" style="justify-content:space-between"><div class="h3">Fraquezas</div><span class="num red-t" style="font-size:44px">W</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>Sem CRM e sem medição de marketing</li><li>Representantes não devolvem o resultado</li><li>5 marcas pet competindo entre si</li><li>Site sem WhatsApp e sem “onde comprar”</li><li>Verba de marketing 2026 40% menor</li></ul></div>
+    <div class="glass pad rv" style="border-top:6px solid var(--orange)"><div class="row" style="justify-content:space-between"><div class="h3">Oportunidades</div><span class="num or-t" style="font-size:44px">O</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>Saída da ADM do Sul de Minas</li><li>Leilão de busca vazio no setor</li><li>Varejo disposto a anunciar marcas</li><li>Chatbot de IA da TI para distribuir leads</li><li>Tec Aves acima da meta</li></ul></div>
+    <div class="glass pad rv" style="border-top:6px solid var(--ink)"><div class="row" style="justify-content:space-between"><div class="h3">Ameaças</div><span class="num" style="font-size:44px">T</span></div>
+      <ul class="p mt8" style="padding-left:20px;line-height:1.6;font-size:17px"><li>Regionalização das grandes marcas</li><li>Clientes grandes pressionando margem</li><li>Pet comoditizado em marketplaces</li><li>Quatree com 176 anúncios ativos</li><li>Marketing visto como gasto</li></ul></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span class="cur">Investigação</span><span>Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 23 DIVISOR ATO 2 -->
+<section class="slide dark" data-title="Ato 2 · Estratégia" data-act="2">
+  {{TOPO}}
+  <div style="position:absolute;right:88px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:520px;line-height:.8;color:rgba(255,151,42,.10);letter-spacing:-.06em">02</div>
+  <div style="position:relative;margin-top:180px">
+    <span class="kicker"><span class="dot"></span>Ato 2</span>
+    <h2 class="h-mega mt24">Estratégia</h2>
+    <p class="lede" style="max-width:820px">O marketing da Soma não precisa gerar mais volume agora. <b style="color:#fff">Precisa provar retorno.</b> Tudo o que vem a seguir serve a isso.</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 24 TERRITÓRIO LIVRE -->
+<section class="slide paper" data-title="O território livre" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Posicionamento</span>
+  <h2 class="h2">O lugar que ninguém ocupa e que a Soma <em>já tem a chave.</em></h2>
+  <div class="grid mt24" style="grid-template-columns:1.15fr 1fr;gap:40px;align-items:center">
+    <svg viewBox="0 0 760 600" width="760" height="600" class="rv" aria-label="Diagrama do território livre">
+      <defs><radialGradient id="cg"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#FCEFE5"/></radialGradient></defs>
+      <circle cx="380" cy="300" r="250" fill="none" stroke="rgba(192,24,49,.18)" stroke-width="2" stroke-dasharray="4 8"/>
+      <circle cx="380" cy="300" r="160" fill="none" stroke="rgba(192,24,49,.25)" stroke-width="2"/>
+      <circle cx="380" cy="300" r="112" fill="url(#cg)" stroke="#fff" stroke-width="3"/>
+      <text x="380" y="282" text-anchor="middle" font-family="Tilt Warp DS" font-size="26" fill="#C01831">Um caminhão,</text>
+      <text x="380" y="314" text-anchor="middle" font-family="Tilt Warp DS" font-size="26" fill="#C01831">um pedido,</text>
+      <text x="380" y="346" text-anchor="middle" font-family="Tilt Warp DS" font-size="26" fill="#C01831">três frentes.</text>
+      <g font-family="Figtree DS">
+        <rect x="270" y="20" width="220" height="70" rx="18" fill="#fff"/><text x="380" y="50" text-anchor="middle" font-weight="800" font-size="17" fill="#0F0D0B">Insumos</text><text x="380" y="72" text-anchor="middle" font-size="14" fill="rgba(15,13,11,.6)">Tec Aves · Tropafort · minerais</text>
+        <rect x="560" y="420" width="190" height="70" rx="18" fill="#fff"/><text x="655" y="450" text-anchor="middle" font-weight="800" font-size="17" fill="#0F0D0B">Pet</text><text x="655" y="472" text-anchor="middle" font-size="14" fill="rgba(15,13,11,.6)">Degusté e linhas</text>
+        <rect x="10" y="420" width="190" height="70" rx="18" fill="#fff"/><text x="105" y="450" text-anchor="middle" font-weight="800" font-size="17" fill="#0F0D0B">EcOriginal</text><text x="105" y="472" text-anchor="middle" font-size="14" fill="rgba(15,13,11,.6)">pássaros e roedores</text>
+      </g>
+      <g stroke="#C01831" stroke-width="2.5" fill="none"><path d="M380 90 V188"/><path d="M560 450 L470 370"/><path d="M200 450 L290 370"/></g>
+      <g font-family="Kanit DS" font-weight="700" font-size="13" letter-spacing="1.6" fill="#C01831" text-anchor="middle"><text x="380" y="580">A ATÉ 100 KM · TOP 10 NACIONAL · APOIO NO PDV</text></g>
+    </svg>
+    <div class="grid" style="gap:16px">
+      <div class="glass pad rv"><div class="label">Guabi</div><p class="p mt8">Escala e tecnologia, mas fala com o criador e não tem pet regional.</p></div>
+      <div class="glass pad rv"><div class="label">Master · Ideal</div><p class="p mt8">Disputam preço e prazo no agro de Rio Pomba.</p></div>
+      <div class="glass pad rv"><div class="label">Quatree · Nutribiótica · Reino</div><p class="p mt8">Fortes com o consumidor final e nas grandes redes.</p></div>
+      <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff"><div class="label" style="color:rgba(255,255,255,.7)">Soma</div><p class="mt8" style="font-size:19px;line-height:1.4">A única fabricante regional que entrega <b>o mix inteiro</b> ao agropet, com frete curto e prova técnica. É isso que protege a Soma da regionalização das grandes.</p></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 25 PÚBLICOS -->
+<section class="slide paper" data-title="Públicos e papéis" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Com quem vamos falar</span>
+  <h2 class="h2">Quatro públicos, quatro papéis. <em>Só dois viram lead.</em></h2>
+  <div class="grid g4 mt40" style="gap:18px">
+    <div class="glass rv" style="padding:26px;background:linear-gradient(180deg,#C9203A,#9C0E25);color:#fff;min-height:540px">
+      <div class="num" style="font-size:80px;opacity:.95">1</div>
+      <div class="h3 mt16">Lojista<br>agropet completo</div>
+      <p class="mt16" style="font-size:16px;line-height:1.5;opacity:.9"><b>Rodrigo, 36</b>, gerente que decide a compra. ~14 t/mês. Fala com o representante pelo WhatsApp.</p>
+      <div class="mt24" style="font-size:15px;line-height:1.5;opacity:.85"><b>Dores:</b> muitos fornecedores, frete caro, balcão sem argumento.</div>
+      <div style="position:absolute;bottom:26px;left:26px;right:26px"><span class="pill w">Lead qualificado → pedido</span></div>
+    </div>
+    <div class="glass rv" style="padding:26px;min-height:540px;position:relative">
+      <div class="num red-t" style="font-size:80px">2</div>
+      <div class="h3 mt16">Produtor<br>de volume</div>
+      <p class="p mt16" style="font-size:16px"><b>Seu Antônio, 55</b>, leite na Zona da Mata. Pedido acima de 1 salário mínimo. Vê YouTube e confia em resultado de campo.</p>
+      <div class="mt24 small"><b>Dores:</b> custo da alimentação, queda de desempenho, atraso na entrega.</div>
+      <div style="position:absolute;bottom:26px;left:26px;right:26px"><span class="pill">Lead qualificado → pedido</span></div>
+    </div>
+    <div class="glass rv" style="padding:26px;min-height:540px;position:relative">
+      <div class="num" style="font-size:80px;color:var(--orange)">3</div>
+      <div class="h3 mt16">Tutor de<br>cão e gato</div>
+      <p class="p mt16" style="font-size:16px">Compra no agropet da cidade. Gera a demanda no balcão.</p>
+      <div class="mt24 small"><b>Regra do pet:</b> anúncio para o tutor só nas cidades onde a Degusté já está na prateleira.</div>
+      <div style="position:absolute;bottom:26px;left:26px;right:26px"><span class="pill o">Levar à loja parceira</span></div>
+    </div>
+    <div class="glass rv" style="padding:26px;min-height:540px;position:relative">
+      <div class="num" style="font-size:80px;color:var(--green)">4</div>
+      <div class="h3 mt16">Criador<br>de pássaros</div>
+      <p class="p mt16" style="font-size:16px">Especialista: conhece espécie, fase e mistura. Compra no marketplace ou na loja.</p>
+      <div class="mt24 small">Comunidade e autoridade de nicho: “Espécie a espécie”, “Criador em foco”.</div>
+      <div style="position:absolute;bottom:26px;left:26px;right:26px"><span class="pill g">Canal oficial / loja</span></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 26 HIPÓTESES -->
+<section class="slide paper" data-title="Hipóteses" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>O que vamos provar em 90 dias</span>
+  <h2 class="h2">Quatro hipóteses, <em>cada uma com seu teste.</em></h2>
+  <div class="grid g2 mt40" style="gap:20px">
+    <div class="glass pad rv"><div class="row" style="gap:20px;align-items:flex-start"><div class="num red-t" style="font-size:64px">H1</div><div><div class="h4" style="font-size:22px">O lead fraco é, na verdade, um lead misturado.</div><div class="mt16 row" style="gap:10px;align-items:center"><span class="pill k">Teste</span><span class="p" style="font-size:16px">Classificar 30 dias de leads no RD por perfil</span></div><div class="mt8 row" style="gap:10px;align-items:center"><span class="pill g">Prova</span><span class="p" style="font-size:16px">% de lojistas e produtores dentro dos 200/mês</span></div></div></div></div>
+    <div class="glass pad rv"><div class="row" style="gap:20px;align-items:flex-start"><div class="num red-t" style="font-size:64px">H2</div><div><div class="h4" style="font-size:22px">O representante não devolve porque dá trabalho, não por desinteresse.</div><div class="mt16 row" style="gap:10px;align-items:center"><span class="pill k">Teste</span><span class="p" style="font-size:16px">Piloto com retorno de 1 clique (WhatsApp/chatbot)</span></div><div class="mt8 row" style="gap:10px;align-items:center"><span class="pill g">Prova</span><span class="p" style="font-size:16px">≥ 60% dos leads do piloto com retorno</span></div></div></div></div>
+    <div class="glass pad rv"><div class="row" style="gap:20px;align-items:flex-start"><div class="num red-t" style="font-size:64px">H3</div><div><div class="h4" style="font-size:22px">A busca orgânica vem de quem já procura a marca, não a necessidade.</div><div class="mt16 row" style="gap:10px;align-items:center"><span class="pill k">Teste</span><span class="p" style="font-size:16px">Leitura do Search Console (marca × genérico)</span></div><div class="mt8 row" style="gap:10px;align-items:center"><span class="pill g">Prova</span><span class="p" style="font-size:16px">% de cliques em termos de marca</span></div></div></div></div>
+    <div class="glass pad rv"><div class="row" style="gap:20px;align-items:flex-start"><div class="num red-t" style="font-size:64px">H4</div><div><div class="h4" style="font-size:22px">O lojista escolhe a marca pet pelo giro e pelo apoio no PDV.</div><div class="mt16 row" style="gap:10px;align-items:center"><span class="pill k">Teste</span><span class="p" style="font-size:16px">Entrevista com 5 lojistas da curva A (raio 100 km)</span></div><div class="mt8 row" style="gap:10px;align-items:center"><span class="pill g">Prova</span><span class="p" style="font-size:16px">Critérios de escolha ranqueados pelos lojistas</span></div></div></div></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 27 FLUXO LEAD -->
+<section class="slide dark" data-title="Fluxo lead → pedido" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>O coração da estratégia</span>
+  <h2 class="h2">O caminho que o lead percorre, <em>do primeiro clique ao pedido.</em></h2>
+  <div class="mt48 rv" style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;position:relative">
+    <div style="position:absolute;left:6%;right:6%;top:58px;height:4px" class="bar-accent grow"></div>
+    <div style="text-align:center;position:relative;padding:0 10px"><div style="width:116px;height:116px;border-radius:50%;margin:0 auto;background:#2a221b;border:3px solid var(--orange);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:40px;color:var(--orange)">1</div><div class="h4 mt16" style="color:#fff">Anúncio, post ou site</div><p class="small mt8">Porta certa por perfil</p></div>
+    <div style="text-align:center;position:relative;padding:0 10px"><div style="width:116px;height:116px;border-radius:50%;margin:0 auto;background:#2a221b;border:3px solid var(--orange);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:40px;color:var(--orange)">2</div><div class="h4 mt16" style="color:#fff">Formulário que classifica</div><p class="small mt8">perfil · cidade · CNPJ · linha</p></div>
+    <div style="text-align:center;position:relative;padding:0 10px"><div style="width:116px;height:116px;border-radius:50%;margin:0 auto;background:#2a221b;border:3px solid var(--orange);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:40px;color:var(--orange)">3</div><div class="h4 mt16" style="color:#fff">RD Station</div><p class="small mt8">campos novos + nutrição</p></div>
+    <div style="text-align:center;position:relative;padding:0 10px"><div style="width:116px;height:116px;border-radius:50%;margin:0 auto;background:#2a221b;border:3px solid var(--orange);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:40px;color:var(--orange)">4</div><div class="h4 mt16" style="color:#fff">Chatbot da TI</div><p class="small mt8">distribui por região e linha</p></div>
+    <div style="text-align:center;position:relative;padding:0 10px"><div style="width:116px;height:116px;border-radius:50%;margin:0 auto;background:#2a221b;border:3px solid var(--orange);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:40px;color:var(--orange)">5</div><div class="h4 mt16" style="color:#fff">Representante certo</div><p class="small mt8">recebe já qualificado</p></div>
+    <div style="text-align:center;position:relative;padding:0 10px"><div style="width:116px;height:116px;border-radius:50%;margin:0 auto;background:var(--red);border:3px solid #fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:40px;color:#fff">6</div><div class="h4 mt16" style="color:#fff">Retorno de 1 clique</div><p class="small mt8">virou pedido? sim / não / depois</p></div>
+  </div>
+  <div class="grid g3 mt48" style="gap:18px">
+    <div class="glass pad rv"><div class="label">Muda para o representante</div><p class="p mt8">Recebe só o lead dele, com cidade e CNPJ. Responde com <b>um toque</b> no WhatsApp.</p></div>
+    <div class="glass pad rv"><div class="label">Muda para o marketing</div><p class="p mt8">Pedido vira conversão no Meta e no Google. A mídia passa a otimizar para venda, não para clique.</p></div>
+    <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25)"><div class="label" style="color:rgba(255,255,255,.7)">Indicador norte</div><p class="mt8" style="font-size:22px;line-height:1.35;color:#fff"><b>Taxa de lead que vira pedido registrado.</b> Primeira leitura no dia 60.</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 28 MÍDIA -->
+<section class="slide paper" data-title="Mídia paga" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Mídia paga · entra depois do fluxo organizado</span>
+  <h2 class="h2">Google <em>captura</em> quem já procura. Meta <em>cria</em> procura no raio de 100 km.</h2>
+  <div class="grid mt32" style="grid-template-columns:1.1fr 1fr;gap:48px;align-items:start">
+    <div class="rv">
+      <div class="label">Proposta de verba mensal · R$ 3.000 → R$ 3.400</div>
+      <div class="mt24" style="display:flex;flex-direction:column;gap:22px">
+        <div><div class="row" style="justify-content:space-between"><b>Validar · meses 1–2</b><span class="num" style="font-size:24px">R$ 3.000</span></div>
+          <div style="display:flex;height:46px;border-radius:12px;overflow:hidden;margin-top:10px" class="grow">
+            <div style="width:30%;background:#C01831" title="Meta Lead Lojista R$900"></div><div style="width:6.7%;background:#E0413E"></div><div style="width:16.7%;background:#F27A6E"></div><div style="width:21.7%;background:#2B231C"></div><div style="width:8.3%;background:#5A4A3C"></div><div style="width:16.7%;background:#8C7A6B"></div>
+          </div></div>
+        <div><div class="row" style="justify-content:space-between"><b>Otimizar · meses 3–4</b><span class="num" style="font-size:24px">R$ 3.400+</span></div>
+          <div style="display:flex;height:46px;border-radius:12px;overflow:hidden;margin-top:10px;width:100%" class="grow">
+            <div style="width:26.5%;background:#C01831"></div><div style="width:7.4%;background:#E0413E"></div><div style="width:26.5%;background:#F27A6E"></div><div style="width:19.1%;background:#2B231C"></div><div style="width:5.9%;background:#5A4A3C"></div><div style="width:14.7%;background:#8C7A6B"></div>
+          </div></div>
+      </div>
+      <div class="grid g3 mt24" style="gap:10px;font-size:14.5px">
+        <div class="row" style="gap:8px;align-items:center"><i style="width:14px;height:14px;border-radius:4px;background:#C01831;display:block"></i>Meta · Lojista</div>
+        <div class="row" style="gap:8px;align-items:center"><i style="width:14px;height:14px;border-radius:4px;background:#E0413E;display:block"></i>Meta · Remarketing</div>
+        <div class="row" style="gap:8px;align-items:center"><i style="width:14px;height:14px;border-radius:4px;background:#F27A6E;display:block"></i>Meta · Produtor</div>
+        <div class="row" style="gap:8px;align-items:center"><i style="width:14px;height:14px;border-radius:4px;background:#2B231C;display:block"></i>Google · Lojista</div>
+        <div class="row" style="gap:8px;align-items:center"><i style="width:14px;height:14px;border-radius:4px;background:#5A4A3C;display:block"></i>Google · Marca</div>
+        <div class="row" style="gap:8px;align-items:center"><i style="width:14px;height:14px;border-radius:4px;background:#8C7A6B;display:block"></i>Google · Produtor</div>
+      </div>
+      <div class="glass pad mt24" style="display:flex;gap:22px;align-items:center"><div class="num red-t" style="font-size:52px">85%</div><p class="p">da verba no raio de 100 km. 15% no anel de 100 a 200 km, só no Google e só com termos de atacado.</p></div>
+    </div>
+    <div class="rv">
+      <div class="label">Regras de decisão</div>
+      <div class="grid mt16" style="gap:12px">
+        <div class="glass" style="padding:16px 20px;display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center"><span class="pill">Pausar</span><span class="p" style="font-size:16px">Gastou 2× o custo por lead alvo sem nenhum lead</span></div>
+        <div class="glass" style="padding:16px 20px;display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center"><span class="pill g">Escalar</span><span class="p" style="font-size:16px">Custo no alvo e ≥ 50% de leads bons por 14 dias: +20% a cada 7 dias</span></div>
+        <div class="glass" style="padding:16px 20px;display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center"><span class="pill o">Ajustar</span><span class="p" style="font-size:16px">Muito lead e pouco lojista no raio: formulário e ângulo antes da verba</span></div>
+        <div class="glass" style="padding:16px 20px;display:grid;grid-template-columns:110px 1fr;gap:14px;align-items:center"><span class="pill k">Rever</span><span class="p" style="font-size:16px">Lead → pedido abaixo de 5% em 60 dias: oferta e abordagem com o comercial</span></div>
+      </div>
+      <div class="glass pad mt16" style="background:linear-gradient(160deg,#C9203A,#9C0E25);color:#fff"><p style="font-size:19px;line-height:1.4"><b>14 t/mês</b> é o que compra um agropet completo. Um único cliente desse perfil paga meses de mídia.</p></div>
+    </div>
+  </div>
+  <div class="src">Verba de mídia ainda não definida pela Soma; valores são proposta da Uai Sô!. Mídia começa no dia 91, se aprovada.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 29 CAMPANHAS META -->
+<section class="slide paper" data-title="Campanhas Meta e Google" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Estrutura de campanhas</span>
+  <h2 class="h2">Uma campanha por papel, <em>com o lojista primeiro.</em></h2>
+  <div class="grid g2 mt32" style="gap:28px">
+    <div class="rv">
+      <div class="row" style="gap:10px;align-items:center"><span class="pill">Meta Ads</span><span class="small">cria demanda</span></div>
+      <table class="t mt16" style="font-size:15.5px">
+        <tr><th>Campanha</th><th>Mensagem</th><th>Fase</th></tr>
+        <tr><td class="strong">[LEAD] Lojista · Raio 100</td><td>Um ângulo por objeção: estoque, prazo, giro/PDV, Top 10</td><td><span class="pill">Validar</span></td></tr>
+        <tr><td class="strong">[RMK] Aquecimento</td><td>Depoimento de lojista e bastidores da fábrica</td><td><span class="pill">Validar</span></td></tr>
+        <tr><td class="strong">[LEAD] Produtor</td><td>Resultado de campo: Tec Aves, Tropafort, Pegasus</td><td><span class="pill o">Otimizar</span></td></tr>
+        <tr><td class="strong">[LOCAL] Onde encontrar</td><td>“Tem Degusté na loja da sua cidade”</td><td><span class="pill g">Escalar</span></td></tr>
+        <tr><td class="strong">[PARCERIA] EcOriginal</td><td>Anúncio com criadores que já fazem collab</td><td><span class="pill g">Escalar</span></td></tr>
+      </table>
+    </div>
+    <div class="rv">
+      <div class="row" style="gap:10px;align-items:center"><span class="pill k">Google Ads</span><span class="small">captura demanda</span></div>
+      <table class="t mt16" style="font-size:15.5px">
+        <tr><th>Campanha</th><th>Geo</th><th>Fase</th></tr>
+        <tr><td class="strong">[SEARCH] Lojista / Revenda</td><td>100 km + anel 200 km</td><td><span class="pill">Validar</span></td></tr>
+        <tr><td class="strong">[SEARCH] Marca</td><td>200 km</td><td><span class="pill">Validar</span></td></tr>
+        <tr><td class="strong">[SEARCH] Produtor</td><td>100 km</td><td><span class="pill o">Otimizar</span></td></tr>
+        <tr><td class="strong">[DEMAND GEN] YouTube</td><td>100 km</td><td><span class="pill g">Escalar</span></td></tr>
+      </table>
+      <div class="glass pad mt24" style="padding:18px 22px"><div class="label">Formulário instantâneo</div><div class="row mt16" style="gap:8px;flex-wrap:wrap"><span class="pill k">Perfil</span><span class="pill k">Cidade</span><span class="pill k">CNPJ</span><span class="pill k">Linha de interesse</span><span class="pill">→ RD Station</span></div></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 30 CONTEÚDO -->
+<section class="slide paper" data-title="Conteúdo e editorias" data-act="2">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Conteúdo · design system ilustrativo + editorias fixas</span>
+  <h2 class="h2">Quatro linhas editoriais, <em>desdobradas por frente.</em></h2>
+  <div class="mt32 rv" style="display:grid;grid-template-columns:240px repeat(4,1fr);gap:10px;font-size:15.5px">
+    <div></div>
+    <div class="glass" style="padding:16px;background:var(--red);color:#fff"><div class="h4" style="font-size:17px">Nutrição que dá resultado</div><div style="font-size:13px;opacity:.8;margin-top:4px">topo/meio · autoridade</div></div>
+    <div class="glass" style="padding:16px;background:var(--ink-2);color:#fff"><div class="h4" style="font-size:17px">Parceiro do lojista</div><div style="font-size:13px;opacity:.8;margin-top:4px">meio/fundo · gera lead</div></div>
+    <div class="glass" style="padding:16px;background:var(--green);color:#fff"><div class="h4" style="font-size:17px">Feito em Rio Pomba</div><div style="font-size:13px;opacity:.8;margin-top:4px">topo · confiança</div></div>
+    <div class="glass" style="padding:16px;background:var(--orange);color:#2B231C"><div class="h4" style="font-size:17px">Pet e pássaros com quem entende</div><div style="font-size:13px;opacity:.8;margin-top:4px">topo/meio · demanda no balcão</div></div>
+
+    <div class="label" style="display:flex;align-items:center">Insumos</div>
+    <div class="glass" style="padding:14px">Resultado de campo · Por dentro da fórmula</div>
+    <div class="glass" style="padding:14px">Balcão agro</div>
+    <div class="glass" style="padding:14px">Manejo do mês · Pergunte ao técnico</div>
+    <div class="glass" style="padding:14px;opacity:.45">—</div>
+
+    <div class="label" style="display:flex;align-items:center">Pet</div>
+    <div class="glass" style="padding:14px">Fase a fase</div>
+    <div class="glass" style="padding:14px"><b>Na prateleira</b> (lojista e balconista)</div>
+    <div class="glass" style="padding:14px;opacity:.45">—</div>
+    <div class="glass" style="padding:14px">Tutor de verdade · Bem-estar em casa · <b>Onde encontrar</b></div>
+
+    <div class="label" style="display:flex;align-items:center">EcOriginal</div>
+    <div class="glass" style="padding:14px">Semente explicada</div>
+    <div class="glass" style="padding:14px">Onde encontrar (loja e marketplace)</div>
+    <div class="glass" style="padding:14px;opacity:.45">—</div>
+    <div class="glass" style="padding:14px">Espécie a espécie · Criador em foco</div>
+
+    <div class="label" style="display:flex;align-items:center">Institucional</div>
+    <div class="glass" style="padding:14px">Soma no mercado</div>
+    <div class="glass" style="padding:14px;opacity:.45">—</div>
+    <div class="glass" style="padding:14px">Feito em Rio Pomba · Gente Soma (vagas)</div>
+    <div class="glass" style="padding:14px;opacity:.45">—</div>
+  </div>
+  <div class="grid g3 mt24" style="gap:18px">
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Volume mensal</div><p class="p mt8">12 posts · 4 LinkedIn · 2 blogs · 2 vídeos · 2 e-mails</p></div>
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Design system</div><p class="p mt8">Logo Soma em tudo, verde-mãe + 1 cor por frente, ilustração própria</p></div>
+    <div class="glass pad rv" style="padding:18px 22px"><div class="label">Templates editáveis</div><p class="p mt8">Carrossel técnico, dica, case, produto, reels, stories “onde encontrar”, vaga, placa PDV</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span class="cur">Estratégia</span><span>Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 31 DIVISOR ATO 3 -->
+<section class="slide red" data-title="Ato 3 · Plano de ação" data-act="3">
+  {{TOPO}}
+  <div style="position:absolute;right:88px;top:50%;transform:translateY(-50%);font-family:var(--display);font-size:520px;line-height:.8;color:rgba(255,255,255,.08);letter-spacing:-.06em">90</div>
+  <div style="position:relative;margin-top:180px">
+    <span class="kicker"><span class="dot"></span>Ato 3</span>
+    <h2 class="h-mega mt24">Plano de ação<br><em>de 90 dias</em></h2>
+    <p class="lede" style="max-width:820px">Um checklist do que vamos cumprir, fase por fase. Cada item tem dono, prazo e critério de pronto.</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 32 ROADMAP -->
+<section class="slide paper" data-title="Roadmap 90 dias" data-act="3">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Visão geral · 26/10/2026 a 23/01/2027</span>
+  <h2 class="h2">Diagnosticar, desenhar, implantar, <em>medir.</em></h2>
+  <div class="glass mt40 rv" style="padding:30px 34px">
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0">
+      <div></div>
+      <div style="display:grid;grid-template-columns:repeat(13,1fr);font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.1em;color:var(--ink-mute);border-bottom:1px solid var(--line);padding-bottom:8px">
+        <span>26/10</span><span>02/11</span><span>09/11</span><span>16/11</span><span>23/11</span><span>30/11</span><span>07/12</span><span>14/12</span><span>21/12</span><span>28/12</span><span>04/01</span><span>11/01</span><span>18/01</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0;align-items:center;margin-top:18px">
+      <div><b>Fase 0</b><div class="small">Diagnóstico e alinhamento</div></div>
+      <div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:0;width:16%;top:0;bottom:0;border-radius:12px;background:var(--ink-2);color:#fff;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 1–15</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0;align-items:center;margin-top:16px">
+      <div><b>Fase 1</b><div class="small">Desenhar o fluxo</div></div>
+      <div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:16%;width:34%;top:0;bottom:0;border-radius:12px;background:var(--red);color:#fff;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 16–45</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0;align-items:center;margin-top:16px">
+      <div><b>Fase 2</b><div class="small">Implantar</div></div>
+      <div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:50%;width:33%;top:0;bottom:0;border-radius:12px;background:#E0413E;color:#fff;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 46–75</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0;align-items:center;margin-top:16px">
+      <div><b>Fase 3</b><div class="small">Medir</div></div>
+      <div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:83%;width:17%;top:0;bottom:0;border-radius:12px;background:var(--orange);color:#2B231C;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 76–90</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:0;align-items:center;margin-top:16px">
+      <div><b>Contínuo</b><div class="small">Conteúdo mensal</div></div>
+      <div style="position:relative;height:30px"><div style="position:absolute;left:0;right:0;top:6px;height:18px;border-radius:999px;background:repeating-linear-gradient(90deg,rgba(47,125,79,.35) 0 22px,rgba(47,125,79,.15) 22px 30px)"></div></div>
+    </div>
+  </div>
+  <div class="grid g4 mt32" style="gap:18px">
+    <div class="rv"><div class="label">Marco · dia 15</div><p class="p mt8"><b>Prioridades aprovadas</b> e acessos em mãos</p></div>
+    <div class="rv"><div class="label">Marco · dia 45</div><p class="p mt8"><b>Fluxo documentado</b> e aprovado com o comercial</p></div>
+    <div class="rv"><div class="label">Marco · dia 75</div><p class="p mt8"><b>Leads classificados</b> chegando ao representante certo</p></div>
+    <div class="rv"><div class="label">Marco · dia 90</div><p class="p mt8"><b>Primeira leitura</b> lead → pedido e plano de mídia</p></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 33 FASE 0 -->
+<section class="slide paper" data-title="Checklist · Fase 0" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 0 · dias 1 a 15 · 26/10 a 09/11</span><h2 class="h2">Diagnóstico e alinhamento</h2><p class="lede" style="font-size:19px;margin-top:10px">Entender o cenário real, validar prioridades com a presidência e preparar o terreno para medir.</p></div>
+    <div class="phase-n">0</div>
+  </div>
+  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f0">
+    <div class="ck"><div class="bx"></div><div class="tx">Levantar acessos: Instagram, Meta Business, Google Ads, GA4, Search Console, site, LinkedIn e RD<small>Pronto quando: todos os logins testados e registrados no cofre</small></div><span class="who j">Juntos</span><span class="dt">até 02/11</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Criar workspace no eKyte e projeto no Reportei<small>Pronto quando: Soma recebe convite e vê o painel</small></div><span class="who u">Uai Sô!</span><span class="dt">até 02/11</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Receber da Soma: personas, base do RD, praças fortes de PDV, manual de marca, catálogos, jornal e PPTs<small>Pronto quando: pasta compartilhada completa</small></div><span class="who s">Soma</span><span class="dt">até 06/11</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Apresentar este diagnóstico presencialmente em Rio Pomba<small>Pronto quando: prioridades dos 90 dias aprovadas pela presidência</small></div><span class="who j">Juntos</span><span class="dt">05 a 09/11</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Completar o raio-x com GA4 e Search Console (tráfego, origem, termos de marca × genéricos)<small>Pronto quando: linha de base registrada no Reportei</small></div><span class="who u">Uai Sô!</span><span class="dt">até 09/11</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Definir o responsável da Soma por aprovar conteúdo e responder pelo comercial<small>Pronto quando: nomes no SLA</small></div><span class="who s">Soma</span><span class="dt">até 09/11</span></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 34 FASE 1 -->
+<section class="slide paper" data-title="Checklist · Fase 1" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 1 · dias 16 a 45 · 10/11 a 09/12</span><h2 class="h2">Desenhar o fluxo</h2><p class="lede" style="font-size:19px;margin-top:10px">Desenhar com o comercial o caminho do lead até o pedido e preparar a comunicação para o lojista.</p></div>
+    <div class="phase-n">1</div>
+  </div>
+  <div class="grid g2 mt16" style="gap:20px">
+    <div class="glass rv" style="padding:6px 22px" data-ck="f1a">
+      <div class="label" style="padding:14px 4px 4px">Fluxo e dados</div>
+      <div class="ck"><div class="bx"></div><div class="tx">Workshop do fluxo com comercial e TI<small>Mapa lead → pedido aprovado</small></div><span class="who j">Juntos</span><span class="dt">até 20/11</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Definir o que é lead qualificado (por perfil)<small>Critérios escritos, 1 página</small></div><span class="who j">Juntos</span><span class="dt">até 20/11</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Criar no RD os campos perfil, cidade, CNPJ e linha<small>Campos ativos nos formulários</small></div><span class="who u">Uai Sô!</span><span class="dt">até 27/11</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Classificar 30 dias de leads por perfil (H1)<small>Planilha com % por perfil</small></div><span class="who u">Uai Sô!</span><span class="dt">até 09/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Escolher grupo-piloto de representantes<small>5 a 10 nomes confirmados</small></div><span class="who s">Soma</span><span class="dt">até 04/12</span></div>
+    </div>
+    <div class="glass rv" style="padding:6px 22px" data-ck="f1b">
+      <div class="label" style="padding:14px 4px 4px">Marca e conteúdo</div>
+      <div class="ck"><div class="bx"></div><div class="tx">Decidir marcas pet a comunicar e a marca-herói<small>Decisão registrada em ata</small></div><span class="who s">Soma</span><span class="dt">até 27/11</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Design system v1: logo, paleta, tipografia, ilustração<small>Guia aprovado</small></div><span class="who u">Uai Sô!</span><span class="dt">até 04/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Editorias e calendário de dezembro com conteúdo para o lojista<small>Calendário aprovado</small></div><span class="who u">Uai Sô!</span><span class="dt">até 25/11</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Destaques “Onde encontrar” no @somapetfood e @somaecoriginal<small>Lista de lojas por cidade publicada</small></div><span class="who j">Juntos</span><span class="dt">até 09/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Entrevistar 5 lojistas da curva A (H4)<small>Roteiro + síntese</small></div><span class="who j">Juntos</span><span class="dt">até 09/12</span></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 35 FASE 2 -->
+<section class="slide paper" data-title="Checklist · Fase 2" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 2 · dias 46 a 75 · 10/12 a 08/01</span><h2 class="h2">Implantar</h2><p class="lede" style="font-size:19px;margin-top:10px">Colocar o fluxo para funcionar com os leads orgânicos que já chegam.</p></div>
+    <div class="phase-n">2</div>
+  </div>
+  <div class="grid g2 mt16" style="gap:20px">
+    <div class="glass rv" style="padding:6px 22px" data-ck="f2a">
+      <div class="label" style="padding:14px 4px 4px">Fluxo no ar</div>
+      <div class="ck"><div class="bx"></div><div class="tx">Formulários do site e Instagram separando lojista, produtor e tutor<small>Teste de ponta a ponta OK</small></div><span class="who j">Juntos</span><span class="dt">até 17/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Integração RD → chatbot da TI → representante<small>Lead chega ao rep certo em &lt; 1h</small></div><span class="who s">Soma (TI)</span><span class="dt">até 19/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Piloto do retorno de 1 clique (H2)<small>Reps do piloto usando</small></div><span class="who j">Juntos</span><span class="dt">até 19/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Fluxos de nutrição e e-mails para lojistas no RD<small>2 fluxos ativos</small></div><span class="who u">Uai Sô!</span><span class="dt">até 08/01</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Pixel/API de conversões e evento “pedido” mapeados<small>Plano de tracking documentado</small></div><span class="who u">Uai Sô!</span><span class="dt">até 08/01</span></div>
+    </div>
+    <div class="glass rv" style="padding:6px 22px" data-ck="f2b">
+      <div class="label" style="padding:14px 4px 4px">Comunicação no ar</div>
+      <div class="ck"><div class="bx"></div><div class="tx">Templates editáveis entregues com guia rápido<small>Equipe Soma produz 1 peça sozinha</small></div><span class="who u">Uai Sô!</span><span class="dt">até 17/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Kit de co-marketing Degusté para lojistas-piloto<small>3 artes com espaço para preço/endereço</small></div><span class="who u">Uai Sô!</span><span class="dt">até 19/12</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Placas de PDV ligadas à campanha do mês<small>Entregues em 2 lojas parceiras</small></div><span class="who j">Juntos</span><span class="dt">até 08/01</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Briefing e copy da página do lojista no site<small>Pronto para o dev (se aprovado)</small></div><span class="who u">Uai Sô!</span><span class="dt">até 08/01</span></div>
+      <div class="ck"><div class="bx"></div><div class="tx">Primeiro vídeo “Resultado de campo”<small>Captação em JF + edição publicada</small></div><span class="who u">Uai Sô!</span><span class="dt">até 08/01</span></div>
+    </div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 36 FASE 3 -->
+<section class="slide paper" data-title="Checklist · Fase 3" data-act="3">
+  {{TOPO}}
+  <div class="phase-head">
+    <div><span class="kicker"><span class="dot"></span>Fase 3 · dias 76 a 90 · 09/01 a 23/01</span><h2 class="h2">Medir</h2><p class="lede" style="font-size:19px;margin-top:10px">Transformar o que foi implantado na primeira leitura real de resultado.</p></div>
+    <div class="phase-n" style="color:var(--orange)">3</div>
+  </div>
+  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f3">
+    <div class="ck"><div class="bx"></div><div class="tx">Primeira análise de conversão lead → pedido (por perfil e por representante)<small>Pronto quando: número oficial registrado e validado com o comercial</small></div><span class="who u">Uai Sô!</span><span class="dt">até 16/01</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Checar as 4 hipóteses: confirmada, refutada ou ajustada<small>Pronto quando: quadro H1–H4 com evidência</small></div><span class="who u">Uai Sô!</span><span class="dt">até 16/01</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Relatório de 90 dias: o que funcionou, o que ajustar<small>Pronto quando: apresentado à presidência</small></div><span class="who u">Uai Sô!</span><span class="dt">até 23/01</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Plano de mídia paga pronto para o dia 91 (campanhas, criativos, verba, regras)<small>Pronto quando: campanhas montadas em rascunho</small></div><span class="who u">Uai Sô!</span><span class="dt">até 23/01</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Decisão da Soma sobre investir em mídia e em desenvolvimento web<small>Pronto quando: verba aprovada ou adiada com data</small></div><span class="who s">Soma</span><span class="dt">até 23/01</span></div>
+    <div class="ck"><div class="bx"></div><div class="tx">Revisão trimestral de editorias, formatos e distribuição de posts<small>Pronto quando: calendário de fevereiro ajustado</small></div><span class="who j">Juntos</span><span class="dt">até 23/01</span></div>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 37 KPIs -->
+<section class="slide dark" data-title="Como saberemos que deu certo" data-act="3">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Painel do dia 90</span>
+  <h2 class="h2">Como saberemos que <em>deu certo.</em></h2>
+  <div class="grid g3 mt40" style="gap:20px">
+    <div class="glass pad rv"><div class="label">Leads classificados</div><div class="num or-t mt16" style="font-size:76px">100%</div><p class="p mt8">dos leads novos com perfil, cidade e linha</p></div>
+    <div class="glass pad rv"><div class="label">Retorno do representante</div><div class="num or-t mt16" style="font-size:76px">≥ 60%</div><p class="p mt8">dos leads do piloto com resposta registrada</p></div>
+    <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25)"><div class="label" style="color:rgba(255,255,255,.75)">Indicador norte</div><div class="num mt16" style="font-size:76px;color:#fff">1ª leitura</div><p class="p mt8" style="color:rgba(255,255,255,.85)">taxa lead → pedido registrada (linha de base)</p></div>
+    <div class="glass pad rv"><div class="label">Leads de lojista</div><div class="num or-t mt16" style="font-size:76px">base</div><p class="p mt8">volume mensal de leads perfil lojista no raio de 100 km</p></div>
+    <div class="glass pad rv"><div class="label">Onde encontrar</div><div class="num or-t mt16" style="font-size:76px">cliques</div><p class="p mt8">em “onde encontrar” e WhatsApp, por segmento</p></div>
+    <div class="glass pad rv"><div class="label">Produção da equipe Soma</div><div class="num or-t mt16" style="font-size:76px">no padrão</div><p class="p mt8">peças aprovadas na revisão sem refação de layout</p></div>
+  </div>
+  <div class="src">Metas de volume serão fixadas após a linha de base da Fase 0 (GA4, Search Console e RD).</div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 38 ALÉM DO ESCOPO -->
+<section class="slide paper" data-title="Além do escopo" data-act="3">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Além do escopo contratado</span>
+  <h2 class="h2">Quatro bloqueios que encontramos e <em>quem pode resolver cada um.</em></h2>
+  <p class="lede" style="font-size:19px">Não fazem parte do contrato atual, mas travam o resultado. Mostramos aqui para a Soma decidir com clareza: resolver internamente, orçar à parte ou deixar para depois.</p>
+  <table class="t mt24 rv" style="font-size:16.5px">
+    <tr><th style="width:22%">O que encontramos</th><th style="width:30%">Por que trava o resultado</th><th style="width:20%">Quem resolve</th><th>Próximo passo sugerido</th></tr>
+    <tr><td class="strong">Site sem WhatsApp, sem “onde comprar” e com links quebrados</td><td>Quem chega não tem para onde ir. O lojista não tem porta própria.</td><td><span class="pill k">Dev web</span></td><td>Uai Sô! entrega briefing e copy; orçamento de dev à parte</td></tr>
+    <tr><td class="strong">Chatbot distribui, mas ninguém qualifica antes</td><td>O representante recebe lead cru e desiste.</td><td><span class="pill s" style="background:var(--green-soft);color:var(--green)">TI Soma</span> <span class="pill">Uai Sô!</span></td><td>Avaliar módulo de SDR e atendimento após o piloto</td></tr>
+    <tr><td class="strong">ERP sem CPF, CNPJ ou e-mail</td><td>Impede cruzar lead com venda de forma automática.</td><td><span class="pill" style="background:var(--green-soft);color:var(--green)">TI Soma</span></td><td>Projeto de dados com a TI; Uai Sô! apoia o desenho</td></tr>
+    <tr><td class="strong">Falta foto real de fábrica, laboratório e campo</td><td>A voz do Sábio (prova técnica) precisa de imagem própria.</td><td><span class="pill k">Produção foto</span></td><td>Orçar uma diária de fotografia em Rio Pomba</td></tr>
+  </table>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 39 RITO E SLA -->
+<section class="slide paper" data-title="Rito e SLA" data-act="3">
+  {{TOPO}}
+  <span class="kicker"><span class="dot"></span>Como vamos trabalhar juntos</span>
+  <h2 class="h2">Do planejamento à publicação <em>em até 15 dias úteis.</em></h2>
+  <div class="mt40 rv" style="display:grid;grid-template-columns:repeat(7,1fr);gap:12px">
+    <div class="glass" style="padding:18px"><div class="label">1</div><div class="h4 mt8" style="font-size:17px">Planejamento mensal</div><p class="small mt8">Uai Sô! · mensal</p></div>
+    <div class="glass" style="padding:18px;background:var(--green-soft)"><div class="label">2</div><div class="h4 mt8" style="font-size:17px">Aprovação do plano</div><p class="small mt8">Soma · 48h úteis</p></div>
+    <div class="glass" style="padding:18px"><div class="label">3</div><div class="h4 mt8" style="font-size:17px">Textos</div><p class="small mt8">Uai Sô! · 3 dias úteis</p></div>
+    <div class="glass" style="padding:18px"><div class="label">4</div><div class="h4 mt8" style="font-size:17px">Artes</div><p class="small mt8">Design · 3 dias úteis</p></div>
+    <div class="glass" style="padding:18px"><div class="label">5</div><div class="h4 mt8" style="font-size:17px">Revisão + aprovação interna</div><p class="small mt8">Uai Sô! · 2 dias úteis</p></div>
+    <div class="glass" style="padding:18px;background:var(--green-soft)"><div class="label">6</div><div class="h4 mt8" style="font-size:17px">Aprovação final</div><p class="small mt8">Soma · 48h úteis</p></div>
+    <div class="glass" style="padding:18px;background:var(--red);color:#fff"><div class="label" style="color:rgba(255,255,255,.7)">7</div><div class="h4 mt8" style="font-size:17px">Agendamento</div><p class="mt8" style="font-size:14px;opacity:.8">5 dias antes</p></div>
+  </div>
+  <div class="grid g3 mt40" style="gap:20px">
+    <div class="glass pad rv"><div class="label">Semanal</div><p class="p mt8">Leitura de mídia e de leads (quando a mídia estiver ativa)</p></div>
+    <div class="glass pad rv"><div class="label">Mensal</div><p class="p mt8">Relatório por segmento: alcance, salvamentos, cliques em “onde encontrar”, WhatsApp e leads por perfil</p></div>
+    <div class="glass pad rv"><div class="label">Trimestral</div><p class="p mt8">Revisão de editorias, formatos e distribuição de posts com base nos dados</p></div>
+  </div>
+  <div class="src">Responsáveis nominais de revisão e aprovação a confirmar na Fase 0.</div>
+  <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
+</section>
+
+<!-- ======================================================= 40 FECHAMENTO -->
+<section class="slide dark" data-title="Encerramento" data-act="3">
+  {{TOPO}}
+  <div style="position:absolute;right:0;top:0;bottom:0;width:700px;background:url({{IMG:mascote.jpg}}) right bottom/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 35%);mask-image:linear-gradient(90deg,transparent 0%,#000 35%)"></div>
+  <div style="position:relative;max-width:860px;margin-top:120px">
+    <span class="kicker"><span class="dot"></span>Em uma frase</span>
+    <h2 class="h1 mt24">Nos próximos 90 dias, o marketing da Soma <em>deixa de ser gasto</em> e passa a ter número para mostrar.</h2>
+    <div class="row mt40" style="gap:14px;flex-wrap:wrap">
+      <span class="pill w">Lead classificado</span><span class="pill w">Retorno de 1 clique</span><span class="pill w">Degusté perto do lojista</span><span class="pill w">Mídia com regra</span>
+    </div>
+    <p class="lede mt40" style="font-size:20px">Próximo passo: aprovar as prioridades da Fase 0 e as três decisões da Soma (marcas pet, grupo-piloto e responsável).</p>
+  </div>
+  <div class="foot"><img src="{{IMG:logo_white.png}}" alt="Uai Sô! Marketing com porquê"></div>
+</section>
+
+</div></div>
+
+<div id="ui"><div id="prog"></div></div>
+<div id="counter"></div>
+<div id="hint">← → navegar · G índice · P imprimir/PDF</div>
+<button class="navbtn" id="prev" aria-label="Anterior">‹</button>
+<button class="navbtn" id="next" aria-label="Próximo">›</button>
+<div id="grid" aria-label="Índice de slides"></div>
+
+<style>
+.mk{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:inline-flex;align-items:center;justify-content:center;font-style:normal;box-shadow:0 4px 10px -2px rgba(0,0,0,.25)}
+.mk.st{position:static;flex:none;width:32px;height:32px;font-size:16px}
+</style>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var stage=document.getElementById('stage');
+  var i=0;
+  function fit(){var s=Math.min(window.innerWidth/1600,window.innerHeight/900);stage.style.transform='scale('+s+')';}
+  window.addEventListener('resize',fit);fit();
+  function go(n){
+    n=Math.max(0,Math.min(slides.length-1,n));
+    slides[i].classList.remove('on');i=n;slides[i].classList.add('on');
+    document.getElementById('prog').style.width=((i+1)/slides.length*100)+'%';
+    document.getElementById('counter').textContent=(i+1)+' / '+slides.length;
+    try{history.replaceState(null,'','#'+(i+1));}catch(e){}
+  }
+  var start=parseInt((location.hash||'').slice(1),10);
+  slides[0].classList.add('on');go(isNaN(start)?0:start-1);
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.getElementById('next').onclick=function(){go(i+1)};
+  var grid=document.getElementById('grid');
+  slides.forEach(function(s,k){var b=document.createElement('button');b.innerHTML='<span>'+String(k+1).padStart(2,'0')+'</span>'+s.getAttribute('data-title');b.onclick=function(){grid.classList.remove('open');go(k)};grid.appendChild(b);});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1)}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}
+    else if(e.key==='Home')go(0);else if(e.key==='End')go(slides.length-1);
+    else if(e.key==='g'||e.key==='G')grid.classList.toggle('open');
+    else if(e.key==='Escape')grid.classList.remove('open');
+    else if(e.key==='p'||e.key==='P')window.print();
+  });
+  var tx=null;document.addEventListener('touchstart',function(e){tx=e.touches[0].clientX},{passive:true});
+  document.addEventListener('touchend',function(e){if(tx===null)return;var d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)go(i+(d<0?1:-1));tx=null});
+  // checklist (memória local, só neste navegador)
+  var KEY='soma-diag-checklist';var st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+  document.querySelectorAll('[data-ck]').forEach(function(box){
+    box.querySelectorAll('.ck').forEach(function(row,k){
+      var id=box.getAttribute('data-ck')+'-'+k;if(st[id])row.classList.add('done');
+      row.addEventListener('click',function(){row.classList.toggle('done');st[id]=row.classList.contains('done');try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}});
+    });
+  });
+})();
+</script>
+</body>
+</html>
