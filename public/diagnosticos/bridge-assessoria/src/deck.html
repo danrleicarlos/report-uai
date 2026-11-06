@@ -188,6 +188,7 @@ body:hover .navbtn{opacity:.8}
 :root{--bz-deep:#0C2340;--bz-navy:#16395E;--bz-sky:#5E8AB4;--bz-mist:#DBE2E9;--bz-sand:#F5F1EA;--bz-graph:#333F48;--bz-or:#ED832E}
 .mk{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--display);font-size:14px;display:inline-flex;align-items:center;justify-content:center;font-style:normal}
 .mk.st{position:static;flex:none;width:32px;height:32px;font-size:16px}
+[data-ck] .ck{padding:18px 4px}[data-ck] .ck .tx{font-size:22px;line-height:1.3}[data-ck] .ck .bx{width:30px;height:30px}
 .bz{font-family:var(--display);color:var(--bz-deep);letter-spacing:-.03em}
 </style>
 
@@ -226,8 +227,8 @@ body:hover .navbtn{opacity:.8}
     <div class="glass pad rv" style="min-height:470px">
       <div class="num" style="font-size:120px;color:var(--ink)">03</div>
       <h3 class="h3 mt16">Plano de ação</h3>
-      <p class="p mt16">O checklist dos 90 dias: o que será entregue, por quem, em que fase, e como saberemos que deu certo.</p>
-      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">4 fases</span><span class="pill k">28 entregas</span><span class="pill k">Indicadores dia 90</span></div>
+      <p class="p mt16">O checklist dos 90 dias: o objetivo e as ações prioritárias de cada fase, e como vamos trabalhar juntos.</p>
+      <div class="mt24 row" style="flex-wrap:wrap;gap:8px"><span class="pill k">4 fases</span><span class="pill k">24 ações prioritárias</span><span class="pill k">SLA</span></div>
     </div>
   </div>
   <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><span>Diagnóstico Bridge · 2026</span></div>
@@ -711,128 +712,87 @@ body:hover .navbtn{opacity:.8}
   <div style="position:relative;margin-top:180px">
     <span class="kicker"><span class="dot"></span>Ato 3</span>
     <h2 class="h-mega mt24">Plano de ação<br><em>de 90 dias</em></h2>
-    <p class="lede" style="max-width:820px">Um checklist do que vamos cumprir, fase por fase. Cada item tem dono e critério de pronto.</p>
+    <p class="lede" style="max-width:820px">O checklist do que vamos cumprir, fase por fase, com o objetivo e as ações prioritárias de cada etapa.</p>
   </div>
   <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
 </section>
 
 <!-- 22 ROADMAP -->
-<section class="slide paper" data-title="Roadmap 90 dias" data-act="3">
+<section class="slide paper" data-title="Plano de 90 dias · visão geral" data-act="3">
   {{TOPO}}
-  <span class="kicker"><span class="dot"></span>Visão geral</span>
-  <h2 class="h2">Direcionar, construir, fortalecer, <em>consolidar.</em></h2>
-  <div class="glass mt40 rv" style="padding:30px 34px">
-    <div style="display:grid;grid-template-columns:240px 1fr">
-      <div></div>
-      <div style="display:grid;grid-template-columns:repeat(9,1fr);font-family:var(--label);font-weight:600;font-size:12px;letter-spacing:.1em;color:var(--ink-mute);border-bottom:1px solid var(--line);padding-bottom:8px"><span>dia 1</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span></div>
+  <span class="kicker"><span class="dot"></span>Plano de ação de 90 dias</span>
+  <h2 class="h2">Quatro fases, <em>do direcionamento à consolidação.</em></h2>
+  <div class="grid g4 mt48" style="gap:18px">
+    <div class="glass rv" style="overflow:hidden;min-height:420px;display:flex;flex-direction:column">
+      <div style="background:var(--ink-2);color:#fff;padding:22px 24px"><div class="num" style="font-size:64px">0</div><div class="label mt8" style="color:#fff;opacity:.8">Dias 1 a 9</div></div>
+      <div class="pad" style="flex:1"><div class="h4">Diagnóstico e Direcionamento Estratégico</div><p class="p mt16" style="font-size:16.5px"><b>Objetivo:</b> Estabelecer o posicionamento premium acessível e organizar as bases da comunicação.</p><div class="small mt16">6 ações prioritárias</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:18px"><div><b>Fase 0</b><div class="small">Diagnóstico e direcionamento</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:0;width:10%;top:0;bottom:0;border-radius:12px;background:var(--ink-2);color:#fff;display:flex;align-items:center;padding:0 12px;font-weight:700;font-size:13px">1–9</div></div></div>
-    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Fase 1</b><div class="small">Presença e autoridade</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:10%;width:23.3%;top:0;bottom:0;border-radius:12px;background:var(--red);color:#fff;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 10–30</div></div></div>
-    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Fase 2</b><div class="small">Fortalecimento e consideração</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:33.3%;width:33.3%;top:0;bottom:0;border-radius:12px;background:#E0413E;color:#fff;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 31–60</div></div></div>
-    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Fase 3</b><div class="small">Consolidação e próximos passos</div></div><div style="position:relative;height:44px"><div class="grow" style="position:absolute;left:66.6%;width:33.4%;top:0;bottom:0;border-radius:12px;background:var(--orange);color:#2B231C;display:flex;align-items:center;padding:0 14px;font-weight:700;font-size:14px">dias 61–90</div></div></div>
-    <div style="display:grid;grid-template-columns:240px 1fr;align-items:center;margin-top:16px"><div><b>Contínuo</b><div class="small">Conteúdo e régua</div></div><div style="position:relative;height:30px"><div style="position:absolute;left:10%;right:0;top:6px;height:18px;border-radius:999px;background:repeating-linear-gradient(90deg,rgba(12,35,64,.35) 0 22px,rgba(12,35,64,.12) 22px 30px)"></div></div></div>
+    <div class="glass rv" style="overflow:hidden;min-height:420px;display:flex;flex-direction:column">
+      <div style="background:var(--red);color:#fff;padding:22px 24px"><div class="num" style="font-size:64px">1</div><div class="label mt8" style="color:#fff;opacity:.8">Dias 10 a 30</div></div>
+      <div class="pad" style="flex:1"><div class="h4">Estrutura de Comunicação</div><p class="p mt16" style="font-size:16.5px"><b>Objetivo:</b> Iniciar uma comunicação profissional, educativa e humanizada.</p><div class="small mt16">6 ações prioritárias</div></div>
+    </div>
+    <div class="glass rv" style="overflow:hidden;min-height:420px;display:flex;flex-direction:column">
+      <div style="background:#E0413E;color:#fff;padding:22px 24px"><div class="num" style="font-size:64px">2</div><div class="label mt8" style="color:#fff;opacity:.8">Fase 2</div></div>
+      <div class="pad" style="flex:1"><div class="h4">Fortalecimento e consideração</div><p class="p mt16" style="font-size:16.5px"><b>Objetivo:</b> Aprofundar a autoridade da Bridge e ampliar o interesse pelos seus serviços.</p><div class="small mt16">6 ações prioritárias</div></div>
+    </div>
+    <div class="glass rv" style="overflow:hidden;min-height:420px;display:flex;flex-direction:column">
+      <div style="background:var(--orange);color:#2B231C;padding:22px 24px"><div class="num" style="font-size:64px">3</div><div class="label mt8" style="color:#2B231C;opacity:.8">Fase 3</div></div>
+      <div class="pad" style="flex:1"><div class="h4">Consolidação e próximos passos</div><p class="p mt16" style="font-size:16.5px"><b>Objetivo:</b> Consolidar o posicionamento e avaliar a evolução das oportunidades.</p><div class="small mt16">6 ações prioritárias</div></div>
+    </div>
   </div>
-  <div class="grid g4 mt32" style="gap:18px">
-    <div class="rv"><div class="label">Marco · dia 9</div><p class="p mt8"><b>Direcionamento aprovado</b>: personas, editorias e indicadores</p></div>
-    <div class="rv"><div class="label">Marco · dia 30</div><p class="p mt8"><b>Presença no ar</b>: perfis repaginados e collabs publicando</p></div>
-    <div class="rv"><div class="label">Marco · dia 60</div><p class="p mt8"><b>Autoridade</b>: Léo e consultores como rostos, régua ativa</p></div>
-    <div class="rv"><div class="label">Marco · dia 90</div><p class="p mt8"><b>Leitura</b> dos indicadores e prioridades do próximo ciclo</p></div>
-  </div>
-  <div class="src">Datas das fases 2 e 3 propostas pela Uai Sô! (dias 31–60 e 61–90), a validar com a Bridge.</div>
   <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
 </section>
 
-<!-- 23 FASE 0 -->
+<!-- FASE 0 -->
 <section class="slide paper" data-title="Checklist · Fase 0" data-act="3">
   {{TOPO}}
   <div class="phase-head">
-    <div><span class="kicker"><span class="dot"></span>Fase 0 · dias 1 a 9</span><h2 class="h2">Diagnóstico e direcionamento</h2><p class="lede" style="font-size:19px;margin-top:10px">Estabelecer o posicionamento premium acessível e organizar as bases da comunicação.</p></div>
-    <div class="phase-n">0</div>
+    <div><span class="kicker"><span class="dot"></span>Fase 0 · Dias 1 a 9</span><h2 class="h2">Diagnóstico e Direcionamento Estratégico</h2></div>
+    <div class="phase-n" style="color:var(--red)">0</div>
   </div>
-  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f0">
-    <div class="ck"><div class="bx"></div><div class="tx">Consolidar diagnóstico e referências competitivas<small>Pronto quando: este documento aprovado pelo Léo</small></div><span class="who j">Juntos</span><span class="dt">dia 1–5</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Validar personas (Rafael e Juliana) e linhas editoriais<small>Pronto quando: ajustes registrados e aprovados</small></div><span class="who j">Juntos</span><span class="dt">dia 1–7</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Avaliar identidade visual e canais digitais (Instagram, LinkedIn, site)<small>Pronto quando: lista de ajustes por canal</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 1–7</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Auditoria técnica do site: domínio, mobile, velocidade, SEO, CTAs e contato<small>Pronto quando: relatório com prioridades</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 1–9</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Mapear objeções comerciais com Léo e consultores<small>Pronto quando: top 10 objeções viram pautas</small></div><span class="who j">Juntos</span><span class="dt">dia 1–9</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Definir indicadores iniciais e linha de base<small>Pronto quando: painel no Reportei com números de partida</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 9</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Enviar lista de consultores, cidades e acessos aos perfis<small>Pronto quando: planilha completa</small></div><span class="who s">Bridge</span><span class="dt">dia 5</span></div>
-  </div>
+  <div class="glass pad mt24 rv" style="padding:18px 26px;display:flex;gap:18px;align-items:center"><span class="pill">Objetivo</span><p class="p" style="font-size:19px">Estabelecer o posicionamento premium acessível e organizar as bases da comunicação.</p></div>
+  <div class="label mt24">Ações prioritárias</div>
+  <div class="glass mt16 rv" style="padding:6px 28px" data-ck="f0"><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Consolidar diagnóstico e referências competitivas.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Definir personas e linhas editoriais.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Avaliar identidade visual e canais digitais.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Identificar oportunidades de conteúdo sobre objeções comerciais.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Estruturar o direcionamento institucional do site.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Definir indicadores iniciais de desempenho.</div></div></div>
   <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
 </section>
 
-<!-- 24 FASE 1 -->
+<!-- FASE 1 -->
 <section class="slide paper" data-title="Checklist · Fase 1" data-act="3">
   {{TOPO}}
   <div class="phase-head">
-    <div><span class="kicker"><span class="dot"></span>Fase 1 · dias 10 a 30</span><h2 class="h2">Presença e autoridade</h2><p class="lede" style="font-size:19px;margin-top:10px">Iniciar uma comunicação profissional, educativa e humanizada.</p></div>
-    <div class="phase-n">1</div>
+    <div><span class="kicker"><span class="dot"></span>Fase 1 · Dias 10 a 30 · Construção de presença e autoridade</span><h2 class="h2">Estrutura de Comunicação</h2></div>
+    <div class="phase-n" style="color:var(--red)">1</div>
   </div>
-  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f1">
-    <div class="ck"><div class="bx"></div><div class="tx">Templates de collab com assinatura Bridge + nome e cidade do consultor<small>Pronto quando: kit aprovado e entregue</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 10–15</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Repaginar perfis dos consultores: bio, destaques, foto e posicionamento<small>Pronto quando: todos os perfis atualizados</small></div><span class="who j">Juntos</span><span class="dt">dia 10–25</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Conteúdos institucionais: história, o Léo e os profissionais da Bridge<small>Pronto quando: série publicada em collab</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 15–30</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Conteúdos de proteção financeira e benefícios em vida (objeções)<small>Pronto quando: calendário do mês em execução</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 15–30</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Primeiros posts de carreira no LinkedIn (Léo e Bridge)<small>Pronto quando: 4 posts publicados</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 15–30</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Desenhar a régua de relacionamento (WhatsApp e e-mail) e segmentar a base<small>Pronto quando: fluxo e mensagens aprovados</small></div><span class="who j">Juntos</span><span class="dt">dia 20–30</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">1º treinamento: como produzir e publicar conteúdo<small>Pronto quando: consultores treinados + tutorial gravado</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 30</span></div>
-  </div>
+  <div class="glass pad mt24 rv" style="padding:18px 26px;display:flex;gap:18px;align-items:center"><span class="pill">Objetivo</span><p class="p" style="font-size:19px">Iniciar uma comunicação profissional, educativa e humanizada.</p></div>
+  <div class="label mt24">Ações prioritárias</div>
+  <div class="glass mt16 rv" style="padding:6px 28px" data-ck="f1"><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Desenvolver conteúdos institucionais.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Apresentar a história e os profissionais da Bridge.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Produzir conteúdos sobre proteção financeira e benefícios em vida.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Trabalhar objeções frequentes do público.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Introduzir conteúdos sobre carreira e desenvolvimento de consultores.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Acompanhar alcance e engajamento.</div></div></div>
   <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
 </section>
 
-<!-- 25 FASE 2 -->
+<!-- FASE 2 -->
 <section class="slide paper" data-title="Checklist · Fase 2" data-act="3">
   {{TOPO}}
   <div class="phase-head">
-    <div><span class="kicker"><span class="dot"></span>Fase 2 · dias 31 a 60</span><h2 class="h2">Fortalecimento e consideração</h2><p class="lede" style="font-size:19px;margin-top:10px">Aprofundar a autoridade da Bridge e ampliar o interesse pelos seus serviços.</p></div>
-    <div class="phase-n">2</div>
+    <div><span class="kicker"><span class="dot"></span>Fase 2</span><h2 class="h2">Fortalecimento e consideração</h2></div>
+    <div class="phase-n" style="color:var(--red)">2</div>
   </div>
-  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f2">
-    <div class="ck"><div class="bx"></div><div class="tx">Conteúdos com o Léo e os consultores em vídeo (rosto da marca)<small>Pronto quando: série de vídeos publicada</small></div><span class="who j">Juntos</span><span class="dt">dia 31–60</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Materiais comparativos e educativos (vida × previdência, invalidez, sinistro)<small>Pronto quando: 2 carrosséis-âncora por linha</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 31–50</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Mostrar o valor da análise personalizada (“como funciona a análise na Bridge”)<small>Pronto quando: conteúdo + roteiro de conversa</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 40</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Régua de WhatsApp e e-mail no ar, sem abordagem comercial excessiva<small>Pronto quando: primeiros envios e respostas medidos</small></div><span class="who j">Juntos</span><span class="dt">dia 35</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Reforçar recrutamento: bastidores, rotina do consultor e treinamento<small>Pronto quando: contatos de candidatos registrados</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 31–60</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Avaliar temas e formatos com maior aceitação<small>Pronto quando: ranking de conteúdos no relatório mensal</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 60</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">2º treinamento bimestral de conteúdo<small>Pronto quando: consultores publicando com autonomia</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 60</span></div>
-  </div>
+  <div class="glass pad mt24 rv" style="padding:18px 26px;display:flex;gap:18px;align-items:center"><span class="pill">Objetivo</span><p class="p" style="font-size:19px">Aprofundar a autoridade da Bridge e ampliar o interesse pelos seus serviços.</p></div>
+  <div class="label mt24">Ações prioritárias</div>
+  <div class="glass mt16 rv" style="padding:6px 28px" data-ck="f2"><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Explorar conteúdos com Léo e os consultores.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Desenvolver materiais comparativos e educativos.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Demonstrar o valor da análise personalizada.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Estimular conversas individuais sem abordagem comercial excessiva.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Fortalecer a comunicação de recrutamento.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Avaliar temas e formatos com maior aceitação.</div></div></div>
   <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
 </section>
 
-<!-- 26 FASE 3 -->
+<!-- FASE 3 -->
 <section class="slide paper" data-title="Checklist · Fase 3" data-act="3">
   {{TOPO}}
   <div class="phase-head">
-    <div><span class="kicker"><span class="dot"></span>Fase 3 · dias 61 a 90</span><h2 class="h2">Consolidação e próximos passos</h2><p class="lede" style="font-size:19px;margin-top:10px">Consolidar o posicionamento e avaliar a evolução das oportunidades.</p></div>
+    <div><span class="kicker"><span class="dot"></span>Fase 3</span><h2 class="h2">Consolidação e próximos passos</h2></div>
     <div class="phase-n" style="color:var(--orange)">3</div>
   </div>
-  <div class="glass mt24 rv" style="padding:6px 28px" data-ck="f3">
-    <div class="ck"><div class="bx"></div><div class="tx">Analisar os indicadores da presença digital (marca e consultores)<small>Pronto quando: comparativo com a linha de base</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 75</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Medir evolução de interações e solicitações de contato<small>Pronto quando: número por consultor e por canal</small></div><span class="who j">Juntos</span><span class="dt">dia 80</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Avaliar a atratividade para potenciais consultores<small>Pronto quando: candidatos e conversas registrados</small></div><span class="who s">Bridge</span><span class="dt">dia 80</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Revisar conteúdos e oportunidades editoriais<small>Pronto quando: editorias ajustadas para o próximo ciclo</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 85</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Mapear integração entre marketing e comercial<small>Pronto quando: como o contato chega ao consultor e volta com resultado</small></div><span class="who j">Juntos</span><span class="dt">dia 85</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Recomendar prioridades do próximo ciclo (site, mídia paga, metas)<small>Pronto quando: apresentado e aprovado pelo Léo</small></div><span class="who u">Uai Sô!</span><span class="dt">dia 90</span></div>
-    <div class="ck"><div class="bx"></div><div class="tx">Definir as primeiras metas quantitativas de marketing<small>Pronto quando: metas registradas para o trimestre seguinte</small></div><span class="who j">Juntos</span><span class="dt">dia 90</span></div>
-  </div>
+  <div class="glass pad mt24 rv" style="padding:18px 26px;display:flex;gap:18px;align-items:center"><span class="pill">Objetivo</span><p class="p" style="font-size:19px">Consolidar o posicionamento e avaliar a evolução das oportunidades.</p></div>
+  <div class="label mt24">Ações prioritárias</div>
+  <div class="glass mt16 rv" style="padding:6px 28px" data-ck="f3"><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Analisar os indicadores da presença digital.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Identificar evolução nas interações e solicitações de contato.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Avaliar a atratividade institucional para potenciais consultores.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Revisar conteúdos e oportunidades editoriais.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Mapear necessidades de integração entre marketing e comercial.</div></div><div class="ck" style="grid-template-columns:34px 1fr"><div class="bx"></div><div class="tx">Recomendar prioridades para o próximo ciclo de crescimento.</div></div></div>
   <div class="foot"><img src="{{IMG:logo_ink.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
-</section>
-
-<!-- 27 KPIs -->
-<section class="slide dark" data-title="Indicadores do dia 90" data-act="3">
-  {{TOPO}}
-  <span class="kicker"><span class="dot"></span>Painel do dia 90</span>
-  <h2 class="h2">Como saberemos que <em>deu certo.</em></h2>
-  <div class="grid g3 mt40" style="gap:20px">
-    <div class="glass pad rv"><div class="label">Presença</div><div class="num or-t mt16" style="font-size:68px">100%</div><p class="p mt8">dos perfis de consultores repaginados e publicando em collab</p></div>
-    <div class="glass pad rv"><div class="label">Alcance</div><div class="num or-t mt16" style="font-size:68px">↑ base</div><p class="p mt8">evolução de alcance e seguidores da Bridge e dos consultores</p></div>
-    <div class="glass pad rv" style="background:linear-gradient(160deg,#C9203A,#9C0E25)"><div class="label" style="color:rgba(255,255,255,.75)">Indicador norte</div><div class="num mt16" style="font-size:68px;color:#fff">contatos</div><p class="p mt8" style="color:rgba(255,255,255,.85)">solicitações de análise vindas do conteúdo e da régua</p></div>
-    <div class="glass pad rv"><div class="label">Autoridade</div><div class="num or-t mt16" style="font-size:68px">salvos</div><p class="p mt8">salvamentos e compartilhamentos dos conteúdos educativos</p></div>
-    <div class="glass pad rv"><div class="label">Recrutamento</div><div class="num or-t mt16" style="font-size:68px">candidatos</div><p class="p mt8">profissionais que pediram conversa sobre carreira</p></div>
-    <div class="glass pad rv"><div class="label">Autonomia</div><div class="num or-t mt16" style="font-size:68px">2 treinos</div><p class="p mt8">consultores publicando no padrão, sem refação</p></div>
-  </div>
-  <div class="src">A Bridge ainda não tem metas quantitativas de marketing. As metas de volume serão fixadas após a linha de base da Fase 0.</div>
-  <div class="foot"><img src="{{IMG:logo_white.png}}" alt=""><div class="act"><span>Investigação</span><span>Estratégia</span><span class="cur">Plano</span></div></div>
 </section>
 
 <!-- 28 SLA -->
@@ -867,7 +827,7 @@ body:hover .navbtn{opacity:.8}
     <div class="row mt40" style="gap:14px;flex-wrap:wrap">
       <span class="pill w">Identidade própria</span><span class="pill w">Consultores como rosto</span><span class="pill w">Educação sem “seguradês”</span><span class="pill w">Carreira consultiva</span>
     </div>
-    <p class="lede mt40" style="font-size:20px">Próximo passo: aprovar o direcionamento da Fase 0 e enviar a lista de consultores, cidades e acessos.</p>
+    <p class="lede mt40" style="font-size:20px">Próximo passo: iniciar a Fase 0, Diagnóstico e Direcionamento Estratégico.</p>
   </div>
   <div class="foot"><img src="{{IMG:logo_white.png}}" alt="Uai Sô! Marketing com porquê"></div>
 </section>
