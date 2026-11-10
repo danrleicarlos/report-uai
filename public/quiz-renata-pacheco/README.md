@@ -1,4 +1,4 @@
-# Quiz de Pré-consultoria · Alongamento Adesivado (Renata Pacheco Beauty House)
+# Quiz de Pré-consultoria · Preenchimento/Alongamento (Renata Pacheco Beauty House)
 
 Arquivo único: `index.html` (HTML + CSS + JS, logo embutida, fonte Jost via Google Fonts).
 
