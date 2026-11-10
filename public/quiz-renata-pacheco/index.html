@@ -42,10 +42,9 @@
   .btn--light:hover{background:var(--g-100)}
   .btn--dark{background:var(--ink);color:var(--white)}
   .btn--dark:hover{background:var(--ink-soft)}
-  .btn--dark.is-busy{opacity:.6;cursor:progress}
   .btn--ghost{background:transparent;color:var(--g-700);padding:0 14px;letter-spacing:.2em}
   .btn--ghost:hover{color:var(--ink)}
-  .btn:focus-visible,.opt input:focus-visible + .opt__box,.field input:focus-visible,.upload input:focus-visible + .upload__box{outline:2px solid var(--ink);outline-offset:3px}
+  .btn:focus-visible,.opt input:focus-visible + .opt__box,.field input:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   .intro .btn:focus-visible{outline-color:var(--white)}
   .btn svg{width:16px;height:16px}
 
@@ -131,26 +130,14 @@
   .ph small{font-size:10px;color:var(--g-500);letter-spacing:.06em}
   .opt--img input:checked + .opt__box .opt__media{outline:2px solid var(--white);outline-offset:-2px}
 
-  /* Upload */
-  .upload{display:block;position:relative;margin-bottom:22px}
-  .upload__q{display:block;font-size:16px;font-weight:500;margin:0 0 4px}
-  .upload input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
-  .upload__box{display:flex;align-items:center;gap:16px;background:var(--white);border:1px dashed var(--g-300);border-radius:var(--radius);padding:14px;cursor:pointer;margin-top:12px;transition:border-color .2s,background .2s}
-  .upload__box:hover{border-color:var(--ink)}
-  .upload__thumb{flex:none;width:76px;height:96px;border-radius:10px;background:var(--g-50);display:grid;place-items:center;overflow:hidden;position:relative}
-  .upload__thumb svg{width:26px;height:26px;color:var(--g-500)}
-  .upload__thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .upload__txt{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .upload__cta{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
-  .upload__status{font-size:13px;color:var(--g-500);font-weight:300;overflow:hidden;text-overflow:ellipsis}
-  .upload.has-file .upload__box{border-style:solid;border-color:var(--ink)}
-  .upload.is-error .upload__box{border-color:var(--error)}
-  .upload.is-error .q__err{display:block}
 
   /* ---------- Nav ---------- */
   .nav{position:fixed;left:0;right:0;bottom:0;z-index:25;background:linear-gradient(to top,var(--paper) 70%,rgba(250,250,249,0));padding:22px 16px calc(16px + env(safe-area-inset-bottom))}
   .nav__row{max-width:640px;margin:0 auto;display:flex;gap:10px;align-items:center;justify-content:space-between}
-  .nav .btn--dark{flex:1;max-width:360px;margin-left:auto;white-space:nowrap;letter-spacing:.2em;padding:0 22px}
+  .nav .btn--dark{flex:1;min-width:0;max-width:360px;margin-left:auto;white-space:nowrap;letter-spacing:.16em;padding:0 18px}
+  .nav .btn--ghost{flex:none;padding:0 8px;letter-spacing:.16em}
+  @media (max-width:360px){.nav .nav__txt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.nav .btn--ghost{min-width:48px}.nav .btn--dark{letter-spacing:.12em;padding:0 14px}}
+  .result__actions .btn{white-space:nowrap;letter-spacing:.16em;padding:0 16px}
 
   /* ---------- Reward ---------- */
   .reward{position:fixed;left:50%;top:50%;z-index:60;transform:translate(-50%,-50%) scale(.94);width:min(340px,calc(100vw - 32px));background:var(--ink);color:var(--white);border-radius:22px;padding:30px 26px 28px;text-align:center;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),transform .45s var(--ease),visibility .35s;box-shadow:0 30px 80px rgba(0,0,0,.25)}
@@ -187,6 +174,11 @@
   .tips li b{font-weight:500;color:var(--ink)}
   .tips li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--ink);margin-top:8px}
   .result__actions{margin-top:18px}
+  .card--cta{border-color:var(--ink)}
+  .card--cta p{margin:0 0 14px;font-size:14px;color:var(--g-700);font-weight:300}
+  .photos{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:ph}
+  .photos li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.4}
+  .photos li::before{counter-increment:ph;content:counter(ph);flex:none;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--white);font-size:12px;display:grid;place-items:center;margin-top:-1px}
   .result__actions .btn{width:100%}
   .foot{text-align:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--g-500);margin-top:34px}
 
@@ -202,8 +194,8 @@
   <h1 class="intro__title" id="intro-title">Seu preenchimento ou alongamento começa aqui</h1>
   <p class="intro__text">Antes do seu horário, conte para a Renata como são seus fios e qual é o cabelo dos seus sonhos. A cada etapa, seu cabelo cresce um pouco mais.</p>
   <div class="intro__meta">
-    <span class="chip">5 etapas</span>
-    <span class="chip">± 3 minutos</span>
+    <span class="chip">4 etapas</span>
+    <span class="chip">± 2 minutos</span>
   </div>
   <button type="button" class="btn btn--light" id="start">
     Começar minha jornada
@@ -219,7 +211,7 @@
         <img src="data:image/png;base64,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" alt="">
         <span>Preenchimento/Alongamento</span>
       </div>
-      <span class="topbar__count" id="count" aria-live="polite">Cabelo 0 de 5</span>
+      <span class="topbar__count" id="count" aria-live="polite">Cabelo 0 de 4</span>
     </div>
     <div class="strand" aria-hidden="true">
       <svg viewBox="0 0 300 22" preserveAspectRatio="none">
@@ -234,14 +226,11 @@
     (Form analytics / Form submissions): todos os campos no DOM, com name,
     nenhum "disabled", envio pelo evento submit nativo (<button type="submit">).
   -->
-  <form id="preConsultoria" name="pre_consultoria_alongamento" method="post" enctype="multipart/form-data" novalidate autocomplete="on">
+  <form id="preConsultoria" name="pre_consultoria_alongamento" method="post" novalidate autocomplete="on">
 
     <input type="hidden" name="formulario" value="Pré-consultoria · Preenchimento/Alongamento">
     <input type="hidden" name="perfil_alongamento" id="h_perfil" value="">
     <input type="hidden" name="resumo_consultoria" id="h_resumo" value="">
-    <input type="hidden" name="foto_cabelo_atual_url" id="h_foto_atual" value="">
-    <input type="hidden" name="foto_cabelo_sonho_url" id="h_foto_sonho" value="">
-    <input type="hidden" name="foto_favorita_url" id="h_foto_favorita" value="">
     <input type="hidden" name="utm_source" id="h_utm_source" value="">
     <input type="hidden" name="utm_medium" id="h_utm_medium" value="">
     <input type="hidden" name="utm_campaign" id="h_utm_campaign" value="">
@@ -358,7 +347,7 @@
     </section>
 
     <!-- ===== ETAPA 4 · SUA EXPERIÊNCIA ===== -->
-    <section class="step" data-step="4" data-badge="Experiência preparada" data-msg="Tudo anotado. Seu momento vai ter a sua cara." hidden>
+    <section class="step" data-step="4" data-badge="Pronta para brilhar" data-msg="Tudo anotado. Seu momento vai ter a sua cara." hidden>
       <div class="step__head">
         <p class="step__kicker">Etapa 4 · Sua experiência</p>
         <h2 class="step__title">Vamos deixar tudo pronto antes de você chegar</h2>
@@ -382,49 +371,10 @@
         <input id="f_music" type="text" name="musica_preferida" placeholder="Ex.: Marisa Monte, bossa nova, pop…">
         <span class="q__err">Conte o que vai tocar no seu atendimento.</span>
       </div>
-    </section>
-
-    <!-- ===== ETAPA 5 · FOTOS ===== -->
-    <section class="step" data-step="5" data-badge="Pronta para brilhar" data-msg="Tudo pronto. Agora é só brilhar." hidden>
-      <div class="step__head">
-        <p class="step__kicker">Etapa 5 · Suas fotos</p>
-        <h2 class="step__title">Mostra pra gente</h2>
-        <p class="step__desc">As fotos ajudam a Renata a escolher a cor e o comprimento certos do seu cabelo.</p>
-      </div>
-
-      <div class="upload" data-req data-target="h_foto_atual">
-        <span class="upload__q" id="lbl_atual">Envie uma foto do seu cabelo recente, de frente e com boa iluminação! 📸 <span class="req">*</span></span>
-        <input id="f_foto_atual" type="file" name="foto_cabelo_atual" accept="image/*" aria-labelledby="lbl_atual">
-        <label class="upload__box" for="f_foto_atual">
-          <span class="upload__thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
-          <span class="upload__txt"><span class="upload__cta">Tirar ou escolher foto</span><span class="upload__status">Nenhuma foto ainda</span></span>
-        </label>
-        <span class="q__err">Envie a foto do seu cabelo atual.</span>
-      </div>
-
-      <div class="upload" data-req data-target="h_foto_sonho">
-        <span class="upload__q" id="lbl_sonho">Agora o cabelo que você sonha: manda aquela foto que você já salvou no celular. 📱 <span class="req">*</span></span>
-        <input id="f_foto_sonho" type="file" name="foto_cabelo_sonho" accept="image/*" aria-labelledby="lbl_sonho">
-        <label class="upload__box" for="f_foto_sonho">
-          <span class="upload__thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9.5" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2.5L20 18"/></svg></span>
-          <span class="upload__txt"><span class="upload__cta">Escolher da galeria</span><span class="upload__status">Nenhuma foto ainda</span></span>
-        </label>
-        <span class="q__err">Envie a foto do cabelo dos seus sonhos.</span>
-      </div>
-
-      <div class="upload" data-req data-target="h_foto_favorita">
-        <span class="upload__q" id="lbl_fav">Por último: uma foto sua favorita. 🌟 <span class="req">*</span></span>
-        <input id="f_foto_fav" type="file" name="foto_favorita" accept="image/*" aria-labelledby="lbl_fav">
-        <label class="upload__box" for="f_foto_fav">
-          <span class="upload__thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3.5l2.4 5 5.4.6-4 3.7 1.1 5.4L12 15.5 7.1 18.2l1.1-5.4-4-3.7 5.4-.6z"/></svg></span>
-          <span class="upload__txt"><span class="upload__cta">Escolher da galeria</span><span class="upload__status">Nenhuma foto ainda</span></span>
-        </label>
-        <span class="q__err">Envie uma foto sua favorita.</span>
-      </div>
 
       <fieldset class="q" data-req data-check>
         <legend class="sr-only">Consentimento</legend>
-        <label class="opt opt--multi"><input type="checkbox" name="consentimento_lgpd" value="Sim"><span class="opt__box"><span class="opt__mark"></span><span class="opt__txt"><span class="opt__title">Autorizo o uso destas informações e fotos</span><span class="opt__sub">exclusivamente para preparar meu atendimento com a Renata Pacheco Beauty House.</span></span></span></label>
+        <label class="opt opt--multi"><input type="checkbox" name="consentimento_lgpd" value="Sim"><span class="opt__box"><span class="opt__mark"></span><span class="opt__txt"><span class="opt__title">Autorizo o uso destas informações</span><span class="opt__sub">exclusivamente para preparar meu atendimento com a Renata Pacheco Beauty House.</span></span></span></label>
         <span class="q__err">Precisamos da sua autorização para enviar.</span>
       </fieldset>
     </section>
@@ -433,7 +383,7 @@
       <div class="nav__row">
         <button type="button" class="btn btn--ghost" id="prev" hidden>
           <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="1.3"/></svg>
-          Voltar
+          <span class="nav__txt">Voltar</span>
         </button>
         <button type="button" class="btn btn--dark" id="next">
           Continuar
@@ -455,6 +405,18 @@
       <h2 class="result__name" id="rName">—</h2>
       <p class="result__desc" id="rDesc"></p>
     </div>
+    <div class="card card--cta">
+      <h3>Último passo: suas fotos</h3>
+      <p>Envie pelo WhatsApp da Renata:</p>
+      <ol class="photos">
+        <li>Uma foto do seu cabelo recente, de frente e com boa iluminação 📸</li>
+        <li>O cabelo que você sonha: aquela foto que você já salvou no celular 📱</li>
+        <li>Uma foto sua favorita 🌟</li>
+      </ol>
+      <div class="result__actions">
+        <a class="btn btn--dark" id="rWhats" href="#" target="_blank" rel="noopener">Enviar fotos pelo WhatsApp</a>
+      </div>
+    </div>
     <div class="card">
       <h3>O que a Renata vai receber</h3>
       <dl class="summary" id="rSummary"></dl>
@@ -466,9 +428,6 @@
         <li><span><b>Reserve o tempo.</b> A aplicação é cuidadosa e personalizada. Aproveite o seu momento.</span></li>
       </ul>
     </div>
-    <div class="result__actions" id="rWhatsWrap" hidden>
-      <a class="btn btn--dark" id="rWhats" href="#" target="_blank" rel="noopener">Enviar fotos pelo WhatsApp</a>
-    </div>
     <p class="foot">Renata Pacheco · Beauty House</p>
   </section>
 </div>
@@ -476,7 +435,7 @@
 <div class="veil" id="veil"></div>
 <div class="reward" id="reward" role="status" aria-live="polite">
   <div class="reward__badge"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADiCAYAAAALb4jOAAAZvklEQVR42u2debQdVZXGf3XvywQYhiAyBiSIQNpACJNAE1gY5gYaoVtB1AYBRZpBpnYxtAgoiKI0s0wxgUZkaEaReZAwKzOBQAhDGBuaOSHJu7f6j332uifFfcnLe+/WOVW191p3vflV3Trn29+399lnnyRNU8zMzNpbV5vvJUDNHk1HLO3ha/NSkVpiDBLHOGScUuJA0zTwxAWQJYF1gVHACDdon7lXw32deF4v6cEL9vXz3nrYBV2z6U2sumPJwe6F9zP/tTAP3+66SZtJPs89q3lAt/d85gBzgdnuZ7Pc780GPnWfL8jq7n8129yzWY4AqQHDgbWAMcA2wObAlwr8HucBLwEvA+8Ab7vX+25izvEm6FAPTF29kKfDvdeKwBrutfhC/naOA8cs4GPgQ+AD4A3gBWA6MAN4Dviozd/X3MtYJgKJNRQYC/wL8M/Aqu773W5w6oHfQ9NNFr2P94EHgHvd6wXg3RzvZ2lgFWArYAdgEwcgPFbp7TN724HlCWAq8CAwzQEqyzAYWPIBSOK9cNJKbTiwE3AAsIUnN0IApZHR7rcBfwDuAWYuQKZ0YgIlHgCytroDyt7ARt7v1bz7aSfzemKw14HHgEeAO4FHMxLNwJIzg/iA8cGyNXA4sL03YWtttHknMkE+IK8DfuuA4d9z3fvdvDJFSSbobnjXTRwL/9TFefrM6gt4n2TeQzvQTANuB24C7stIsuwzMOtwFksH3vdO2wDHuVjFlzydlFM4QJzkJgceOGPznNn7GgT8yD2zZfvgWPwJn/2714EbgT8CU1z8ZUDJESD04J26gCOBY4HFFuIZ+yOp6i7r8zPg9AxgijD4dY+FVwPOAHb2ZFatj04j5fOp4seAa4BJwKsGlPwB0m7QNwQuAUYPMEi6HQhfBPYCHs7ImEI9c/dcNF45BjjRY5n+sG/Tk5+Jl7SYBJwLPO9JtYbFKPkAJDvoSwPnA3t4E3sgwHEXsCfwVkkG2Ge+HdwkHjGAEtVfC8Ix76UuXnvec24WzOcAkHZscj6wfz9Bon97HfAtl62pF5A1FmRd7n1uAtzg4pKBjONS97x0DD5ybHIG8GabcTPrIECynrE/ING/udKBo1nigRzkAuoNgJsdSFIGNiOYzf697eK4/3KOx2RXTgBRyaU5/iuBby5iTKK/ewuwC1KmkZQ8uFQm2RxZ0xnM/OtRAwkUn1EeAw4B/mpskh9AlElSYAiyor1hL6WD/s5zwNeREoxaRTIvyiT7ABfRmWxgO0aZB5yGpM1nG0jyAYjvjdZEMk/DPYZZ0KDNRVbqH63gYCmTnAoc1WGQkHFafwMOdGOlDq7SkqvT+z6UyqcBB/dCJqlHO9aBo6uCnkwBcTRSStJpB6FA6AbGObY/lM9nwYxBcmCSW4EJPXhF/d6DzL8qX0UPps9rFPA4svjaiXikJ3DiYseDkApoZTVjkA7qXYAjXMYk6SGwbzjv1cj8XdVMJ+p0pCQlrxis7gXxeyC1XeMYmPUsA0gvpNOTwNXuut2ZCVEDrgIesiBxPpCcidRV5fVM/EXfrwB3ADtWFSR5brnVVdv1XBCYLT9XDfw0xSwh6aTUWs85jq6cpFYWpE3gB0gZUaXkVp7NGXT/xmNIBa5Kqqb7/BbgKT5fVm8sInHIL8k/3V33xudi+l8ZYQDpBX0nzhP53wM4J2fvWBTTNOxpyDbcvEGSrYw4oEogqQUY7BQpp5jpPFQN2TN+J1aK3VOCo4YUG55I53ZF9saxNYHzgO9WBSS1AINdRxoV3OZ9/1qkkUEdqwXqSWrVgMlOboVIYvgguQQpASo9SEI0iNMH/RfvezcYBhbqWBI3IY/LSNO8x04/TkaaeXRT4kaDIRrHqYZe3mnq2UgpyruB5ENhxsrz4HciXVM6XYaysLjoZWBj4H8paTFpLdDDTZCNT9NpteWpGTh6xSIAvw7IIjpvGsi24YnevSUGkIEx9XoPOxYBy171NhZJkJKdJwhb5ayLidsjdWONMkqt0G/oMaQhmtmijVk3siuQwKyryYITke0MoSRf6QCiXu9pWvujzRbt2V2OtPmpB2QRlVWDkDWSIQz8TshKAkS93lTg2Qg8YdFikTqyt3xSBjQh45GxwH/Q2b5o+XuAwMcfaOMzKy3pm7QZTWtdJAkM2hTJSK6HJF9KkdUKjfSmgaNfwfqzSBFjaCej6fnFgZPLJLPsJKlij10K/Cmi+2ki+0g2LkvAbgApfrB+HfAJ4ct0Eo85fmpBulkMwXoNeIVWy57Qml8zajsC65eBRQwgxXdwupcG4sgEajPzg4xBzGKYjCnSiSQWb61Sb3dgJAVfYTeAFF9mgSy4xpJa1YzaF4BvF32eGUCKD5AupDPiXZHEIQoSkG78he5tZgApj90X0ZhqsP41pGt9YRvQGUDKEYeAtFSKaUx1W8M/ZVjFAGIWJA55ldZ5H2lEc2tbpJixUUSQGEDKAZAa0gV/WkRxiK70j0Z2jKYGELPQ4xhbZbSuiWxe1PlmACmXzHo6Mr2v9zU+MuAaQCpqr0U6v9YtahxiACmXvRPZuCoYRiFdbAqrXc3KIbHeQzowxtI+Se9jCLB2EeecAaRcAHkXyWbFFqiDtAiKKT4ygFQQIB8ie9VjvLdVTWKZxSBn5kZ4XwArZxjFAGIWZCJ+GpnEUlvWGMQsBpsVKXCXjRS4BpCK2aeR3teSBhCzGGxOpPc1lNZZIokBxCyUDY70vgY5kFgMYmYAaWOFbBJoACmfDYn0vhoRyz8DSAVMg9+lI9X5s2mtgaQGELM8TRcJa0h/3BiB+07RAnQDSPlscWBYpPf2rgHELLQtDQyPbCIqg7xexDlnACmPxAIY4QEkNptexAdrACkXQJaldeJTEtkcm1G0AN0AUj77coQBuh46+qwBxCw0g6wTIUCUPV41gJiFnohrRDYJ/dOM5xL+kB8DSEXZo4GsoI+KbFyV2e7LfG0AMct9Eq4IrB7ZRNRzC+8uorwygJQLIKORQsVYWnxq8+qXgKkZyWUAMcsdIOu7j7FUzOrZ6bcjdViFiz8MIOUw9cobRSavEve6tsgP1wBSfPZoIsedbRARQJpubr1M6wTehgHELNT4jQGWiyj+UCn1R6SJRL3oD9is2PHH5rTSvUkk86obmJQBjAHELEj8sU1E8qrb3cf1SPaqRgGzVwaQcsirJrL+MS6i8dT7+k1kSQMDSEXl1aZIz6lmBJOx4ebULcD9tCqLDSBmwWwnp/FDyxhNEHQDx5eBPQwgxWaPBrAYsJX7OvRYKntcATxaBvYwgBR73BJgY2AkrX0XIdmjBnwMHFcG5jCAFN9SYHfPe8fAHicjez8Knbmaj6rTNLWpVjx5lSIdTJ5Dzt1oBnR2eu0nHaPNpVWHZQxilrvpqvR2EYBDgTAX2Bf4jHjORzSAVNRUuuzrTdKQ0qoOnOAC83oZAnOTWMV2aClyYuzfaTWqDhEUdyPHGdwI7OzFHWnZHrhZ8eKP/ZAttqEWBxsOHC8C3/OYrXTe1hikeOyxDPA80iQuRPWugvIjYDzwRBmllTFIsdljBGEqd1PvtVfZwWEMUixwgLQVfQYpUMx7cVDLWerAAcDvnczqLjttmxVHXv0IWIn8U7s+OH5SFXAYgxSLPZZDGrCNyHw/r5gjAY4GflUVcEDr1FGzuNmjARyLNKfWtYe8wKHp2wOAC6oEDmOQ+E0D4LHAQ+7rJCf2UCB+AOwJ3Fw1cBiDFENaJcAZyDHKjZxiD10EnAHsBjxeRXBYkF4M9jgS+MecpFXTvbqAB4AtqgwOk1jxg2MjYAqt/R+dlFY+AM8CjqLVEbFR1YEwgMTJ6k0XkD+ENKTuZFpXS0TqwBvAwcDVmXup9GCYxRd31IH/duDoVNyRev+77kCxifuoyYBm1QfEABLXWGg5yURgQofiDgVG4v73NOBbyO7E1zxJZdICy2LFBA6tcboA+A6tTNJAAkNXw+suvjgT+AXwoecsGzYcFoPEGJDXgQuB7w8wcyhjKNg+AyYDpyNbdql6IG4AiZvBu5HykcnA9gPIHH7wrcxwBXAakrpVYJRyH4cBpPisoRNzQ+AS5ISo/oJDZZTfJ+t94HIn3XxgxNBszgBi1jYQVzlzGHAS0gCur7Iq9cDmg+s54DLgDy74xgONAcMAEh1j+AHwRg4YE7wJW+sDIJIMqD5FaqYuBW5DzuYwxjCAxPdcPbbwSzTGAIcCeztv3/B+rx0Q9KO+am2A9C7wMPBn95rRg5QzM4AEAUKS+Ty7hpAgNU37IWsNQ9z3u73JnrYBRk+xyGxkV+GTwF+QUpQ32sg4A4YBJFpbxrHFBKT7+hjvZ4sSa7wPzEQOopkKPOKAMTMz+ZVZmiajDCAx2Qj3GgSsiZRqrIfs3/him7hBvfss4P8ci8xzrPA2MB05V/w195rmJFS7QerypJeBokNmK+l9M135Hgmc44DRLoZoeN7dPyf8FeBKJ5H+DszpxfVqmXik24bBGCT2+CMFlkJKw3/i4os5jlF6k5X60Emnu4HbkXWK90w6GUDKBhKQc8rPQjqcN70JTg/s0q5tz0zgPuAmJDM1LXOtuoHFAFJEkGhjhaHAicARvQzI/RhCS8zVZrmA/EbgOqSjic8slqkygBQuLlHPvgtwLrACi1Y+4k94H1hzgXuAqxy7vJ6JI6083QBSGDapO1Cs6QLxMfStxspnF/9vP3IxyyTgBgcesNVyA0iBTKt0l0Xqobahf4WI/sT3meVpZHPVlcCrbSSfmQEkesk1GDgf2efR3SbW6CtY/IrdD4Hr3XWmZOIUA4oBJGqQqFQ6GziQBddfLao120iwm4HfAHd4jGL7yw0gUcclOkFPQfrbDvRe8+xKPS4+Od3FKxajGEAKA5ITkT67A73nXC3LULciuwhv94BisssAEiVINMN1HtIMulMgaQeUicDPaZXDV77nlQEkTpDoxLwG2LXDIMkC5T3gZ0j9mC5O2mKjASQ6kICsut8BfJ18+u7617gf6fl7v7GJASRG0wm5CvAgcqRaHqdG+WUt81wQf5z7vLINqg0gcZpOyC2R/eMJA5f+XRQ2uRfYB9mLYpKrjSczC2Mae9wNHE6+2SVN+XYj24GnINuBGxkZaAxiDBINk1yGnOSU5xFrWTb5tYtNLC4xgEQVtCfIEc+PAqPI/xRbvwvj1UhZzCfYmolJrAhM+1t9AHzXC5TTnOeBrtF8E7gFWD4AmxlAzHqUOV1I2vW4gPJG5d6mwF2OzSoNEpNYcUktdVj3AJsFkFrZBMIrwHZIG9NKyi0DSHyM3kQaWT+KlMrndexzT8H7q8h+luerCBKTWHGZLuI9AxxP2EySgmEk0p7oK1WUW8Yg8UqtFDmKeaPAE1OvPR0Yj+yHr0wK2BgkPks9NjmEMFmtLJN0u4D9OmAJD8gGELOgXvtBpPK2Hthja3ZrHHCxJwVNYpkFdV7aufEZZF0iDezUNLt1NPArKlDgaAwSd8BeQzq8H8P8XRxDmQbupwDb0mpCYQxiFtSJ1ZCCwtABuw/c95DzFWeUOWg3BimAE3Oe+iha7X5Cz5kGcuzDRbRK9BMDiFnIgP0e4E/E0RROM1tbIaX6jbLOJZNYxXFkTWSx7nFku25or639vuYg2a2pZZRaxiDFCdjrwAvIeecxTERNGgxDjn0opcwyBimWM0uRjvHPAEsSPu3rS8D9gAspWb2WMUixWKSGnGj7W+JI+yqTNIGTiWOtxgBScZAkwJnIaVQxSC29h+WAE4gj02YAqaipd34faVAdC4toKcy/AV+jRFW/FoMUcMzcxyWQ80FWiSwWuR45YasUGS1jkOKyyMeRssjOSCuhUhQ0GoMUm0UWdywyMjIWuQvYmhKcS2IMUmwW+SRSFtkKmFAGFjEGKT6LfMGxyMqRschtyF72QscixiDFZpE6curtWRGyyDeQzvVpkVnEAFJsazhgXAS8E5G31mZ4h9Cq2TKAmAVjkfeQU6tiYREti9kZOS++WdS5ZgApD4uciywg1iIAiR4/PQz4YSZmMoCY5c4iNeAtYBLxpFZ1bn0b2VffKCJIDCDlAUmCdECZHcm4ajy0PLKyThGDdQNIOUw1/jTgf2ht040BuCmwr3efhTJbBymP6T6MDYGHMvFASIAoMMYBT1CwdRFjkHIF6zXgEeDWSGIRDdbrwN5FDNYNIOUynXynRzQZdY7tDixWtGDdAFK+WCRBzl9/mLg2VK2KnOhbqHlnACmXacq3gWzLjem+APawIN0sFpk12AXFaxK+iFHT0G8BayPnMcay6m8MUlEWmUM8RYyaMFge2UxVmLlnACl3LDIZ6YISQyyiR03vWqQHaQApN4t8CJxPHClf7eG7LbKfvhDZLANIuUGSIJ0Y30fWItLAc60JrIhks5IizD8DSLllVg14E5gYCYsoQHelIHtELItVbtPS9y8DTyHl5wSUNj5oRztmizqbZQxSDRZ5CbgiAhZRmbUCsh03+jloAKmGJUj5yVzCb6jSa+9UFAo2K7dptuhppOthaBZRebc1cs5J1NksA0h1GASkh1bo5tLKYGsCY2OfhwaQ6rBIDTl3/RbCH+Om194lcNLAAGL2ORb5ZSQsArAjrfMOEwOIWQws8lfgzsAsojJrNLIDMtq5aACpJoucGoG00eD8X6N+YLZQWDnTtYh7kMraUIfd6BrNK8A6wCwiXDQ0Bqkui5wYmEX8nYZbEWltlgGkurHIHRHEIsoWexJpD1+TWNU0bRE0HjnsJtSOQ604/gBYC3g7NpllDFJtFrmHsOsi2hZoKWA3D7wmscyiiUV+ThxHN+/jATUxgJjFwiIPAFcFZBE9cGcDYLPY5qUBxAzgP4HPAup/veaPsTSvWUSmh2w+B1xCuOYO/oE7X/XYzQBiFtw0k/QLpMlDiHJ4veYw4MBMjFRJgOibXwMYHtMDqSiL1ICZwMmE21Cl190b6Z8VxbFttcDX3Qj4BwNINCA5E9m7Xg8QsCuLLA3s5zFbpQEyFhhjAIlGZn0GHNYmeM4TJKmTWcvEwCKhLq7eaW1a5c5mYU2LFu8ALqOVfs17PmqL0h/HwCKhS02mA58C6wbyWGbt44DlgSedF8/bkeoceM/J73cIuI++FvCaKyHtX0a5z0N3IDebv2/VkYECdgXDssDRoVkkFEASpC/SMOTUoehWUE1qMRH4c6CAXaXWD5HmDrpeUwmAaFnz1t73djSJFWXQfhDwCfmvsOv1hiF76IPNi7wBovS5GNLlW+0bFKjjd4Wk1gzgEMLUaSlz7QZsR6Cdj7VA19sS6RfbdG98BQeYQnT8rpDU6gIuBia5z0OsjYAcJzc0RDyS92RUefX9NpJqXyLdVVZxkNSc1JpK/qlfZa61gGNDxCJ5pnk1I7IO8DfkDD1f285DFg6nEr6xmdnnA+ZxSMugIW7c8vLkKa3TqbYEpuSZOMiTQRQMR7mH3MzEJYOBQ41BooxH6s6p7e8BJs1x3iRO4l0ELJ6n1MoLIIr4cUgfpCxVKrvsCaxGJIVqZp+LRy51Uke7IeYttb6KdKnPTWrlPQlPd+yRtvESTecdTsAWDWO0bgeSk4HfA4NyBok62f2Ril+9n8LHIF3uzRwAnEfP6brUA8Z44F7CLFKZLVzuAFyDNJ+e58CSVzySIkWVWwEPd3qOdBogevPrAA8h6x8LCvC0ecBTwKbuQeSpd816BxJczHgVchBOtxvrPOICld8vI9UYb9HBnZCdlDEaVwxF8uhL9CK40jc6Bvgd4dpimi3YiwPMAfYALncqISWfFLDGI6shx8oN7WTMWuugl9HJfr4Lzns72ZV1fgAc7LzTIJuX0YGk5hh+T6R1UM298ohLNEmwBXClY7OOgKQTEivx3sAxwEl9CKhSL1Oxt8ueaFBociu+mKSJ1NOdA4z0mKTTiRadV9ch2dE5Ax2T1DrwwNSLHOXA0ehDtsFnoInA91wwWMNqtWJjEnVkNwGbOGdW86RQJ2WXJoB2Aa51Me6AyvKBBEjdPbAG0mfpVPrXviXxgDIRONz9v9TikuhMJ+WbjvF3BZ5w3+s0UBQk2yFtVFfuo1PumMTyJdViSI58Lw8cyQB4Kb3OhcC/O+2rdUEmueKUXIMdWA5DTpLCG69OKAEF6cvAd5CSlJp33SAA8fXeBsC57uNAZ598Kn/EPfQpngdpGFCiMn9eLOYC+UNodbDB+/lAgkXn3WxkR+TZ/Z0jfQVI3buhQS7eON55jU6ucDY85jgbOAV4IyPxmjY/o2ETv+h0CLCNUxfb0+qHph6+6f1NfwDjZ7NuA45A9tfTF9WxKABpl8bbwQXiY9vcXKfMv8ZbwBnInoV3MrpUH4QxS1xAwcUJE1yssgmwXBvF0PAkW+L9r0VVHJ8gJU5nAu9mHPxCwbIggGRvzn+DE5D9wrt5P8szw+Q/AFxweBUw2UmwbBCXGrtEA5TsOHwJaSC4DbA+ski8xAKcY7MHsCQ9KA5dQ5uJlDpdkHGmOsfTTMy7yAyygkP8XrSaLMwjbGGhPuwh7uu5DiDXAjciTZnN4jNVI802TmslB5J1XcwyGlgR6bg4EAvGHwM3uDkyxZPovWYQrb1fCtnJtRmSQhtfwIGYAdzntOhTSB+uWVgBZIzMktDzKvxSyALk8u61IjACaQ30RffzYRkWaSfNtBHEEkgmdAayz2Wqi1Nec/NjtgK3HUAGOfSuBaxOq3nYp8hKZez7xlVXdrkMyiAHiDeBFx3DzLR5GS1Y/FdzAGRx9n/68nworQLa1AF0tgNP2p8slplZSOCkPUjtAbeuXt5QGcwC9eKPXV+A1Zdr9SlINzOrnP0/CCLxzEUZLw4AAAAASUVORK5CYII=" alt=""></div>
-  <p class="reward__kicker" id="rwKicker">Cabelo 1 de 5</p>
+  <p class="reward__kicker" id="rwKicker">Cabelo 1 de 4</p>
   <p class="reward__title" id="rwTitle">Boas-vindas</p>
   <p class="reward__text" id="rwText"></p>
 </div>
@@ -489,16 +448,6 @@
   var CONFIG = {
     // WhatsApp da Renata (DDI + DDD + número, só dígitos)
     whatsapp: "553192698265",
-
-    // Upload das fotos. O rastreamento nativo de formulário NÃO transporta arquivos,
-    // então as fotos são enviadas para um armazenamento e o LINK vai nos campos
-    // foto_*_url. Preencha UMA das opções:
-    //  a) Cloudinary (gratuito): cloud name + upload preset "unsigned"
-    cloudinaryCloudName: "",
-    cloudinaryUploadPreset: "",
-    //  b) Endpoint próprio (n8n, Make, Apps Script…) que recebe multipart "file"
-    //     e responde JSON { "url": "https://..." }
-    uploadEndpoint: "",
 
     // Opcional: webhook que recebe uma cópia das respostas em JSON
     webhookUrl: ""
@@ -530,7 +479,6 @@
   var total = steps.length;
   var current = 0;
   var completed = {};
-  var uploads = {};      // id do campo oculto -> Promise
   var submitted = false;
 
   var app = $("#app"), intro = $("#intro");
@@ -539,7 +487,6 @@
   var strandLen = strandFill.getTotalLength();
   strandFill.style.strokeDasharray = strandLen;
   strandFill.style.strokeDashoffset = strandLen;
-  var uploadEnabled = !!(CONFIG.uploadEndpoint || (CONFIG.cloudinaryCloudName && CONFIG.cloudinaryUploadPreset));
 
   /* ================= IMAGENS / PLACEHOLDERS ================= */
   var PH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l5-5 4 4 2.5-2.5L20 18"/></svg>';
@@ -581,73 +528,17 @@
   }
 
   form.addEventListener("change", function(e){
-    var q = e.target.closest(".q, .field, .upload"); if (q) q.classList.remove("is-error");
+    var q = e.target.closest(".q, .field"); if (q) q.classList.remove("is-error");
     if (e.target.type === "radio") {
       syncReveals();
       var rev = e.target.getAttribute("data-reveal");
       if (rev) setTimeout(function(){ var i = $("input", document.getElementById(rev)); if (i) i.focus(); }, 60);
     }
-    if (e.target.type === "file") handleFile(e.target);
     syncHidden();
   });
   form.addEventListener("input", function(e){
     var f = e.target.closest(".field"); if (f) f.classList.remove("is-error");
   });
-
-  /* ================= UPLOAD DE FOTOS ================= */
-  function compress(file){
-    return new Promise(function(resolve){
-      if (!/^image\//.test(file.type) || file.type === "image/gif") return resolve(file);
-      var url = URL.createObjectURL(file), img = new Image();
-      img.onload = function(){
-        var max = 1600, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max / Math.max(w, h));
-        var c = document.createElement("canvas"); c.width = Math.round(w*k); c.height = Math.round(h*k);
-        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(url);
-        c.toBlob(function(b){ resolve(b ? new File([b], (file.name||"foto").replace(/\.\w+$/,"") + ".jpg", {type:"image/jpeg"}) : file); }, "image/jpeg", .85);
-      };
-      img.onerror = function(){ URL.revokeObjectURL(url); resolve(file); };
-      img.src = url;
-    });
-  }
-
-  function uploadFile(file){
-    var fd = new FormData();
-    if (CONFIG.uploadEndpoint) {
-      fd.append("file", file);
-      return fetch(CONFIG.uploadEndpoint, {method:"POST", body:fd})
-        .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
-        .then(function(j){ return j.url || j.secure_url || j.link; });
-    }
-    fd.append("file", file);
-    fd.append("upload_preset", CONFIG.cloudinaryUploadPreset);
-    fd.append("folder", "pre-consultoria-alongamento");
-    return fetch("https://api.cloudinary.com/v1_1/" + CONFIG.cloudinaryCloudName + "/image/upload", {method:"POST", body:fd})
-      .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function(j){ return j.secure_url; });
-  }
-
-  function handleFile(input){
-    var wrap = input.closest(".upload");
-    var status = $(".upload__status", wrap), thumb = $(".upload__thumb", wrap), cta = $(".upload__cta", wrap);
-    var hidden = document.getElementById(wrap.getAttribute("data-target"));
-    var file = input.files && input.files[0];
-    var old = $("img", thumb); if (old) old.remove();
-    if (!file) { wrap.classList.remove("has-file"); status.textContent = "Nenhuma foto ainda"; hidden.value = ""; delete uploads[hidden.id]; return; }
-    var prev = new Image(); prev.alt = ""; prev.src = URL.createObjectURL(file); thumb.appendChild(prev);
-    wrap.classList.add("has-file"); cta.textContent = "Trocar foto";
-    if (!uploadEnabled) { status.textContent = "Foto selecionada ✓"; hidden.value = "Foto selecionada: " + file.name + " (upload não configurado)"; return; }
-    status.textContent = "Enviando foto…"; hidden.value = "";
-    var p = compress(file).then(uploadFile).then(function(url){
-      if (input.files[0] !== file) return;
-      hidden.value = url || ""; status.textContent = url ? "Foto enviada ✓" : "Não foi possível enviar"; syncHidden();
-    }).catch(function(){
-      if (input.files[0] !== file) return;
-      hidden.value = "Falha no upload: solicitar foto pelo WhatsApp";
-      status.textContent = "Não conseguimos enviar. Você poderá mandar pelo WhatsApp no final.";
-    });
-    uploads[hidden.id] = p;
-  }
 
   /* ================= VALIDAÇÃO ================= */
   var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -656,8 +547,7 @@
     $$("[data-req], [data-req-if]", steps[i]).forEach(function(block){
       if (block.hidden) return;
       var valid;
-      if (block.classList.contains("upload")) valid = !!$("input[type=file]", block).files.length;
-      else if (block.classList.contains("field")) {
+      if (block.classList.contains("field")) {
         var inp = $("input", block), v = inp.value.trim();
         valid = inp.type === "email" ? emailRe.test(v) : inp.type === "tel" ? v.replace(/\D/g,"").length >= 10 : v.length > 1;
       }
@@ -668,7 +558,7 @@
     });
     if (firstBad && !silent) {
       firstBad.scrollIntoView({behavior:"smooth", block:"center"});
-      var f = $("input:not([type=hidden])", firstBad); if (f && f.type !== "file" && f.type !== "radio") setTimeout(function(){ f.focus({preventScroll:true}); }, 350);
+      var f = $("input:not([type=hidden])", firstBad); if (f && f.type !== "radio") setTimeout(function(){ f.focus({preventScroll:true}); }, 350);
     }
     return ok;
   }
@@ -748,8 +638,7 @@
     ["Como chamar", "name"], ["Como conheceu", "como_conheceu"], ["Indicada por", "indicado_por"],
     ["Comprimento atual", "comprimento_atual"], ["Textura", "textura_fios"], ["Alergia/sensibilidade", "sensibilidade"],
     ["Comprimento desejado", "comprimento_desejado"], ["Volume", "volume_desejado"],
-    ["Recepção", "recepcao_preferida"], ["Música", "musica_preferida"],
-    ["Foto cabelo atual", "foto_cabelo_atual_url"], ["Foto cabelo dos sonhos", "foto_cabelo_sonho_url"], ["Foto favorita", "foto_favorita_url"]
+    ["Recepção", "recepcao_preferida"], ["Música", "musica_preferida"]
   ];
   function syncHidden(){
     var key = computeProfile();
@@ -763,24 +652,12 @@
   }
 
   /* ================= ENVIO ================= */
-  // Validação e espera dos uploads acontecem no clique, ANTES do evento submit.
+  // A validação acontece no clique, ANTES do evento submit.
   // Assim o submit nativo só dispara uma vez, com tudo preenchido.
   submitBtn.addEventListener("click", function(e){
     if (submitted) { e.preventDefault(); return; }
     for (var i = 0; i < total; i++) {
       if (!validateStep(i, i !== current)) { e.preventDefault(); if (i !== current) { current = i; render(); setTimeout(function(){ validateStep(current); }, 80); } return; }
-    }
-    var pending = Object.keys(uploads).map(function(k){ return uploads[k]; });
-    if (pending.length) {
-      e.preventDefault();
-      submitBtn.classList.add("is-busy"); $("#submitLabel").textContent = "Enviando fotos…";
-      Promise.all(pending.map(function(p){ return p.catch(function(){}); })).then(function(){
-        uploads = {};
-        submitBtn.classList.remove("is-busy"); $("#submitLabel").textContent = "Enviar para a Renata";
-        syncHidden();
-        if (form.requestSubmit) form.requestSubmit(submitBtn); else submitBtn.click();
-      });
-      return;
     }
     syncHidden();
   });
@@ -814,12 +691,8 @@
       var row = document.createElement("div"), dt = document.createElement("dt"), dd = document.createElement("dd");
       dt.textContent = f[0]; dd.textContent = v; row.appendChild(dt); row.appendChild(dd); dl.appendChild(row);
     });
-    var falhou = ["foto_cabelo_atual_url","foto_cabelo_sonho_url","foto_favorita_url"].some(function(n){ return !/^https?:/.test(val(n)); });
-    if (falhou) {
-      var msg = "Olá, Renata! Sou " + (val("name") || "cliente") + " e acabei de responder a pré-consultoria de Preenchimento/Alongamento. Seguem minhas fotos:";
-      $("#rWhats").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
-      $("#rWhatsWrap").hidden = false;
-    }
+    var msg = "Olá, Renata! Sou " + (val("name") || "cliente") + " e acabei de responder a pré-consultoria de Preenchimento/Alongamento. Seguem minhas fotos: meu cabelo atual, o cabelo dos meus sonhos e uma foto minha favorita.";
+    $("#rWhats").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(msg);
     $("#result").classList.add("is-on");
     window.scrollTo({top:0, behavior:"smooth"});
   }
